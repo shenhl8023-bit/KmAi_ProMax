@@ -1,0 +1,36 @@
+﻿{
+    "_comment":  "process-route-generator Skill 注册。运行时通过 stdin 传 JSON，自动选择可用 Python 解释器后调用本地路线生成脚本。",
+    "name":  "process-route-generator",
+    "display_name":  "Process Route Generator",
+    "description":  "根据 CAD/MPS 分组特征输入和人工补充参数，生成工艺路线 JSON。",
+    "skill_dir":  "process-route-generator",
+    "actions":  [
+                    {
+                        "name":  "generate",
+                        "tool_name":  "process_route_generate",
+                        "command":  "python-auto",
+                        "args":  [
+                                     "scripts/kmai_generate_route.py"
+                                 ],
+                        "python_min_version":  "3.10",
+                        "timeout":  120,
+                        "description":  "根据 cad_input 和 manual 生成工艺路线。返回 summary、factors、standard_route、matched_route 和 route。",
+                        "parameters":  {
+                                           "type":  "object",
+                                           "properties":  {
+                                                              "cad_input":  {
+                                                                                "type":  "array",
+                                                                                "description":  "CAD 分组特征输入。"
+                                                                            },
+                                                              "manual":  {
+                                                                             "type":  "object",
+                                                                             "description":  "人工补充参数。"
+                                                                         }
+                                                          },
+                                           "required":  [
+                                                            "cad_input"
+                                                        ]
+                                       }
+                    }
+                ]
+}

@@ -1,0 +1,3 @@
+display_name: 工艺路线生成
+short_description: 根据新零件简化特征和规则表生成工艺路线 JSON。
+default_prompt: 根据输入的新零件简化特征 JSON，结合 factors.json、route_catalog.json 和 rules.json，生成简化工艺路线 JSON，默认只输出工艺路线数组。

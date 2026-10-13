@@ -1,0 +1,450 @@
+[
+  {
+    "tool": "process_prt_file",
+    "pipe_target": "process_prt_file",
+    "semantic_target": "main.prt.process",
+    "verdict": "???????????",
+    "desc": "打开模型并自动执行特征识别和工艺路线生成，返回完整结果。适合一次性完成整个处理流程。"
+  },
+  {
+    "tool": "open_prt_file",
+    "pipe_target": "open_prt_file",
+    "semantic_target": "main.prt.open",
+    "verdict": "???????????",
+    "desc": "打开一个3D模型文件（.prt, .CATPart, .Z3PRT等），需要在3DMPS中加载模型时使用。"
+  },
+  {
+    "tool": "get_all_bof_item",
+    "pipe_target": "get_all_bof_item",
+    "semantic_target": "main.bof_tree.get",
+    "verdict": "???????????",
+    "desc": "获取当前打开模型的BOF特征树数据，包括所有特征、分组、加工方法。返回当前工作模型的结构信息。"
+  },
+  {
+    "tool": "do_ai_process_route",
+    "pipe_target": "do_ai_process_route",
+    "semantic_target": "main.ai_process_route.run_stage",
+    "verdict": "???????????",
+    "desc": "执行AI工艺路线推理，自动生成工序编排。根据当前BOF特征树数据推导加工工艺。"
+  },
+  {
+    "tool": "set_auto_featidentify_box",
+    "pipe_target": "set_auto_featidentify_box",
+    "semantic_target": "main.autoidentify.run",
+    "verdict": "???????????",
+    "desc": "根据指定的特征勾选/选择字符串执行自动特征识别。调用前应先打开模型；选择字符串格式沿用3DMPS端约定，例如：[孔,1][槽,0]。"
+  },
+  {
+    "tool": "get_cur_model_info",
+    "pipe_target": "get_cur_model_info",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "获取当前打开模型的基本信息（路径、名称、类型等）。"
+  },
+  {
+    "tool": "get_process_steps",
+    "pipe_target": "get_process_steps",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "获取当前 BOP 工艺树上的工序列表。"
+  },
+  {
+    "tool": "get_features",
+    "pipe_target": "get_features",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "获取当前模型的特征列表（仅特征，不含分组与方法）。"
+  },
+  {
+    "tool": "get_rough_info",
+    "pipe_target": "get_rough_info",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "获取当前毛坯信息（毛坯类型、尺寸、余量等）。"
+  },
+  {
+    "tool": "get_bop_tree",
+    "pipe_target": "get_bop_tree",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "获取当前 BOP 工艺树结构数据。"
+  },
+  {
+    "tool": "close_prt_file",
+    "pipe_target": "close_prt_file",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "关闭当前已打开的3D模型文件。"
+  },
+  {
+    "tool": "save_file",
+    "pipe_target": "save_file",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "保存当前打开的3D模型到原路径，不弹保存对话框。"
+  },
+  {
+    "tool": "save_as",
+    "pipe_target": "save_as",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "将当前模型另存为新路径。"
+  },
+  {
+    "tool": "export_pdf",
+    "pipe_target": "export_pdf",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "将当前工艺文件导出为 PDF 格式。"
+  },
+  {
+    "tool": "export_excel",
+    "pipe_target": "export_excel",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "将当前工艺文件导出为 Excel 格式（包含工序卡片等）。"
+  },
+  {
+    "tool": "export_gxk",
+    "pipe_target": "export_gxk",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "将当前工艺文件导出为 GXK 格式。"
+  },
+  {
+    "tool": "auto_save",
+    "pipe_target": "auto_save",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "开启/关闭 3DMPS 自动保存功能。"
+  },
+  {
+    "tool": "auto_identify",
+    "pipe_target": "auto_identify",
+    "semantic_target": "",
+    "verdict": "???????????????/???????????",
+    "desc": "打开自动特征识别弹窗，按自动识别模板执行当前模型的自动特征识别。未指定模板时优先选择套筒类模板，其次选择列表第 2 项。"
+  },
+  {
+    "tool": "ai_feature_inference",
+    "pipe_target": "ai_feature_inference",
+    "semantic_target": "",
+    "verdict": "??????????? main.command.click???????",
+    "desc": "对当前特征执行 AI 加工方法推理，自动判断每个特征的加工方式。"
+  },
+  {
+    "tool": "create_step",
+    "pipe_target": "create_step",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "在 BOP 工艺树上创建一个新的工序节点。"
+  },
+  {
+    "tool": "reset_step_number",
+    "pipe_target": "reset_step_number",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "重新编排当前 BOP 树上所有工序的工序号。"
+  },
+  {
+    "tool": "arrange_step",
+    "pipe_target": "arrange_step",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "使用工序模板编排 BOP 工艺（标准工艺路线模板应用）。"
+  },
+  {
+    "tool": "rapid_create_step",
+    "pipe_target": "rapid_create_step",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "快速创建工序（弹出工序快速创建对话框）。"
+  },
+  {
+    "tool": "check_process_step",
+    "pipe_target": "check_process_step",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "执行工序检查（验证工序完整性与正确性）。"
+  },
+  {
+    "tool": "check_model_compare",
+    "pipe_target": "check_model_compare",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "模型对比检查：与另一个模型文件进行几何/拓扑对比。"
+  },
+  {
+    "tool": "show_identify_report",
+    "pipe_target": "show_identify_report",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "显示当前模型的特征识别报告（弹出报告窗口）。"
+  },
+  {
+    "tool": "is_button_checked",
+    "pipe_target": "is_button_checked",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "Return whether a toggle button is currently checked."
+  },
+  {
+    "tool": "get_bof_tree_data",
+    "pipe_target": "get_all_bof_item",
+    "semantic_target": "main.bof_tree.get",
+    "verdict": "???????????",
+    "desc": "Return BOF tree data from 3DMPS when available."
+  },
+  {
+    "tool": "check_3dmps_status",
+    "pipe_target": "check_3dmps_status",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "Check whether the 3DMPS bridge is currently available."
+  },
+  {
+    "tool": "get_ai_process_route_input",
+    "pipe_target": "do_ai_process_route",
+    "semantic_target": "main.ai_process_route.run_stage",
+    "verdict": "???????????",
+    "desc": "Prepare latest AI process route input and return input.json content."
+  },
+  {
+    "tool": "submit_ai_process_route_output",
+    "pipe_target": "submit_ai_process_route_output",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "Submit externally generated AI process route output JSON and apply it to 3DMPS."
+  },
+  {
+    "tool": "get_ai_process_route_status",
+    "pipe_target": "get_ai_process_route_status",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "Query current AI process route task status."
+  },
+  {
+    "tool": "start_ai_process_route",
+    "pipe_target": "start_ai_process_route",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "Start AI process route generation through the 3DMPS bridge."
+  },
+  {
+    "tool": "generate_ai_process_route",
+    "pipe_target": "generate_ai_process_route",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "Run AI process route generation synchronously through the 3DMPS bridge."
+  },
+  {
+    "tool": "check_autoidentify_btn_ok",
+    "pipe_target": "OnBnClickedOk",
+    "semantic_target": "autoidentify.dialog.confirm",
+    "verdict": "??????????????/?????",
+    "desc": "Confirm the auto-identify dialog. Requires the dialog to be open."
+  },
+  {
+    "tool": "check_autoidentify_btn_cancel",
+    "pipe_target": "OnBnClickedCancel",
+    "semantic_target": "autoidentify.dialog.cancel",
+    "verdict": "??????????????/?????",
+    "desc": "Cancel the auto-identify dialog. Requires the dialog to be open."
+  },
+  {
+    "tool": "check_autoidentify_btn_selectall",
+    "pipe_target": "SelectAllFeatures",
+    "semantic_target": "autoidentify.features.select_all",
+    "verdict": "??????????????/?????",
+    "desc": "Select all auto-identify features. Requires the dialog to be open."
+  },
+  {
+    "tool": "check_autoidentify_btn_deselectall",
+    "pipe_target": "DeselectAllFeatures",
+    "semantic_target": "autoidentify.features.deselect_all",
+    "verdict": "??????????????/?????",
+    "desc": "Deselect all auto-identify features. Requires the dialog to be open."
+  },
+  {
+    "tool": "get_autoidentify_checkbox_list",
+    "pipe_target": "get_autoidentify_checkbox_list",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "Return the configured auto-identify checkbox list."
+  },
+  {
+    "tool": "set_autoidentify_checkbox_list",
+    "pipe_target": "SetAutoIdentifyCheckedList",
+    "semantic_target": "autoidentify.features.set_checked",
+    "verdict": "??????????????/?????",
+    "desc": "Update selected auto-identify features in the open dialog."
+  },
+  {
+    "tool": "run_autoidentify_with_no_dlg",
+    "pipe_target": "set_auto_featidentify_box",
+    "semantic_target": "main.autoidentify.run",
+    "verdict": "???????????",
+    "desc": "Run auto-identify without opening the dialog."
+  },
+  {
+    "tool": "get_autoidentify_template_list",
+    "pipe_target": "get_autoidentify_template_list",
+    "semantic_target": "",
+    "verdict": "??????? FUNCTION_NOT_FOUND",
+    "desc": "Return the auto-identify template list."
+  },
+  {
+    "tool": "use_autoidentify_template",
+    "pipe_target": "setExtractDataList",
+    "semantic_target": "autoidentify.templates.apply",
+    "verdict": "??????????????/?????",
+    "desc": "Load an auto-identify template by name. Requires the dialog to be open."
+  },
+  {
+    "tool": "use_autoidentify_template_by_index",
+    "pipe_target": "setExtractDataList",
+    "semantic_target": "autoidentify.templates.apply",
+    "verdict": "??????????????/?????",
+    "desc": "Load an auto-identify template by 1-based index. Requires the dialog to be open."
+  },
+  {
+    "tool": "open_and_confirm_autoidentify_dialog",
+    "pipe_target": "open_and_confirm_autoidentify_dialog",
+    "semantic_target": "",
+    "verdict": "???????????????????",
+    "desc": "Open the auto-identify feature dialog, confirm it, and return immediately after the confirmation is accepted."
+  },
+  {
+    "tool": "check_processrapid_btn_ok",
+    "pipe_target": "OnOK",
+    "semantic_target": "processrapid.dialog.confirm",
+    "verdict": "??????????????/?????",
+    "desc": "Confirm the process-rapid dialog. Requires the dialog to be open."
+  },
+  {
+    "tool": "get_all_group_template_list",
+    "pipe_target": "GetAllGroupTemplateList",
+    "semantic_target": "group_template.templates.list",
+    "verdict": "??????????????/?????",
+    "desc": "Return all group template names."
+  },
+  {
+    "tool": "specify_group_template_index",
+    "pipe_target": "SpecifyGroupTemplateIndex",
+    "semantic_target": "group_template.templates.select_by_index",
+    "verdict": "??????????????/?????",
+    "desc": "Select a group template by 1-based index. Requires the dialog to be open."
+  },
+  {
+    "tool": "specify_group_template_name",
+    "pipe_target": "SpecifyGroupTemplateName",
+    "semantic_target": "group_template.templates.select_by_name",
+    "verdict": "??????????????/?????",
+    "desc": "Select a group template by name. Requires the dialog to be open."
+  },
+  {
+    "tool": "group_template_dialog_ok",
+    "pipe_target": "OnBnClickedOk",
+    "semantic_target": "group_template.dialog.confirm",
+    "verdict": "??????????????/?????",
+    "desc": "Confirm the group template dialog. Requires the dialog to be open."
+  },
+  {
+    "tool": "group_template_dialog_cancel",
+    "pipe_target": "OnBnClickedCancel",
+    "semantic_target": "group_template.dialog.cancel",
+    "verdict": "??????????????/?????",
+    "desc": "Cancel the group template dialog. Requires the dialog to be open."
+  },
+  {
+    "tool": "apply_group_template",
+    "pipe_target": "apply_group_template",
+    "semantic_target": "",
+    "verdict": "??????????????????????/????",
+    "desc": "Apply a selected group template to the current 3DMPS file. For a candidate card, pass templateId/filename so the template XML is written to the template library before opening the apply dialog, selecting the template name, and confirming it."
+  },
+  {
+    "tool": "apply_group_template_full_flow",
+    "pipe_target": "apply_group_template_full_flow",
+    "semantic_target": "",
+    "verdict": "??????????????????????/????",
+    "desc": "Write/apply a selected group template, then continue with auto-identify and AI feature inference in order."
+  },
+  {
+    "tool": "getAllGroupTemplateList",
+    "pipe_target": "GetAllGroupTemplateList",
+    "semantic_target": "group_template.templates.list",
+    "verdict": "??????????????/?????",
+    "desc": "CamelCase alias: return all group template names."
+  },
+  {
+    "tool": "specifyGroupTemplateIndex",
+    "pipe_target": "SpecifyGroupTemplateIndex",
+    "semantic_target": "group_template.templates.select_by_index",
+    "verdict": "??????????????/?????",
+    "desc": "CamelCase alias: select a group template by 1-based index."
+  },
+  {
+    "tool": "specifyGroupTemplateName",
+    "pipe_target": "SpecifyGroupTemplateName",
+    "semantic_target": "group_template.templates.select_by_name",
+    "verdict": "??????????????/?????",
+    "desc": "CamelCase alias: select a group template by name."
+  },
+  {
+    "tool": "groupTemplateDialogOk",
+    "pipe_target": "OnBnClickedOk",
+    "semantic_target": "group_template.dialog.confirm",
+    "verdict": "??????????????/?????",
+    "desc": "CamelCase alias: confirm the group template dialog."
+  },
+  {
+    "tool": "groupTemplateDialogCancel",
+    "pipe_target": "OnBnClickedCancel",
+    "semantic_target": "group_template.dialog.cancel",
+    "verdict": "??????????????/?????",
+    "desc": "CamelCase alias: cancel the group template dialog."
+  },
+  {
+    "tool": "click_group_template_button",
+    "pipe_target": "do_cmdResponse_by_python",
+    "semantic_target": "main.command.click",
+    "verdict": "???????????",
+    "desc": "Open the group template dialog from the main window."
+  },
+  {
+    "tool": "click_autoidentify_button",
+    "pipe_target": "do_cmdResponse_by_python",
+    "semantic_target": "main.command.click",
+    "verdict": "???????????",
+    "desc": "Open the auto-identify dialog from the main window."
+  },
+  {
+    "tool": "click_auto_reasoning_button",
+    "pipe_target": "do_cmdResponse_by_python",
+    "semantic_target": "main.command.click",
+    "verdict": "??????????? main.command.click???????",
+    "desc": "Click the Auto Reasoning button in the main window."
+  },
+  {
+    "tool": "click_processrapid_button",
+    "pipe_target": "do_cmdResponse_by_python",
+    "semantic_target": "main.command.click",
+    "verdict": "???????????",
+    "desc": "Open the process-rapid dialog from the main window."
+  },
+  {
+    "tool": "click_generate_all_button",
+    "pipe_target": "do_cmdResponse_by_python",
+    "semantic_target": "main.command.click",
+    "verdict": "???????????",
+    "desc": "Click the Generate All button in the main window."
+  },
+  {
+    "tool": "click_one_click_generate_button",
+    "pipe_target": "do_cmdResponse_by_python",
+    "semantic_target": "main.command.click",
+    "verdict": "???????????",
+    "desc": "Click the One Click Generate button in the main window."
+  }
+]

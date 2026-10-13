@@ -1,0 +1,95 @@
+/* assets/css/bar.css —— 底部输入栏（方案 B 商务卡片风格）
+   药丸形输入框 + 圆形发送按钮
+   所有色值/渐变/阴影/圆角/动效一律走 base.css 的 token,禁止 hardcode。
+*/
+
+/* 药丸形输入容器 */
+.bar {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  align-items: center;
+}
+
+/* 药丸形输入框包装 */
+.bar .composer-box,
+.composer-box {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-border);
+  border-radius: 22px;
+  padding: 4px 4px 4px 16px;
+  align-items: center;
+  transition: all var(--dur-fast) var(--ease);
+}
+.bar .composer-box:focus-within,
+.composer-box:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow-soft);
+}
+
+.bar .composer-box input,
+.composer-box input {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  outline: none;
+  font-size: var(--fs-base);
+  padding: 8px 0;
+  color: var(--color-text);
+  font-family: inherit;
+}
+
+/* 单独的输入框样式 */
+.bar input {
+  flex: 1;
+  padding: 11px 14px;
+  border: 0;
+  border-radius: 0;
+  font-size: var(--fs-base);
+  outline: none;
+  background: transparent;
+  color: var(--color-text);
+  font-family: inherit;
+}
+
+.bar button {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: white;
+  cursor: pointer;
+  font-size: var(--fs-icon-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-button-primary);
+  transition: all var(--dur-fast) var(--ease);
+}
+.bar button:hover {
+  transform: scale(1.05);
+  background: var(--gradient-primary-hover);
+  box-shadow: var(--shadow-button-primary-hover);
+}
+.bar button:disabled {
+  background: var(--color-text-subtle);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.bar button.secondary {
+  background: var(--color-text-soft);
+  box-shadow: none;
+}
+.bar button.secondary:hover {
+  background: var(--color-text);
+  transform: none;
+}

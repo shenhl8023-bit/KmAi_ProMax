@@ -1,0 +1,936 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "process-route-factor-expansion-v1",
+  "dataset_name": "因素补全规则",
+  "description": "将 CAD/MPS 输入和人工补充项扩展为完整因素表。该文件只负责输入转因素，不直接选择工序。",
+  "runtime_policy": {
+    "manual_override_path": "manual.factor_overrides",
+    "precedence": [
+      "manual_overrides",
+      "explicit_input",
+      "expansion_rules",
+      "schema_defaults"
+    ]
+  },
+  "input_contract": {
+    "input_fields": [
+      {
+        "field": "material_grade",
+        "required": true,
+        "description": "材料牌号。"
+      },
+      {
+        "field": "part_type",
+        "required": true,
+        "description": "零件类型。"
+      }
+    ],
+    "cad_feature_fields": [
+      "group_path",
+      "feature_select",
+      "canonical_feature",
+      "precision_rank"
+    ],
+    "manual_fields": [
+      "heat_treatment",
+      "surface_treatments",
+      "inspection_items",
+      "marking_methods",
+      "special_process_flags",
+      "factor_overrides"
+    ]
+  },
+  "rules": [
+    {
+      "rule_id": "E001",
+      "enabled": true,
+      "priority": 200,
+      "when": {
+        "all": [
+          {
+            "source": "input",
+            "field": "material_grade",
+            "op": "=",
+            "value": "9Cr18"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "material_grade",
+            "value": "9Cr18",
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "输入材料牌号映射为因素值。"
+    },
+    {
+      "rule_id": "E002",
+      "enabled": true,
+      "priority": 200,
+      "when": {
+        "all": [
+          {
+            "source": "input",
+            "field": "material_grade",
+            "op": "=",
+            "value": "4Cr14Ni14W2Mo"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "material_grade",
+            "value": "4Cr14Ni14W2Mo",
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "输入材料牌号映射为因素值。"
+    },
+    {
+      "rule_id": "E003",
+      "enabled": true,
+      "priority": 200,
+      "when": {
+        "all": [
+          {
+            "source": "input",
+            "field": "material_grade",
+            "op": "=",
+            "value": "6061"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "material_grade",
+            "value": "6061",
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "输入材料牌号映射为因素值。"
+    },
+    {
+      "rule_id": "E004",
+      "enabled": true,
+      "priority": 190,
+      "when": {
+        "all": [
+          {
+            "source": "input",
+            "field": "part_type",
+            "op": "=",
+            "value": "活门"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "part_type",
+            "value": "活门",
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "输入零件类型映射为因素值。"
+    },
+    {
+      "rule_id": "E005",
+      "enabled": true,
+      "priority": 190,
+      "when": {
+        "all": [
+          {
+            "source": "input",
+            "field": "part_type",
+            "op": "=",
+            "value": "衬套"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "part_type",
+            "value": "衬套",
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "输入零件类型映射为因素值。"
+    },
+    {
+      "rule_id": "E101",
+      "enabled": true,
+      "priority": 160,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "in",
+                "value": ["平面", "轴端面"]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "has_flat_or_plane",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "平面和轴端面归并到扁位/平面因素。"
+    },
+    {
+      "rule_id": "E102",
+      "enabled": true,
+      "priority": 160,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "in",
+                "value": ["U形端面环槽", "U形外环槽", "U形直槽", "V形环槽", "V形直槽", "凹槽", "环槽", "越程槽"]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "has_slot_feature",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "槽类 CAD 特征归并到槽类因素。"
+    },
+    {
+      "rule_id": "E103",
+      "enabled": true,
+      "priority": 150,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "in",
+                "value": ["孔", "阶梯孔", "孔台阶", "埋头孔"]
+              },
+              {
+                "field": "precision_rank",
+                "op": ">=",
+                "value": 10
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "has_standard_or_aux_hole",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "普通精度孔归并为普通孔/辅助孔。"
+    },
+    {
+      "rule_id": "E104",
+      "enabled": true,
+      "priority": 150,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "in",
+                "value": ["孔", "阶梯孔", "孔台阶", "埋头孔"]
+              },
+              {
+                "field": "precision_rank",
+                "op": "<=",
+                "value": 9
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "has_reamed_or_precision_hole",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "较高精度孔归并为铰孔/精孔。"
+    },
+    {
+      "rule_id": "E104A",
+      "enabled": true,
+      "priority": 155,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "group_path",
+                "op": "contains",
+                "value": "中间通孔"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "has_center_through_hole",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "分组路径包含中间通孔时，触发中间通孔工序。"
+    },
+    {
+      "rule_id": "E105",
+      "enabled": true,
+      "priority": 150,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "=",
+                "value": "中心孔"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "uses_center_hole_location",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "中心孔直接映射为顶尖孔定位。"
+    },
+    {
+      "rule_id": "E201",
+      "enabled": true,
+      "priority": 140,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "in",
+                "value": ["孔", "阶梯孔", "孔台阶", "埋头孔"]
+              },
+              {
+                "field": "precision_rank",
+                "op": "<=",
+                "value": 9
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "has_hole_finish_machining",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "较高精度孔进入孔精加工链。"
+    },
+    {
+      "rule_id": "E202",
+      "enabled": true,
+      "priority": 135,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "in",
+                "value": ["孔", "阶梯孔", "孔台阶", "埋头孔"]
+              },
+              {
+                "field": "precision_rank",
+                "op": "<=",
+                "value": 7
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "requires_honing",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "很高精度孔触发珩孔候选。"
+    },
+    {
+      "rule_id": "E203",
+      "enabled": true,
+      "priority": 130,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "in",
+                "value": ["孔", "阶梯孔", "孔台阶", "埋头孔"]
+              },
+              {
+                "field": "precision_rank",
+                "op": "<=",
+                "value": 6
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "requires_hole_lapping",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "极高精度孔触发研孔候选。"
+    },
+    {
+      "rule_id": "E204",
+      "enabled": true,
+      "priority": 135,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "=",
+                "value": "外圆柱面"
+              },
+              {
+                "field": "precision_rank",
+                "op": "<=",
+                "value": 8
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "requires_outer_diameter_grinding",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "较高精度外圆触发外圆磨削。"
+    },
+    {
+      "rule_id": "E205",
+      "enabled": true,
+      "priority": 135,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "in",
+                "value": ["平面", "轴端面"]
+              },
+              {
+                "field": "precision_rank",
+                "op": "<=",
+                "value": 8
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "requires_end_face_grinding",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "较高精度端面触发端面磨削。"
+    },
+    {
+      "rule_id": "E206",
+      "enabled": true,
+      "priority": 135,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "in",
+                "value": ["U形端面环槽", "U形外环槽", "U形直槽", "V形环槽", "V形直槽", "凹槽", "环槽", "越程槽"]
+              },
+              {
+                "field": "precision_rank",
+                "op": "<=",
+                "value": 8
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "requires_slot_grinding",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "较高精度槽类特征触发槽磨削。"
+    },
+    {
+      "rule_id": "E207",
+      "enabled": true,
+      "priority": 130,
+      "when": {
+        "all": [
+          {
+            "source": "cad_feature",
+            "match_mode": "exists",
+            "filters": [
+              {
+                "field": "canonical_feature",
+                "op": "=",
+                "value": "外圆柱面"
+              },
+              {
+                "field": "precision_rank",
+                "op": "<=",
+                "value": 6
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "requires_outer_diameter_lapping",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "极高精度外圆触发研外圆。"
+    },
+    {
+      "rule_id": "E301",
+      "enabled": true,
+      "priority": 120,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "special_process_flags.shaped_hole_or_cut_flat",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "has_shaped_hole_or_cut_flat",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "型孔/割扁通常需要人工补充。"
+    },
+    {
+      "rule_id": "E302",
+      "enabled": true,
+      "priority": 120,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "special_process_flags.post_stage_added_hole",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "has_post_stage_added_hole",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "后段补充孔通常需要人工补充。"
+    },
+    {
+      "rule_id": "E401",
+      "enabled": true,
+      "priority": 110,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "heat_treatment",
+            "op": "=",
+            "value": "去应力"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "needs_stress_relief",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "人工热处理选择映射为去应力。"
+    },
+    {
+      "rule_id": "E402",
+      "enabled": true,
+      "priority": 110,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "heat_treatment",
+            "op": "=",
+            "value": "淬火"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "needs_quenching",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "人工热处理选择映射为淬火。"
+    },
+    {
+      "rule_id": "E403",
+      "enabled": true,
+      "priority": 115,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "heat_treatment",
+            "op": "=",
+            "value": "真空淬火"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "needs_vacuum_quenching",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "人工热处理选择映射为真空淬火。"
+    },
+    {
+      "rule_id": "E404",
+      "enabled": true,
+      "priority": 110,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "heat_treatment",
+            "op": "contains",
+            "value": "渗氮"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "has_nitrided_layer",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "渗氮相关人工输入映射为渗氮层因素。"
+    },
+    {
+      "rule_id": "E405",
+      "enabled": true,
+      "priority": 105,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "surface_treatments",
+            "op": "contains",
+            "value": "铬酸阳极化"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "needs_chromic_acid_anodizing",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "人工表面处理映射为铬酸阳极化。"
+    },
+    {
+      "rule_id": "E406",
+      "enabled": true,
+      "priority": 105,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "surface_treatments",
+            "op": "contains",
+            "value": "硬质阳极化"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "needs_hard_anodizing",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "人工表面处理映射为硬质阳极化。"
+    },
+    {
+      "rule_id": "E407",
+      "enabled": true,
+      "priority": 100,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "marking_methods",
+            "op": "contains",
+            "value": "标印"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "needs_marking",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "人工标识需求映射为标印/标刻。"
+    },
+    {
+      "rule_id": "E408",
+      "enabled": true,
+      "priority": 100,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "marking_methods",
+            "op": "contains",
+            "value": "标刻"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "needs_marking",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "人工标识需求映射为标印/标刻。"
+    },
+    {
+      "rule_id": "E409",
+      "enabled": true,
+      "priority": 100,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "inspection_items",
+            "op": "contains",
+            "value": "裂纹检测"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "needs_crack_inspection",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "人工检测项映射为裂纹检测。"
+    },
+    {
+      "rule_id": "E410",
+      "enabled": true,
+      "priority": 100,
+      "when": {
+        "all": [
+          {
+            "source": "manual",
+            "field": "inspection_items",
+            "op": "contains",
+            "value": "烧伤检查"
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "needs_burn_inspection",
+            "value": true,
+            "write_mode": "overwrite"
+          }
+        ]
+      },
+      "note": "人工检测项映射为烧伤检查。"
+    },
+    {
+      "rule_id": "E501",
+      "enabled": true,
+      "priority": 80,
+      "when": {
+        "all": [
+          {
+            "source": "input",
+            "field": "material_grade",
+            "op": "=",
+            "value": "9Cr18"
+          },
+          {
+            "source": "manual",
+            "field": "heat_treatment",
+            "op": "not_in",
+            "value": ["去应力", "淬火", "真空淬火", "渗氮层"]
+          }
+        ]
+      },
+      "then": {
+        "set_factors": [
+          {
+            "factor_key": "needs_quenching",
+            "value": true,
+            "write_mode": "set_if_empty"
+          }
+        ]
+      },
+      "note": "9Cr18 默认强关联淬火，仅在未手工覆盖热处理时自动补全。"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+﻿[
+    {
+        "tool":  "get_all_bof_item",
+        "status":  "success",
+        "error_code":  null,
+        "message":  null,
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"success\",\"data\":{\"result\":{\"success\":true,\"data\":{\"衬套.prt\":{\"中间通孔\":{\"中间通孔\":{\"孔1\":{\"孔1\":\"@{钻=; 铰=}\"}}},\"A侧\":{\"A侧\":{\"端面\":{\"端面\":\"@{轴端面1=}\"},\"外圆\":{\"外圆\":\"@{外圆柱面1=; 外圆柱面2=; 外圆柱面3=; 外圆柱面4=; 外圆柱面5=; 外圆柱面6=}\"},\"外环槽\":{\"外环槽\":\"@{U形外环槽1=; U形外环槽2=; U形外环槽3=; U形外环槽4=; U形外环槽5=; U形外环槽6=; U形外环槽7=; U形外环槽8=; U形外环槽9=}\"},\"孔\":{\"孔\":\"@{孔2=}\"},\"内环槽\":{\"内环槽\":\"\"},\"倒角倒圆\":{\"倒角倒圆\":\"@{外倒角1=; 外倒角2=; 外倒角3=; 外倒角4=; 外倒角5=; 外倒角6=; 外倒角7=; 外倒角8=; 外倒角9=; 回转面倒圆1=; 回转面倒圆2=; 回转面倒圆3=; 回转面倒圆4=; 回转面倒圆5=; 回转面倒圆6=; 回转面倒圆7=; 回转面倒圆8=; 回转面倒圆10=}\"}}},\"B侧\":{\"B侧\":{\"端面\":{\"端面\":\"@{轴端面2=}\"},\"外圆\":{\"外圆\":\"@{外圆柱面7=}\"},\"外环槽\":{\"外环槽\":\"\"},\"孔\":{\"孔\":\"@{孔3=}\"},\"内环槽\":{\"内环槽\":\"\"},\"倒角倒圆\":{\"倒角倒圆\":\"@{外倒角10=; 回转面倒圆9=}\"}}},\"周边\":{\"周边\":{\"平面和凹槽\":{\"平面和凹槽\":\"@{单纯底凹槽1=; 单纯底凹槽2=; 侧壁1=; 侧壁2=; 侧壁3=; 侧壁4=; 侧壁5=; 侧壁6=; 侧壁7=; 侧壁8=}\"},\"孔\":{\"孔\":\"@{孔4=; 孔5=; 孔6=; 孔7=}\"}}}}}}}}}"
+    },
+    {
+        "tool":  "get_bof_tree_data",
+        "status":  "success",
+        "error_code":  null,
+        "message":  null,
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"success\",\"data\":{\"result\":{\"success\":true,\"data\":{\"衬套.prt\":{\"中间通孔\":{\"中间通孔\":{\"孔1\":{\"孔1\":\"@{钻=; 铰=}\"}}},\"A侧\":{\"A侧\":{\"端面\":{\"端面\":\"@{轴端面1=}\"},\"外圆\":{\"外圆\":\"@{外圆柱面1=; 外圆柱面2=; 外圆柱面3=; 外圆柱面4=; 外圆柱面5=; 外圆柱面6=}\"},\"外环槽\":{\"外环槽\":\"@{U形外环槽1=; U形外环槽2=; U形外环槽3=; U形外环槽4=; U形外环槽5=; U形外环槽6=; U形外环槽7=; U形外环槽8=; U形外环槽9=}\"},\"孔\":{\"孔\":\"@{孔2=}\"},\"内环槽\":{\"内环槽\":\"\"},\"倒角倒圆\":{\"倒角倒圆\":\"@{外倒角1=; 外倒角2=; 外倒角3=; 外倒角4=; 外倒角5=; 外倒角6=; 外倒角7=; 外倒角8=; 外倒角9=; 回转面倒圆1=; 回转面倒圆2=; 回转面倒圆3=; 回转面倒圆4=; 回转面倒圆5=; 回转面倒圆6=; 回转面倒圆7=; 回转面倒圆8=; 回转面倒圆10=}\"}}},\"B侧\":{\"B侧\":{\"端面\":{\"端面\":\"@{轴端面2=}\"},\"外圆\":{\"外圆\":\"@{外圆柱面7=}\"},\"外环槽\":{\"外环槽\":\"\"},\"孔\":{\"孔\":\"@{孔3=}\"},\"内环槽\":{\"内环槽\":\"\"},\"倒角倒圆\":{\"倒角倒圆\":\"@{外倒角10=; 回转面倒圆9=}\"}}},\"周边\":{\"周边\":{\"平面和凹槽\":{\"平面和凹槽\":\"@{单纯底凹槽1=; 单纯底凹槽2=; 侧壁1=; 侧壁2=; 侧壁3=; 侧壁4=; 侧壁5=; 侧壁6=; 侧壁7=; 侧壁8=}\"},\"孔\":{\"孔\":\"@{孔4=; 孔5=; 孔6=; 孔7=}\"}}}}}}}}}"
+    },
+    {
+        "tool":  "check_3dmps_status",
+        "status":  "error",
+        "error_code":  "FUNCTION_NOT_FOUND",
+        "message":  "Function not found: check_3dmps_status",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"FUNCTION_NOT_FOUND\",\"message\":\"Function not found: check_3dmps_status\",\"tool\":\"check_3dmps_status\",\"available\":false,\"suggestion\":\"该功能尚未在 3DMPS 主程序命名管道服务端注册，需联系主程序团队在 Km3dmps.exe 中暴露该函数。\"}}"
+    },
+    {
+        "tool":  "get_cur_model_info",
+        "status":  "error",
+        "error_code":  "FUNCTION_NOT_FOUND",
+        "message":  "Function not found: get_cur_model_info",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"FUNCTION_NOT_FOUND\",\"message\":\"Function not found: get_cur_model_info\",\"tool\":\"get_cur_model_info\",\"available\":false,\"suggestion\":\"该功能尚未在 3DMPS 主程序命名管道服务端注册，需联系主程序团队在 Km3dmps.exe 中暴露该函数。\"}}"
+    },
+    {
+        "tool":  "get_process_steps",
+        "status":  "error",
+        "error_code":  "FUNCTION_NOT_FOUND",
+        "message":  "Function not found: get_process_steps",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"FUNCTION_NOT_FOUND\",\"message\":\"Function not found: get_process_steps\",\"tool\":\"get_process_steps\",\"available\":false,\"suggestion\":\"该功能尚未在 3DMPS 主程序命名管道服务端注册，需联系主程序团队在 Km3dmps.exe 中暴露该函数。\"}}"
+    },
+    {
+        "tool":  "get_features",
+        "status":  "error",
+        "error_code":  "FUNCTION_NOT_FOUND",
+        "message":  "Function not found: get_features",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"FUNCTION_NOT_FOUND\",\"message\":\"Function not found: get_features\",\"tool\":\"get_features\",\"available\":false,\"suggestion\":\"该功能尚未在 3DMPS 主程序命名管道服务端注册，需联系主程序团队在 Km3dmps.exe 中暴露该函数。\"}}"
+    },
+    {
+        "tool":  "get_rough_info",
+        "status":  "error",
+        "error_code":  "FUNCTION_NOT_FOUND",
+        "message":  "Function not found: get_rough_info",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"FUNCTION_NOT_FOUND\",\"message\":\"Function not found: get_rough_info\",\"tool\":\"get_rough_info\",\"available\":false,\"suggestion\":\"该功能尚未在 3DMPS 主程序命名管道服务端注册，需联系主程序团队在 Km3dmps.exe 中暴露该函数。\"}}"
+    },
+    {
+        "tool":  "get_bop_tree",
+        "status":  "error",
+        "error_code":  "FUNCTION_NOT_FOUND",
+        "message":  "Function not found: get_bop_tree",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"FUNCTION_NOT_FOUND\",\"message\":\"Function not found: get_bop_tree\",\"tool\":\"get_bop_tree\",\"available\":false,\"suggestion\":\"该功能尚未在 3DMPS 主程序命名管道服务端注册，需联系主程序团队在 Km3dmps.exe 中暴露该函数。\"}}"
+    },
+    {
+        "tool":  "is_button_checked",
+        "status":  "error",
+        "error_code":  "FUNCTION_NOT_FOUND",
+        "message":  "Function not found: is_button_checked",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"FUNCTION_NOT_FOUND\",\"message\":\"Function not found: is_button_checked\",\"tool\":\"is_button_checked\",\"available\":false,\"suggestion\":\"该功能尚未在 3DMPS 主程序命名管道服务端注册，需联系主程序团队在 Km3dmps.exe 中暴露该函数。\"}}"
+    },
+    {
+        "tool":  "get_ai_process_route_status",
+        "status":  "error",
+        "error_code":  "FUNCTION_NOT_FOUND",
+        "message":  "Function not found: get_ai_process_route_status",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"FUNCTION_NOT_FOUND\",\"message\":\"Function not found: get_ai_process_route_status\",\"tool\":\"get_ai_process_route_status\",\"available\":false,\"suggestion\":\"该功能尚未在 3DMPS 主程序命名管道服务端注册，需联系主程序团队在 Km3dmps.exe 中暴露该函数。\"}}"
+    },
+    {
+        "tool":  "get_autoidentify_checkbox_list",
+        "status":  "error",
+        "error_code":  "FUNCTION_NOT_FOUND",
+        "message":  "Function not found: get_autoidentify_checkbox_list",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"FUNCTION_NOT_FOUND\",\"message\":\"Function not found: get_autoidentify_checkbox_list\",\"tool\":\"get_autoidentify_checkbox_list\",\"available\":false,\"suggestion\":\"该功能尚未在 3DMPS 主程序命名管道服务端注册，需联系主程序团队在 Km3dmps.exe 中暴露该函数。\"}}"
+    },
+    {
+        "tool":  "get_autoidentify_template_list",
+        "status":  "error",
+        "error_code":  "FUNCTION_NOT_FOUND",
+        "message":  "Function not found: get_autoidentify_template_list",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"FUNCTION_NOT_FOUND\",\"message\":\"Function not found: get_autoidentify_template_list\",\"tool\":\"get_autoidentify_template_list\",\"available\":false,\"suggestion\":\"该功能尚未在 3DMPS 主程序命名管道服务端注册，需联系主程序团队在 Km3dmps.exe 中暴露该函数。\"}}"
+    },
+    {
+        "tool":  "get_all_group_template_list",
+        "status":  "error",
+        "error_code":  null,
+        "message":  "Target window not available: group_template_dialog",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"message\":\"Target window not available: group_template_dialog\"}}"
+    },
+    {
+        "tool":  "getAllGroupTemplateList",
+        "status":  "error",
+        "error_code":  "TIMEOUT",
+        "message":  "3DMPS 函数「GetAllGroupTemplateList」调用超时（5.0 秒）。",
+        "raw":  "{\"status\":\"success\",\"result\":{\"status\":\"error\",\"error_code\":\"TIMEOUT\",\"message\":\"3DMPS 函数「GetAllGroupTemplateList」调用超时（5.0 秒）。\",\"tool\":\"getAllGroupTemplateList\",\"timeout\":5.0,\"retriable\":true,\"suggestion\":\"3DMPS 在 5.0 秒内未返回结果，主程序可能正在执行长时间操作。可稍后重试，或拆分任务后再触发。\"}}"
+    }
+]

@@ -1,0 +1,604 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>鍗＄墖缂栬緫鍔熻兘棰勮(鑷寘鍚増)</title>
+  <style>
+    /* ===== 涓婚鍙橀噺 ===== */
+    :root {
+      --color-bg: #f5f7fb;
+      --color-bg-soft: #f8fafc;
+      --color-surface: #ffffff;
+      --color-border: #e2e8f0;
+      --color-border-strong: #cbd5e1;
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+      --color-text-soft: #475569;
+      --color-primary: #3b82f6;
+      --color-primary-strong: #2563eb;
+      --color-primary-soft: #dbeafe;
+      --color-primary-glow: rgba(59, 130, 246, 0.25);
+      --color-primary-text: #1d4ed8;
+      --gradient-primary: linear-gradient(135deg, #3b82f6, #6366f1);
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 10px 24px rgba(15, 23, 42, 0.08);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 20px; font-family: Microsoft YaHei, "Segoe UI", Arial, sans-serif; background: var(--color-bg); color: var(--color-text); }
+    h1 { font-size: 18px; margin: 0 0 4px; color: var(--color-text); }
+    .hint { font-size: 13px; color: var(--color-text-muted); margin-bottom: 16px; }
+
+    /* ===== 鍗＄墖瀹瑰櫒(鍚岄」鐩? ===== */
+    .cards-msg { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 16px; margin: 12px 0; max-width: 96%; box-shadow: var(--shadow-md); }
+    .cards-header { font-size: 14px; color: var(--color-text); margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .cards-header .cards-icon { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: #eff6ff; color: var(--color-primary); font-size: 13px; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+    .option-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 14px; transition: all 0.2s; display: flex; flex-direction: column; gap: 8px; position: relative; }
+    .option-card:hover { border-color: #93c5fd; box-shadow: 0 10px 24px var(--color-primary-glow); transform: translateY(-2px); }
+    .option-card.is-selected { border-color: #10b981; background: #ecfdf5; }
+    .option-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .option-card-title { font-weight: 700; font-size: 14px; color: var(--color-text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.35; }
+    .option-card-confidence { background: var(--color-primary-soft); color: var(--color-primary-text); font-size: 11px; padding: 3px 9px; border-radius: 999px; white-space: nowrap; font-weight: 700; }
+    .option-card-confidence.high { background: #d1fae5; color: #047857; }
+    .option-card-confidence.mid { background: #fef3c7; color: #b45309; }
+    .option-card-confidence.low { background: #f3f4f6; color: #4b5563; }
+    .option-card-subtitle { font-size: 12px; color: var(--color-text-muted); font-family: Consolas, monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .option-card-stars { color: #f59e0b; font-size: 13px; letter-spacing: 1px; }
+    .option-card-reasons { display: flex; flex-wrap: wrap; gap: 4px; min-height: 18px; }
+    .card-reason { background: #f0fdf4; color: #047857; font-size: 11px; padding: 2px 8px; border-radius: 999px; }
+    .option-card-tags { display: flex; flex-wrap: wrap; gap: 4px; max-height: 56px; overflow: hidden; }
+    .card-tag { background: #f3f4f6; color: #4b5563; font-size: 11px; padding: 2px 7px; border-radius: 999px; }
+    .option-card-footer { display: flex; flex-direction: column; gap: 6px; margin-top: auto; min-width: 0; }
+    .option-card-meta { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; line-height: 1.5; color: #9ca3af; }
+    .option-card-actions { display: flex; gap: 8px; margin-top: 0; width: 100%; }
+    .option-card-actions .option-card-button { flex: 1; margin-top: 0; }
+    .option-card-button { background: var(--gradient-primary); color: white; border: 0; border-radius: 8px; padding: 8px 14px; cursor: pointer; font-size: 13px; margin-top: 4px; font-weight: 600; box-shadow: 0 4px 10px var(--color-primary-glow); transition: all 0.15s; }
+    .option-card-button:hover { background: linear-gradient(135deg, #2563eb, #4f46e5); transform: translateY(-1px); box-shadow: 0 6px 14px var(--color-primary-glow); }
+    .option-card-button:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* 鍗＄墖鍙充笂瑙掑皬鍥炬爣鎸夐挳(缂栬緫) */
+    .option-card-icon-btn { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; border-radius: 7px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; padding: 0; z-index: 2; }
+    .option-card-icon-btn:hover { color: var(--color-primary); border-color: var(--color-primary); background: var(--color-primary-soft); box-shadow: 0 4px 10px var(--color-primary-glow); }
+    .option-card-icon-btn svg { width: 14px; height: 14px; }
+    .option-card:has(.option-card-icon-btn) .option-card-head { padding-right: 34px; }
+
+    /* ===== 缂栬緫寮圭獥 ===== */
+    .edit-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(2px); animation: edit-fade-in 0.18s ease; }
+    @keyframes edit-fade-in { from { opacity: 0; } to { opacity: 1; } }
+    .edit-dialog { width: min(880px, 96vw); max-height: 92vh; background: var(--color-surface); border-radius: 16px; box-shadow: 0 24px 64px rgba(15, 23, 42, 0.35); overflow: hidden; border: 1px solid var(--color-border); display: flex; flex-direction: column; animation: edit-pop-in 0.22s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes edit-pop-in { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .edit-dialog-head { padding: 16px 22px; background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%); border-bottom: 1px solid #e0e7ff; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .edit-dialog-title-wrap { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .edit-dialog-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--gradient-primary); color: white; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px var(--color-primary-glow); flex-shrink: 0; }
+    .edit-dialog-icon svg { width: 18px; height: 18px; }
+    .edit-dialog-title-text { min-width: 0; }
+    .edit-dialog-title { font-weight: 700; color: #1e3a8a; font-size: 15px; line-height: 1.3; }
+    .edit-dialog-subtitle { font-size: 12px; color: #64748b; margin-top: 2px; font-family: Consolas, monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 520px; }
+    .edit-dialog-close { border: 0; background: transparent; font-size: 22px; line-height: 1; cursor: pointer; color: var(--color-text-muted); transition: color 0.15s; padding: 4px 8px; border-radius: 6px; }
+    .edit-dialog-close:hover { color: #1e3a8a; background: rgba(99, 102, 241, 0.1); }
+    .edit-dialog-body { padding: 18px 22px; display: grid; gap: 16px; overflow-y: auto; flex: 1; }
+    .edit-section { display: grid; gap: 8px; }
+    .edit-section-label { font-size: 12px; font-weight: 700; color: var(--color-text-soft); display: flex; align-items: center; gap: 6px; }
+    .edit-section-label::before { content: ''; display: inline-block; width: 3px; height: 12px; border-radius: 2px; background: var(--gradient-primary); }
+    .edit-field { display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: center; }
+    .edit-field label { font-size: 13px; color: var(--color-text-soft); font-weight: 500; }
+    .edit-input { width: 100%; padding: 9px 12px; border: 1.5px solid var(--color-border); border-radius: 9px; font-size: 13px; outline: none; background: var(--color-bg-soft); transition: all 0.15s; font-family: inherit; color: var(--color-text); }
+    .edit-input:focus { border-color: var(--color-primary); background: var(--color-surface); box-shadow: 0 0 0 3px var(--color-primary-glow); }
+    .edit-input[readonly] { background: #f1f5f9; color: var(--color-text-muted); cursor: not-allowed; }
+    .edit-textarea { min-height: 70px; resize: vertical; line-height: 1.5; }
+    .edit-tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 6px; min-height: 38px; border: 1.5px dashed var(--color-border); border-radius: 9px; background: var(--color-bg-soft); }
+    .edit-tag { display: inline-flex; align-items: center; gap: 4px; background: var(--color-primary-soft); color: var(--color-primary-text); border-radius: 999px; padding: 3px 4px 3px 10px; font-size: 12px; }
+    .edit-tag-remove { cursor: pointer; border: 0; background: transparent; color: var(--color-primary-text); font-size: 14px; line-height: 1; padding: 0 4px; border-radius: 50%; transition: background 0.15s; }
+    .edit-tag-remove:hover { background: rgba(29, 78, 216, 0.2); }
+    .edit-tag-input { flex: 1; min-width: 100px; border: 0; outline: none; background: transparent; font-size: 12px; padding: 4px 6px; color: var(--color-text); }
+    .edit-tag-input::placeholder { color: var(--color-text-muted); }
+    .edit-tag-hint { font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
+    .edit-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .edit-conf-row { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 10px; border: 1px solid #bfdbfe; }
+    .edit-conf-row .edit-conf-label { font-size: 12px; color: #1e40af; font-weight: 600; }
+    .edit-conf-row .edit-conf-value { font-size: 18px; font-weight: 800; color: #1d4ed8; }
+    .edit-conf-row .edit-stars { color: #f59e0b; font-size: 14px; letter-spacing: 1px; }
+    .edit-divider { height: 1px; background: var(--color-border); margin: 4px 0; }
+    .edit-actions { padding: 14px 22px; background: var(--color-bg-soft); border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .edit-actions-right { display: flex; gap: 8px; }
+    .edit-actions button { border: 0; border-radius: 9px; padding: 9px 18px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+    .edit-actions button:disabled { cursor: not-allowed; opacity: 0.6; }
+    .edit-save { background: var(--gradient-primary); color: white; box-shadow: 0 4px 10px var(--color-primary-glow); }
+    .edit-save:hover:not(:disabled) { background: linear-gradient(135deg, #2563eb, #4f46e5); transform: translateY(-1px); }
+    .edit-cancel { background: var(--color-surface); color: #334155; border: 1px solid var(--color-border); }
+    .edit-cancel:hover:not(:disabled) { background: #f1f5f9; }
+    .edit-section-label-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .edit-tree-tools { display: flex; gap: 4px; }
+    .edit-tree-tool { border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-soft); font-size: 11px; padding: 3px 9px; border-radius: 6px; cursor: pointer; transition: all 0.15s; font-weight: 500; }
+    .edit-tree-tool:hover { color: var(--color-primary); border-color: var(--color-primary); background: var(--color-primary-soft); }
+    .edit-tree-tool:active { transform: translateY(1px); }
+    .edit-status { font-size: 12px; min-height: 16px; color: var(--color-text-muted); }
+    .edit-status.ok { color: #059669; }
+    .edit-status.err { color: #dc2626; }
+    .edit-status.loading { color: #1d4ed8; }
+
+    /* 鍒嗙粍缁撴瀯鍙鍖栨爲 */
+    .edit-tree { background: linear-gradient(180deg, #fafbff 0%, #f1f5fb 100%); border: 1px solid var(--color-border); border-radius: 12px; padding: 10px 8px; max-height: 320px; overflow: auto; font-size: 13px; }
+    .edit-tree-empty { color: var(--color-text-muted); font-size: 12px; padding: 24px 12px; text-align: center; }
+    .edit-tree-err { color: #dc2626; }
+    .edit-tree-node { position: relative; }
+    .edit-tree-row { display: flex; flex-direction: column; align-items: stretch; gap: 5px; padding: 6px 8px 6px calc(8px + var(--tree-depth, 0) * 18px); min-height: 32px; border-radius: 8px; transition: background 0.15s; position: relative; }
+    .edit-tree-row-main { display: flex; align-items: center; gap: 6px; min-width: 0; width: 100%; }
+    .edit-tree-row:hover { background: rgba(99, 102, 241, 0.06); }
+    .edit-tree-node.is-root > .edit-tree-row { background: linear-gradient(135deg, #eff6ff, #e0e7ff); border: 1px solid #c7d2fe; padding-left: 8px; }
+    .edit-tree-node.is-root > .edit-tree-row:hover { background: linear-gradient(135deg, #dbeafe, #c7d2fe); }
+    .edit-tree-row::before { content: ''; position: absolute; left: calc(8px + var(--tree-depth, 0) * 18px - 9px); top: 50%; width: 9px; height: 1px; background: #cbd5e1; }
+    .edit-tree-row::after { content: ''; position: absolute; left: calc(8px + (var(--tree-depth, 0) - 1) * 18px + 14px); top: 0; bottom: 50%; width: 1px; background: #cbd5e1; }
+    .edit-tree-node.is-root > .edit-tree-row::before, .edit-tree-node.is-root > .edit-tree-row::after { display: none; }
+    .edit-tree-node.is-last > .edit-tree-row::after { display: none; }
+    .edit-tree-toggle { width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--color-text-muted); transition: color 0.15s, background 0.15s; cursor: pointer; flex-shrink: 0; }
+    .edit-tree-toggle svg { width: 12px; height: 12px; transform: rotate(90deg); transition: transform 0.18s; }
+    .edit-tree-toggle:hover { color: var(--color-primary); background: var(--color-primary-soft); }
+    .edit-tree-toggle.is-leaf { visibility: hidden; }
+    .edit-tree-node.is-collapsed > .edit-tree-row > .edit-tree-row-main > .edit-tree-toggle svg { transform: rotate(0deg); }
+    .edit-tree-node.is-collapsed > .edit-tree-children { display: none; }
+    .edit-tree-icon { width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 5px; color: var(--color-primary); background: var(--color-primary-soft); flex-shrink: 0; }
+    .edit-tree-icon svg { width: 12px; height: 12px; }
+    .edit-tree-icon.is-root { color: #4338ca; background: #c7d2fe; }
+    .edit-tree-name { font-weight: 600; color: var(--color-text); font-size: 13px; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+    .edit-tree-name.is-root-name { color: #1e3a8a; font-weight: 800; }
+    .edit-tree-count { font-size: 11px; color: var(--color-text-muted); background: #f1f5f9; padding: 1px 7px; border-radius: 999px; flex-shrink: 0; }
+    .edit-tree-chips { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 5px 6px; align-items: center; min-width: 0; width: 100%; }
+    .edit-tree-chip-row { display: flex; gap: 6px; align-items: flex-start; padding-left: calc(18px + 20px + 12px); min-width: 0; }
+    .edit-tree-chip { box-sizing: border-box; display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; width: 100%; max-width: none; min-width: 0; }
+    .edit-tree-chip-k { color: #6b7280; font-weight: 500; white-space: nowrap; flex: 0 0 auto; }
+    .edit-tree-chip-v { color: #1f2937; font-weight: 600; line-height: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: none; flex: 1 1 auto; }
+    .edit-tree-name.is-editable, .edit-tree-chip-v.is-editable { box-sizing: border-box; }
+    .edit-tree-name.is-editable { box-sizing: border-box; height: 22px; line-height: 20px; padding: 1px 4px; }
+    .edit-tree-chip-v.is-editable { box-sizing: border-box; height: 18px; line-height: 16px; padding: 1px 4px; }
+    .edit-tree-name-input { box-sizing: border-box; width: var(--inline-editor-width); height: 22px; line-height: 20px; border: 0; box-shadow: inset 0 0 0 1.5px var(--color-primary), 0 0 0 3px var(--color-primary-glow); }
+    .edit-tree-chip-v-input { box-sizing: border-box; width: var(--inline-editor-width); height: 18px; line-height: 16px; border: 0; box-shadow: inset 0 0 0 1.5px var(--color-primary), 0 0 0 2px var(--color-primary-glow); }
+    .edit-tree-chip.chip-dir { background: #ecfeff; color: #155e75; border-color: #a5f3fc; }
+    .edit-tree-chip.chip-dir .edit-tree-chip-k { color: #0e7490; }
+    .edit-tree-chip.chip-mode { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+    .edit-tree-chip.chip-mode .edit-tree-chip-k { color: #b45309; }
+    .edit-tree-chip.chip-feat { background: #ede9fe; color: #5b21b6; border-color: #ddd6fe; }
+    .edit-tree-chip.chip-feat .edit-tree-chip-k { color: #6d28d9; }
+    .edit-tree-children { margin-left: 9px; border-left: 1px dashed #cbd5e1; padding-left: 0; }
+
+    @media (max-width: 640px) { .edit-two-col { grid-template-columns: 1fr; } .edit-field { grid-template-columns: 1fr; gap: 4px; } }
+  </style>
+</head>
+<body>
+  <h1>馃搵 妯℃澘鍗＄墖 鈥?缂栬緫鍔熻兘棰勮</h1>
+  <div class="hint">馃憞 姣忓紶鍗＄墖鍙充笂瑙掔幇鍦ㄥ浜嗕釜 鉁忥笍 鎸夐挳,鐐逛竴涓嬪氨鑳芥墦寮€缂栬緫寮圭獥</div>
+  <div id="preview"></div>
+  <script>
+    (function() {
+      'use strict';
+
+      const FEATURE_PARAM_KEY = '\u7279\u5f81\u9009\u62e9';
+      const DEP_DIR_KEY = '\u4f9d\u8d56\u65b9\u5411';
+      const DEP_MODE_KEY = '\u4f9d\u8d56\u65b9\u5f0f';
+
+      function make(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text != null) node.textContent = text;
+        return node;
+      }
+
+      function normalizeTemplateFilenameInput(value) {
+        const trimmed = String(value || '').trim();
+        if (!trimmed) return '';
+        return trimmed.toLowerCase().endsWith('.xml') ? trimmed : trimmed + '.xml';
+      }
+
+      function deriveDisplayNameFromFilename(filename) {
+        const normalized = String(filename || '').trim();
+        return normalized ? normalized.replace(/\.xml$/i, '') : '';
+      }
+
+      function getOptionCardActionText(applied) {
+        return applied ? '\u5df2\u5b8c\u6210\u52a0\u8f7d' : '\u5199\u5165\u6a21\u677f\u5e93\u5e76\u52a0\u8f7d';
+      }
+
+      function formatOptionCardMeta(meta) {
+        const source = meta || {};
+        const parts = [];
+        if (source.groupCount !== undefined && source.groupCount !== null && source.groupCount !== '') {
+          parts.push(String(source.groupCount) + ' 组');
+        }
+        if (source.depth !== undefined && source.depth !== null && source.depth !== '') {
+          parts.push(String(source.depth) + ' 层');
+        }
+        return parts.length ? '结构：' + parts.join(' / ') : '';
+      }
+
+      function resetOptionCardForTemplateEdit(card) {
+        if (!card) return;
+        card.classList.remove('is-selected');
+        const button = card.querySelector('[data-action="apply-card"]');
+        if (button) {
+          button.disabled = false;
+          button.textContent = getOptionCardActionText(false);
+        }
+      }
+
+      function getChipClass(key) {
+        if (key === DEP_DIR_KEY) return ' chip-dir';
+        if (key === DEP_MODE_KEY) return ' chip-mode';
+        if (key === FEATURE_PARAM_KEY) return ' chip-feat';
+        return '';
+      }
+
+      function buildDemoChipRow(params) {
+        const row = make('div', 'edit-tree-chip-row');
+        const chips = make('span', 'edit-tree-chips');
+        (params || []).forEach((param) => {
+          const key = param.k || '';
+          const value = param.v || '\u2014';
+          const chip = make('span', 'edit-tree-chip' + getChipClass(key));
+          chip.title = key + ': ' + value;
+
+          const keyEl = make('span', 'edit-tree-chip-k', key);
+          const valueEl = make('span', 'edit-tree-chip-v', value);
+          chip.appendChild(keyEl);
+          chip.appendChild(valueEl);
+          chips.appendChild(chip);
+        });
+        row.appendChild(chips);
+        return row;
+      }
+
+      function appendChipRow(head, params) {
+        const existing = head.querySelector('.edit-tree-chip-row');
+        if (existing) existing.remove();
+        if (params && params.length) {
+          head.appendChild(buildDemoChipRow(params));
+        }
+      }
+
+      function buildTreeRow(node, depth) {
+        const wrap = make('div', 'edit-tree-node' + (node.isRoot ? ' is-root' : ''));
+        const head = make('div', 'edit-tree-row');
+        head.style.setProperty('--tree-depth', String(depth));
+
+        const mainRow = make('div', 'edit-tree-row-main');
+        const hasChildren = Boolean(node.children && node.children.length);
+
+        const toggle = make('span', 'edit-tree-toggle' + (hasChildren ? '' : ' is-leaf'));
+        toggle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>';
+        mainRow.appendChild(toggle);
+
+        const icon = make('span', 'edit-tree-icon' + (node.isRoot ? ' is-root' : ''));
+        icon.innerHTML = node.isRoot
+          ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/></svg>'
+          : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h18"/></svg>';
+        mainRow.appendChild(icon);
+
+        const name = make('span', 'edit-tree-name' + (node.isRoot ? ' is-root-name' : ''), node.name || '');
+        name.title = node.name || '';
+        mainRow.appendChild(name);
+
+        if (hasChildren) {
+          mainRow.appendChild(make('span', 'edit-tree-count', node.children.length + ' \u9879'));
+        }
+
+        head.appendChild(mainRow);
+        appendChipRow(head, node.params);
+        wrap.appendChild(head);
+
+        if (hasChildren) {
+          const kids = make('div', 'edit-tree-children');
+          node.children.forEach((child, index) => {
+            const childEl = buildTreeRow(child, depth + 1);
+            if (index === node.children.length - 1) childEl.classList.add('is-last');
+            kids.appendChild(childEl);
+          });
+          wrap.appendChild(kids);
+          toggle.addEventListener('click', (event) => {
+            event.stopPropagation();
+            wrap.classList.toggle('is-collapsed');
+          });
+        }
+
+        return wrap;
+      }
+
+      function renderDemoTree(container) {
+        const demoTree = {
+          isRoot: true,
+          name: 'Part',
+          params: [{ k: '\u4e3b\u65b9\u5411', v: 'Z+' }, { k: '\u539f\u70b9', v: 'A\u4fa7\u4e2d\u5fc3' }],
+          children: [
+            {
+              name: '\u4e2d\u95f4\u901a\u5b54',
+              params: [{ k: DEP_DIR_KEY, v: '\u4ece\u5c5e' }, { k: DEP_MODE_KEY, v: '\u65e0' }, { k: FEATURE_PARAM_KEY, v: '\u5b54' }],
+              children: [
+                { name: 'A\u4fa7', params: [{ k: DEP_DIR_KEY, v: '\u4e3b\u65b9\u5411' }, { k: DEP_MODE_KEY, v: '\u76f8\u540c' }, { k: FEATURE_PARAM_KEY, v: 'A\u4fa7\u7aef\u9762' }], children: [] },
+                { name: 'B\u4fa7', params: [{ k: DEP_DIR_KEY, v: '\u4e3b\u65b9\u5411' }, { k: DEP_MODE_KEY, v: '\u76f8\u540c' }, { k: FEATURE_PARAM_KEY, v: '\u7aef\u9762, \u5916\u5706' }], children: [] }
+              ]
+            },
+            {
+              name: '\u5916\u73af\u69fd',
+              params: [{ k: DEP_DIR_KEY, v: '\u4ece\u5c5e' }, { k: FEATURE_PARAM_KEY, v: '\u69fd, \u5916\u73af\u69fd, \u957f\u6587\u672c\u7279\u5f81\u9009\u62e9\u793a\u4f8b' }],
+              children: [
+                { name: '\u5916\u73af\u69fd\u7cbe\u52a0\u5de5', params: [{ k: DEP_DIR_KEY, v: '\u4e3b\u65b9\u5411' }, { k: DEP_MODE_KEY, v: '\u76f8\u540c' }], children: [] }
+              ]
+            },
+            {
+              name: '\u5916\u5706',
+              params: [{ k: DEP_DIR_KEY, v: '\u4ece\u5c5e' }, { k: FEATURE_PARAM_KEY, v: '\u5916\u5706' }],
+              children: [
+                { name: '\u5916\u5706\u8f66', params: [{ k: DEP_DIR_KEY, v: '\u4e3b\u65b9\u5411' }], children: [] },
+                { name: '\u5916\u5706\u78e8', params: [{ k: DEP_DIR_KEY, v: '\u4e3b\u65b9\u5411' }], children: [] }
+              ]
+            },
+            {
+              name: '\u5de5\u827a\u7ec4',
+              params: [{ k: DEP_DIR_KEY, v: '\u4efb\u610f\u65b9\u5411' }],
+              children: [
+                { name: '\u7c97\u8f66', params: [{ k: DEP_DIR_KEY, v: '\u4e3b\u65b9\u5411' }], children: [] },
+                { name: '\u7cbe\u8f66', params: [{ k: DEP_DIR_KEY, v: '\u4e3b\u65b9\u5411' }], children: [] },
+                { name: '\u78e8\u524a', params: [{ k: DEP_DIR_KEY, v: '\u4e3b\u65b9\u5411' }], children: [] }
+              ]
+            }
+          ]
+        };
+
+        container.innerHTML = '';
+        container.appendChild(buildTreeRow(demoTree, 0));
+      }
+
+      function buildCard(opt) {
+        const card = make('div', 'option-card');
+        card.dataset.templateId = opt.templateId || opt.id || '';
+
+        const conf = Number(opt.confidence || 0);
+        const confPct = (conf * 100).toFixed(1);
+        const confCls = conf >= 0.7 ? 'high' : (conf >= 0.4 ? 'mid' : 'low');
+        const fullStars = Math.max(0, Math.min(5, Math.round(conf * 5)));
+        const title = deriveDisplayNameFromFilename(opt.filename || opt.subtitle || '') || opt.title || '(untitled)';
+
+        const head = make('div', 'option-card-head');
+        const titleEl = make('span', 'option-card-title', title);
+        titleEl.title = title;
+        head.appendChild(titleEl);
+        head.appendChild(make('span', 'option-card-confidence ' + confCls, confPct + '%'));
+        card.appendChild(head);
+
+        const editBtn = make('button', 'option-card-icon-btn');
+        editBtn.type = 'button';
+        editBtn.dataset.action = 'edit-card';
+        editBtn.title = '\u7f16\u8f91\u8be5\u6a21\u677f\u5361\u7247';
+        editBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+        card.appendChild(editBtn);
+
+        const subtitle = make('div', 'option-card-subtitle', opt.filename || opt.subtitle || '');
+        subtitle.title = opt.filename || opt.subtitle || '';
+        card.appendChild(subtitle);
+        card.appendChild(make('div', 'option-card-stars', '\u2605'.repeat(fullStars) + '\u2606'.repeat(5 - fullStars)));
+
+        const reasons = make('div', 'option-card-reasons');
+        (opt.reasons || []).slice(0, 3).forEach((reason) => reasons.appendChild(make('span', 'card-reason', reason)));
+        card.appendChild(reasons);
+
+        const tags = make('div', 'option-card-tags');
+        (opt.tags || []).slice(0, 6).forEach((tag) => tags.appendChild(make('span', 'card-tag', tag)));
+        card.appendChild(tags);
+
+        const metaText = formatOptionCardMeta(opt.meta);
+        const footer = make('div', 'option-card-footer');
+        if (metaText) {
+          const metaEl = make('div', 'option-card-meta', metaText);
+          metaEl.title = metaText;
+          footer.appendChild(metaEl);
+        }
+
+        const actions = make('div', 'option-card-actions');
+        const applyBtn = make('button', 'option-card-button', getOptionCardActionText(false));
+        applyBtn.type = 'button';
+        applyBtn.dataset.action = 'apply-card';
+        actions.appendChild(applyBtn);
+        footer.appendChild(actions);
+        card.appendChild(footer);
+
+        applyBtn.addEventListener('click', () => {
+          applyBtn.textContent = '\u52a0\u8f7d\u4e2d...';
+          applyBtn.disabled = true;
+          setTimeout(() => {
+            applyBtn.textContent = getOptionCardActionText(true);
+            card.classList.add('is-selected');
+          }, 800);
+        });
+
+        editBtn.addEventListener('click', (event) => {
+          event.stopPropagation();
+          showEditModal(opt);
+        });
+
+        return card;
+      }
+
+      function showEditModal(opt) {
+        const modal = make('div', 'edit-backdrop');
+        const dialog = make('div', 'edit-dialog');
+        dialog.setAttribute('role', 'dialog');
+        dialog.setAttribute('aria-label', '\u7f16\u8f91\u6a21\u677f\u5361\u7247');
+
+        const initialFilename = opt.filename || opt.subtitle || '';
+        const initialInputName = deriveDisplayNameFromFilename(initialFilename) || initialFilename;
+        const confPct = ((opt.confidence || 0) * 100).toFixed(1);
+        const meta = opt.meta || {};
+
+        const head = make('div', 'edit-dialog-head');
+        const titleWrap = make('div', 'edit-dialog-title-wrap');
+        const icon = make('span', 'edit-dialog-icon');
+        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+        titleWrap.appendChild(icon);
+        const titleText = make('div', 'edit-dialog-title-text');
+        titleText.appendChild(make('div', 'edit-dialog-title', '\u7f16\u8f91\u6a21\u677f\u5361\u7247'));
+        const filenameHead = make('div', 'edit-dialog-subtitle', initialFilename);
+        filenameHead.dataset.role = 'filename-head';
+        titleText.appendChild(filenameHead);
+        titleWrap.appendChild(titleText);
+        head.appendChild(titleWrap);
+        const closeBtn = make('button', 'edit-dialog-close', 'x');
+        closeBtn.type = 'button';
+        closeBtn.dataset.role = 'close';
+        head.appendChild(closeBtn);
+        dialog.appendChild(head);
+
+        const body = make('div', 'edit-dialog-body');
+        const confRow = make('div', 'edit-conf-row');
+        confRow.appendChild(make('span', 'edit-conf-label', '\u5339\u914d\u7f6e\u4fe1\u5ea6'));
+        confRow.appendChild(make('span', 'edit-conf-value', confPct + '%'));
+        confRow.appendChild(make('span', 'edit-stars', '\u2605'.repeat(Math.round((opt.confidence || 0) * 5))));
+        const stats = make('span', '', '\u5206\u7ec4: ' + (meta.groupCount || 0) + ' / \u6df1\u5ea6: ' + (meta.depth || 0));
+        stats.style.marginLeft = 'auto';
+        stats.style.fontSize = '12px';
+        stats.style.color = '#1e40af';
+        confRow.appendChild(stats);
+        body.appendChild(confRow);
+
+        const info = make('div', 'edit-section');
+        info.appendChild(make('div', 'edit-section-label', '\u57fa\u7840\u4fe1\u606f'));
+        const field = make('div', 'edit-field');
+        field.appendChild(make('label', '', '\u6587\u4ef6\u540d'));
+        const input = make('input', 'edit-input');
+        input.dataset.fld = 'filename';
+        input.type = 'text';
+        input.value = initialInputName;
+        field.appendChild(input);
+        info.appendChild(field);
+        body.appendChild(info);
+
+        body.appendChild(make('div', 'edit-divider'));
+        const treeSection = make('div', 'edit-section');
+        const labelRow = make('div', 'edit-section-label-row');
+        labelRow.appendChild(make('div', 'edit-section-label', '\u5206\u7ec4\u7ed3\u6784\u9884\u89c8'));
+        const tools = make('div', 'edit-tree-tools');
+        const expandBtn = make('button', 'edit-tree-tool', '\u5168\u90e8\u5c55\u5f00');
+        expandBtn.type = 'button';
+        expandBtn.dataset.role = 'tree-expand';
+        const collapseBtn = make('button', 'edit-tree-tool', '\u5168\u90e8\u6298\u53e0');
+        collapseBtn.type = 'button';
+        collapseBtn.dataset.role = 'tree-collapse';
+        tools.appendChild(expandBtn);
+        tools.appendChild(collapseBtn);
+        labelRow.appendChild(tools);
+        treeSection.appendChild(labelRow);
+        const treeEl = make('div', 'edit-tree');
+        treeEl.dataset.role = 'tree';
+        treeSection.appendChild(treeEl);
+        body.appendChild(treeSection);
+        body.appendChild(make('div', 'edit-status ok', '\u2713 \u6f14\u793a\u72b6\u6001\u7a97\u53e3\uff0c\u4fdd\u5b58\u53ea\u4f1a\u4e34\u65f6\u66f4\u65b0\u5361\u7247\u3002'));
+        dialog.appendChild(body);
+
+        const actions = make('div', 'edit-actions');
+        const side = make('div', 'edit-status', '\u672a\u4fdd\u5b58');
+        side.dataset.role = 'side';
+        side.style.fontSize = '12px';
+        side.style.color = '#64748b';
+        actions.appendChild(side);
+        const actionsRight = make('div', 'edit-actions-right');
+        const cancelBtn = make('button', 'edit-cancel', '\u53d6\u6d88');
+        cancelBtn.type = 'button';
+        cancelBtn.dataset.role = 'cancel';
+        const saveBtn = make('button', 'edit-save', '\u4fdd\u5b58');
+        saveBtn.type = 'button';
+        saveBtn.dataset.role = 'save';
+        actionsRight.appendChild(cancelBtn);
+        actionsRight.appendChild(saveBtn);
+        actions.appendChild(actionsRight);
+        dialog.appendChild(actions);
+        modal.appendChild(dialog);
+        document.body.appendChild(modal);
+
+        renderDemoTree(treeEl);
+        expandBtn.addEventListener('click', () => treeEl.querySelectorAll('.edit-tree-node.is-collapsed').forEach((node) => node.classList.remove('is-collapsed')));
+        collapseBtn.addEventListener('click', () => treeEl.querySelectorAll(':scope > .edit-tree-node > .edit-tree-children > .edit-tree-node').forEach((node) => node.classList.add('is-collapsed')));
+
+        function close() {
+          modal.remove();
+          document.removeEventListener('keydown', onKey, true);
+        }
+        function onKey(event) {
+          if (event.key === 'Escape') close();
+        }
+
+        document.addEventListener('keydown', onKey, true);
+        modal.addEventListener('click', (event) => { if (event.target === modal) close(); });
+        closeBtn.addEventListener('click', close);
+        cancelBtn.addEventListener('click', close);
+        input.addEventListener('input', () => {
+          filenameHead.textContent = normalizeTemplateFilenameInput(input.value);
+        });
+        saveBtn.addEventListener('click', () => {
+          const filename = normalizeTemplateFilenameInput(input.value);
+          const title = deriveDisplayNameFromFilename(filename);
+          const card = document.querySelector('.option-card[data-template-id="' + (opt.templateId || opt.id) + '"]');
+          if (card) {
+            card.__kmaiEditedTemplate = { filename: filename, xml: '<demo-xml />' };
+            const titleEl = card.querySelector('.option-card-title');
+            const subtitleEl = card.querySelector('.option-card-subtitle');
+            if (titleEl) {
+              titleEl.textContent = title;
+              titleEl.title = title;
+            }
+            if (subtitleEl) {
+              subtitleEl.textContent = filename;
+              subtitleEl.title = filename;
+            }
+            resetOptionCardForTemplateEdit(card);
+          }
+          side.textContent = '\u2713 \u4e34\u65f6\u4fdd\u5b58 ' + filename;
+          setTimeout(close, 700);
+        });
+      }
+
+      const sample = [
+        {
+          id: 'tpl-001',
+          templateId: 'tpl-001',
+          title: '\u65b0\u6751\u5957\u6a21\u677f',
+          subtitle: '\u65b0\u6751\u5957\u6a21\u677f.xml',
+          confidence: 0.99,
+          reasons: ['\u96f6\u4ef6\u7c7b\u578b\u5339\u914d', '\u7ed3\u6784\u5339\u914d: A\u4fa7', '\u7ed3\u6784\u5339\u914d: B\u4fa7'],
+          tags: ['A\u4fa7', '\u7aef\u9762', '\u5916\u5706', '\u5916\u5706\u8f66', '\u5916\u5706\u78e8', '\u5916\u73af\u69fd'],
+          meta: { groupCount: 33, depth: 4 },
+          filename: '\u65b0\u6751\u5957\u6a21\u677f.xml'
+        },
+        {
+          id: 'tpl-002',
+          templateId: 'tpl-002',
+          title: '\u65b0\u6751\u5957\u5de5\u5e8f\u6a21\u677f01',
+          subtitle: '\u65b0\u6751\u5957\u5de5\u5e8f\u6a21\u677f01.xml',
+          confidence: 0.99,
+          reasons: ['\u96f6\u4ef6\u7c7b\u578b\u5339\u914d', '\u7ed3\u6784\u5339\u914d: A\u4fa7', '\u7ed3\u6784\u5339\u914d: B\u4fa7'],
+          tags: ['\u4e2d\u95f4\u901a\u5b54', 'A\u4fa7', '\u7aef\u9762', '\u5916\u5706', '\u5916\u73af\u69fd', '\u5b54'],
+          meta: { groupCount: 18, depth: 3 },
+          filename: '\u65b0\u6751\u5957\u5de5\u5e8f\u6a21\u677f01.xml'
+        },
+        {
+          id: 'tpl-003',
+          templateId: 'tpl-003',
+          title: '\u5957\u7b52\u7c7b',
+          subtitle: '\u5957\u7b52\u7c7b.xml',
+          confidence: 0.664,
+          reasons: ['\u7ed3\u6784\u5339\u914d: A\u4fa7', '\u7ed3\u6784\u5339\u914d: B\u4fa7', '\u7ed3\u6784\u5339\u914d: \u7aef\u9762'],
+          tags: ['\u4e2d\u95f4\u901a\u5b54', 'A\u4fa7', '\u7aef\u9762', '\u5916\u5706', '\u5916\u73af\u69fd', '\u5b54'],
+          meta: { groupCount: 18, depth: 3 },
+          filename: '\u5957\u7b52\u7c7b.xml'
+        }
+      ];
+
+      const grid = make('div', 'cards-grid');
+      sample.forEach((opt) => grid.appendChild(buildCard(opt)));
+      const preview = document.getElementById('preview');
+      if (preview) preview.appendChild(grid);
+    })();
+  </script>
+</body>
+</html>
+

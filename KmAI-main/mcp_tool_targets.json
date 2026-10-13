@@ -1,0 +1,596 @@
+[
+  {
+    "tool": "process_prt_file",
+    "target": "process_prt_file",
+    "timeout": 180,
+    "desc": "打开模型并自动执行特征识别和工艺路线生成，返回完整结果。适合一次性完成整个处理流程。",
+    "params": [
+      "file_path",
+      "trace_id"
+    ],
+    "required": [
+      "file_path"
+    ]
+  },
+  {
+    "tool": "open_prt_file",
+    "target": "open_prt_file",
+    "timeout": 30,
+    "desc": "打开一个3D模型文件（.prt, .CATPart, .Z3PRT等），需要在3DMPS中加载模型时使用。",
+    "params": [
+      "file_path"
+    ],
+    "required": [
+      "file_path"
+    ]
+  },
+  {
+    "tool": "get_all_bof_item",
+    "target": "get_all_bof_item",
+    "timeout": 15,
+    "desc": "获取当前打开模型的BOF特征树数据，包括所有特征、分组、加工方法。返回当前工作模型的结构信息。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "do_ai_process_route",
+    "target": "do_ai_process_route",
+    "timeout": 120,
+    "desc": "执行AI工艺路线推理，自动生成工序编排。根据当前BOF特征树数据推导加工工艺。",
+    "params": [
+      "cmd_id"
+    ],
+    "required": []
+  },
+  {
+    "tool": "set_auto_featidentify_box",
+    "target": "set_auto_featidentify_box",
+    "timeout": 120,
+    "desc": "根据指定的特征勾选/选择字符串执行自动特征识别。调用前应先打开模型；选择字符串格式沿用3DMPS端约定，例如：[孔,1][槽,0]。",
+    "params": [
+      "feature_selection"
+    ],
+    "required": [
+      "feature_selection"
+    ]
+  },
+  {
+    "tool": "get_cur_model_info",
+    "target": "get_cur_model_info",
+    "timeout": 15,
+    "desc": "获取当前打开模型的基本信息（路径、名称、类型等）。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "get_process_steps",
+    "target": "get_process_steps",
+    "timeout": 15,
+    "desc": "获取当前 BOP 工艺树上的工序列表。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "get_features",
+    "target": "get_features",
+    "timeout": 15,
+    "desc": "获取当前模型的特征列表（仅特征，不含分组与方法）。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "get_rough_info",
+    "target": "get_rough_info",
+    "timeout": 15,
+    "desc": "获取当前毛坯信息（毛坯类型、尺寸、余量等）。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "get_bop_tree",
+    "target": "get_bop_tree",
+    "timeout": 15,
+    "desc": "获取当前 BOP 工艺树结构数据。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "close_prt_file",
+    "target": "close_prt_file",
+    "timeout": 10,
+    "desc": "关闭当前已打开的3D模型文件。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "save_file",
+    "target": "save_file",
+    "timeout": 30,
+    "desc": "保存当前打开的3D模型到原路径，不弹保存对话框。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "save_as",
+    "target": "save_as",
+    "timeout": 30,
+    "desc": "将当前模型另存为新路径。",
+    "params": [
+      "file_path"
+    ],
+    "required": [
+      "file_path"
+    ]
+  },
+  {
+    "tool": "export_pdf",
+    "target": "export_pdf",
+    "timeout": 60,
+    "desc": "将当前工艺文件导出为 PDF 格式。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "export_excel",
+    "target": "export_excel",
+    "timeout": 60,
+    "desc": "将当前工艺文件导出为 Excel 格式（包含工序卡片等）。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "export_gxk",
+    "target": "export_gxk",
+    "timeout": 60,
+    "desc": "将当前工艺文件导出为 GXK 格式。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "auto_save",
+    "target": "auto_save",
+    "timeout": 5,
+    "desc": "开启/关闭 3DMPS 自动保存功能。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "auto_identify",
+    "target": "auto_identify",
+    "timeout": 120,
+    "desc": "打开自动特征识别弹窗，按自动识别模板执行当前模型的自动特征识别。未指定模板时优先选择套筒类模板，其次选择列表第 2 项。",
+    "params": [
+      "template_name",
+      "template_index"
+    ],
+    "required": []
+  },
+  {
+    "tool": "ai_feature_inference",
+    "target": "ai_feature_inference",
+    "timeout": 120,
+    "desc": "对当前特征执行 AI 加工方法推理，自动判断每个特征的加工方式。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "create_step",
+    "target": "create_step",
+    "timeout": 10,
+    "desc": "在 BOP 工艺树上创建一个新的工序节点。",
+    "params": [
+      "step_name"
+    ],
+    "required": []
+  },
+  {
+    "tool": "reset_step_number",
+    "target": "reset_step_number",
+    "timeout": 10,
+    "desc": "重新编排当前 BOP 树上所有工序的工序号。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "arrange_step",
+    "target": "arrange_step",
+    "timeout": 30,
+    "desc": "使用工序模板编排 BOP 工艺（标准工艺路线模板应用）。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "rapid_create_step",
+    "target": "rapid_create_step",
+    "timeout": 10,
+    "desc": "快速创建工序（弹出工序快速创建对话框）。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "check_process_step",
+    "target": "check_process_step",
+    "timeout": 30,
+    "desc": "执行工序检查（验证工序完整性与正确性）。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "check_model_compare",
+    "target": "check_model_compare",
+    "timeout": 300,
+    "desc": "模型对比检查：与另一个模型文件进行几何/拓扑对比。",
+    "params": [
+      "compare_path"
+    ],
+    "required": [
+      "compare_path"
+    ]
+  },
+  {
+    "tool": "show_identify_report",
+    "target": "show_identify_report",
+    "timeout": 10,
+    "desc": "显示当前模型的特征识别报告（弹出报告窗口）。",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "is_button_checked",
+    "target": "is_button_checked",
+    "timeout": 5,
+    "desc": "Return whether a toggle button is currently checked.",
+    "params": [
+      "commandId"
+    ],
+    "required": [
+      "commandId"
+    ]
+  },
+  {
+    "tool": "get_bof_tree_data",
+    "target": "get_all_bof_item",
+    "timeout": 15,
+    "desc": "Return BOF tree data from 3DMPS when available.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "check_3dmps_status",
+    "target": "check_3dmps_status",
+    "timeout": 5,
+    "desc": "Check whether the 3DMPS bridge is currently available.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "get_ai_process_route_input",
+    "target": "do_ai_process_route",
+    "timeout": 120,
+    "desc": "Prepare latest AI process route input and return input.json content.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "submit_ai_process_route_output",
+    "target": "submit_ai_process_route_output",
+    "timeout": 120,
+    "desc": "Submit externally generated AI process route output JSON and apply it to 3DMPS.",
+    "params": [
+      "output_json"
+    ],
+    "required": [
+      "output_json"
+    ]
+  },
+  {
+    "tool": "get_ai_process_route_status",
+    "target": "get_ai_process_route_status",
+    "timeout": 5,
+    "desc": "Query current AI process route task status.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "start_ai_process_route",
+    "target": "start_ai_process_route",
+    "timeout": 120,
+    "desc": "Start AI process route generation through the 3DMPS bridge.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "generate_ai_process_route",
+    "target": "generate_ai_process_route",
+    "timeout": 120,
+    "desc": "Run AI process route generation synchronously through the 3DMPS bridge.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "check_autoidentify_btn_ok",
+    "target": "OnBnClickedOk",
+    "timeout": 30,
+    "desc": "Confirm the auto-identify dialog. Requires the dialog to be open.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "check_autoidentify_btn_cancel",
+    "target": "OnBnClickedCancel",
+    "timeout": 30,
+    "desc": "Cancel the auto-identify dialog. Requires the dialog to be open.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "check_autoidentify_btn_selectall",
+    "target": "SelectAllFeatures",
+    "timeout": 30,
+    "desc": "Select all auto-identify features. Requires the dialog to be open.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "check_autoidentify_btn_deselectall",
+    "target": "DeselectAllFeatures",
+    "timeout": 30,
+    "desc": "Deselect all auto-identify features. Requires the dialog to be open.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "get_autoidentify_checkbox_list",
+    "target": "get_autoidentify_checkbox_list",
+    "timeout": 5,
+    "desc": "Return the configured auto-identify checkbox list.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "set_autoidentify_checkbox_list",
+    "target": "SetAutoIdentifyCheckedList",
+    "timeout": 30,
+    "desc": "Update selected auto-identify features in the open dialog.",
+    "params": [
+      "feature_states"
+    ],
+    "required": [
+      "feature_states"
+    ]
+  },
+  {
+    "tool": "run_autoidentify_with_no_dlg",
+    "target": "set_auto_featidentify_box",
+    "timeout": 120,
+    "desc": "Run auto-identify without opening the dialog.",
+    "params": [
+      "feature_states"
+    ],
+    "required": [
+      "feature_states"
+    ]
+  },
+  {
+    "tool": "get_autoidentify_template_list",
+    "target": "get_autoidentify_template_list",
+    "timeout": 15,
+    "desc": "Return the auto-identify template list.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "use_autoidentify_template",
+    "target": "setExtractDataList",
+    "timeout": 30,
+    "desc": "Load an auto-identify template by name. Requires the dialog to be open.",
+    "params": [
+      "template_name"
+    ],
+    "required": [
+      "template_name"
+    ]
+  },
+  {
+    "tool": "use_autoidentify_template_by_index",
+    "target": "setExtractDataList",
+    "timeout": 30,
+    "desc": "Load an auto-identify template by 1-based index. Requires the dialog to be open.",
+    "params": [
+      "index"
+    ],
+    "required": [
+      "index"
+    ]
+  },
+  {
+    "tool": "open_and_confirm_autoidentify_dialog",
+    "target": "open_and_confirm_autoidentify_dialog",
+    "timeout": 30,
+    "desc": "Open the auto-identify feature dialog, confirm it, and return immediately after the confirmation is accepted.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "check_processrapid_btn_ok",
+    "target": "OnOK",
+    "timeout": 10,
+    "desc": "Confirm the process-rapid dialog. Requires the dialog to be open.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "get_all_group_template_list",
+    "target": "GetAllGroupTemplateList",
+    "timeout": 15,
+    "desc": "Return all group template names.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "specify_group_template_index",
+    "target": "SpecifyGroupTemplateIndex",
+    "timeout": 30,
+    "desc": "Select a group template by 1-based index. Requires the dialog to be open.",
+    "params": [
+      "index"
+    ],
+    "required": [
+      "index"
+    ]
+  },
+  {
+    "tool": "specify_group_template_name",
+    "target": "SpecifyGroupTemplateName",
+    "timeout": 30,
+    "desc": "Select a group template by name. Requires the dialog to be open.",
+    "params": [
+      "template_name"
+    ],
+    "required": [
+      "template_name"
+    ]
+  },
+  {
+    "tool": "group_template_dialog_ok",
+    "target": "OnBnClickedOk",
+    "timeout": 30,
+    "desc": "Confirm the group template dialog. Requires the dialog to be open.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "group_template_dialog_cancel",
+    "target": "OnBnClickedCancel",
+    "timeout": 30,
+    "desc": "Cancel the group template dialog. Requires the dialog to be open.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "apply_group_template",
+    "target": "apply_group_template",
+    "timeout": 45,
+    "desc": "Apply a selected group template to the current 3DMPS file. For a candidate card, pass templateId/filename so the template XML is written to the template library before opening the apply dialog, selecting the template name, and confirming it.",
+    "params": [
+      "template_name",
+      "templateId",
+      "filename"
+    ],
+    "required": [
+      "template_name"
+    ]
+  },
+  {
+    "tool": "apply_group_template_full_flow",
+    "target": "apply_group_template_full_flow",
+    "timeout": 300,
+    "desc": "Write/apply a selected group template, then continue with auto-identify and AI feature inference in order.",
+    "params": [
+      "template_name",
+      "templateId",
+      "filename",
+      "autoidentify_template_name",
+      "autoidentify_template_index"
+    ],
+    "required": [
+      "template_name"
+    ]
+  },
+  {
+    "tool": "getAllGroupTemplateList",
+    "target": "GetAllGroupTemplateList",
+    "timeout": 30,
+    "desc": "CamelCase alias: return all group template names.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "specifyGroupTemplateIndex",
+    "target": "SpecifyGroupTemplateIndex",
+    "timeout": 30,
+    "desc": "CamelCase alias: select a group template by 1-based index.",
+    "params": [
+      "index"
+    ],
+    "required": [
+      "index"
+    ]
+  },
+  {
+    "tool": "specifyGroupTemplateName",
+    "target": "SpecifyGroupTemplateName",
+    "timeout": 30,
+    "desc": "CamelCase alias: select a group template by name.",
+    "params": [
+      "template_name"
+    ],
+    "required": [
+      "template_name"
+    ]
+  },
+  {
+    "tool": "groupTemplateDialogOk",
+    "target": "OnBnClickedOk",
+    "timeout": 30,
+    "desc": "CamelCase alias: confirm the group template dialog.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "groupTemplateDialogCancel",
+    "target": "OnBnClickedCancel",
+    "timeout": 30,
+    "desc": "CamelCase alias: cancel the group template dialog.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "click_group_template_button",
+    "target": "do_cmdResponse_by_python",
+    "timeout": 10,
+    "desc": "Open the group template dialog from the main window.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "click_autoidentify_button",
+    "target": "do_cmdResponse_by_python",
+    "timeout": 10,
+    "desc": "Open the auto-identify dialog from the main window.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "click_auto_reasoning_button",
+    "target": "do_cmdResponse_by_python",
+    "timeout": 10,
+    "desc": "Click the Auto Reasoning button in the main window.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "click_processrapid_button",
+    "target": "do_cmdResponse_by_python",
+    "timeout": 10,
+    "desc": "Open the process-rapid dialog from the main window.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "click_generate_all_button",
+    "target": "do_cmdResponse_by_python",
+    "timeout": 10,
+    "desc": "Click the Generate All button in the main window.",
+    "params": [],
+    "required": []
+  },
+  {
+    "tool": "click_one_click_generate_button",
+    "target": "do_cmdResponse_by_python",
+    "timeout": 10,
+    "desc": "Click the One Click Generate button in the main window.",
+    "params": [],
+    "required": []
+  }
+]

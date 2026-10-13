@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kmsoft.local/schemas/select_group_template.propose.request.schema.json",
+  "title": "SelectGroupTemplateProposeRequest",
+  "type": "object",
+  "required": ["action", "text"],
+  "additionalProperties": true,
+  "properties": {
+    "action": {
+      "const": "propose"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 3
+    },
+    "samples": {
+      "type": "string"
+    }
+  }
+}

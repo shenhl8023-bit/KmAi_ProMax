@@ -1,0 +1,1502 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<Kmsoft>
+    <Item type="Part_Info">
+        <Params>
+            <Param name="零件总体体积" type="Double" value="33229.464" />
+            <Param name="零件总体表面积" type="Double" value="12837.015" />
+            <Param name="零件总体回转面表面积" type="Double" value="12413.192" />
+            <Param name="零件总体外回转面表面积" type="Double" value="10368.226" />
+            <Param name="零件总体内回转面表面积" type="Double" value="2044.966" />
+        </Params>
+    </Item>
+    <Item type="Part_OtherInfo">
+        <Item name="面分类信息">
+            <Params name="平面信息">
+                <Param name="平面总面积" type="Double" value="4787.726" />
+                <Param name="平面总面积占比" type="Double" value="0.373" />
+                <Param name="平面总面数占比" type="Double" value="0.459" />
+            </Params>
+            <Params name="外圆柱信息">
+                <Param name="外圆柱总面积" type="Double" value="6004.323" />
+                <Param name="外圆柱总面积占比" type="Double" value="0.468" />
+                <Param name="外圆柱总面数占比" type="Double" value="0.410" />
+            </Params>
+            <Params name="内圆柱信息">
+                <Param name="内圆柱总面积" type="Double" value="1954.595" />
+                <Param name="内圆柱总面积占比" type="Double" value="0.152" />
+                <Param name="内圆柱总面数占比" type="Double" value="0.066" />
+            </Params>
+            <Params name="外圆锥信息">
+                <Param name="外圆锥总面积" type="Double" value="0.000" />
+                <Param name="外圆锥总面积占比" type="Double" value="0.000" />
+                <Param name="外圆锥总面数占比" type="Double" value="0.000" />
+            </Params>
+            <Params name="内圆锥信息">
+                <Param name="内圆锥总面积" type="Double" value="90.370" />
+                <Param name="内圆锥总面积占比" type="Double" value="0.007" />
+                <Param name="内圆锥总面数占比" type="Double" value="0.066" />
+            </Params>
+            <Params name="外圆环信息">
+                <Param name="外圆环总面积" type="Double" value="0.000" />
+                <Param name="外圆环总面积占比" type="Double" value="0.000" />
+                <Param name="外圆环总面数占比" type="Double" value="0.000" />
+            </Params>
+            <Params name="内圆环信息">
+                <Param name="内圆环总面积" type="Double" value="0.000" />
+                <Param name="内圆环总面积占比" type="Double" value="0.000" />
+                <Param name="内圆环总面数占比" type="Double" value="0.000" />
+            </Params>
+            <Params name="外圆球信息">
+                <Param name="外圆球总面积" type="Double" value="0.000" />
+                <Param name="外圆球总面积占比" type="Double" value="0.000" />
+                <Param name="外圆球总面数占比" type="Double" value="0.000" />
+            </Params>
+            <Params name="内圆球信息">
+                <Param name="内圆球总面积" type="Double" value="0.000" />
+                <Param name="内圆球总面积占比" type="Double" value="0.000" />
+                <Param name="内圆球总面数占比" type="Double" value="0.000" />
+            </Params>
+            <Params name="直纹面信息">
+                <Param name="直纹面总面积" type="Double" value="0.000" />
+                <Param name="直纹面总面积占比" type="Double" value="0.000" />
+                <Param name="直纹面总面数占比" type="Double" value="0.000" />
+            </Params>
+            <Params name="B_surface面信息">
+                <Param name="B_surface总面积" type="Double" value="0.000" />
+                <Param name="B_surface总面积占比" type="Double" value="0.000" />
+                <Param name="B_surface总面数占比" type="Double" value="0.000" />
+            </Params>
+        </Item>
+        <Item name="薄壁分类信息">
+            <Params name="薄壁平面信息">
+                <Param name="薄壁平面总面积" type="Double" value="3139.890" />
+                <Param name="薄壁平面总面积占比" type="Double" value="0.357" />
+                <Param name="薄壁平面厚度均值" type="Double" value="8.216" />
+                <Param name="薄壁平面厚度方差" type="Double" value="19.987" />
+            </Params>
+            <Params name="薄壁圆柱信息">
+                <Param name="薄壁圆柱总面积" type="Double" value="5645.225" />
+                <Param name="薄壁圆柱总面积占比" type="Double" value="0.643" />
+                <Param name="薄壁圆柱厚度均值" type="Double" value="9.028" />
+                <Param name="薄壁圆柱厚度方差" type="Double" value="24.638" />
+            </Params>
+            <Params name="薄壁圆锥信息">
+                <Param name="薄壁圆锥总面积" type="Double" value="0.000" />
+                <Param name="薄壁圆锥总面积占比" type="Double" value="0.000" />
+                <Param name="薄壁圆锥厚度均值" type="Double" value="0.000" />
+                <Param name="薄壁圆锥厚度方差" type="Double" value="0.000" />
+            </Params>
+            <Params name="薄壁圆环信息">
+                <Param name="薄壁圆环总面积" type="Double" value="0.000" />
+                <Param name="薄壁圆环总面积占比" type="Double" value="0.000" />
+                <Param name="薄壁圆环厚度均值" type="Double" value="0.000" />
+                <Param name="薄壁圆环厚度方差" type="Double" value="0.000" />
+            </Params>
+            <Params name="薄壁圆球信息">
+                <Param name="薄壁圆球总面积" type="Double" value="0.000" />
+                <Param name="薄壁圆球总面积占比" type="Double" value="0.000" />
+                <Param name="薄壁圆球厚度均值" type="Double" value="0.000" />
+                <Param name="薄壁圆球厚度方差" type="Double" value="0.000" />
+            </Params>
+            <Params name="薄壁直纹面信息">
+                <Param name="薄壁直纹面总面积" type="Double" value="0.000" />
+                <Param name="薄壁直纹面总面积占比" type="Double" value="0.000" />
+                <Param name="薄壁直纹面厚度均值" type="Double" value="0.000" />
+                <Param name="薄壁直纹面厚度方差" type="Double" value="0.000" />
+            </Params>
+            <Params name="薄壁B_surface面信息">
+                <Param name="薄壁B_surface总面积" type="Double" value="0.000" />
+                <Param name="薄壁B_surface总面积占比" type="Double" value="0.000" />
+                <Param name="薄壁B_surface厚度均值" type="Double" value="0.000" />
+                <Param name="薄壁B_surface厚度方差" type="Double" value="0.000" />
+            </Params>
+        </Item>
+        <Item name="线分类信息">
+            <Params name="线分类占比">
+                <Param name="line 类型占比" type="Double" value="0.475" />
+                <Param name="arc 类型占比" type="Double" value="0.000" />
+                <Param name="spline 类型占比" type="Double" value="0.525" />
+            </Params>
+            <Params name="角度边占比">
+                <Param name="30度边占比" type="Double" value="0.000" />
+                <Param name="45度边占比" type="Double" value="0.000" />
+                <Param name="60度边占比" type="Double" value="0.000" />
+                <Param name="90度边占比" type="Double" value="0.656" />
+                <Param name="120度边占比" type="Double" value="0.098" />
+                <Param name="270度边占比" type="Double" value="0.721" />
+            </Params>
+        </Item>
+        <Item name="主惯性轴信息">
+            <Params name="主惯性轴信息">
+                <Param name="零件细长度" type="Double" value="3.250" />
+                <Param name="零件均匀性" type="Double" value="1.000" />
+                <Param name="零件扁平度" type="Double" value="0.555" />
+                <Param name="最大惯性主轴方向平面面积占比" type="Double" value="0.000" />
+                <Param name="同向回转面面积占比" type="Double" value="0.468" />
+                <Param name="零件最小包围盒距离" type="Double" value="[32.000,32.000,104.000]" />
+                <Param name="惯性主轴方向最小包围盒距离" type="Double" value="[32.000,32.000,104.000]" />
+            </Params>
+        </Item>
+        <Item name="主回转面信息">
+            <Params name="主回转面信息">
+                <Param name="外表面面积占比" type="Double" value="0.468" />
+                <Param name="内表面面积占比" type="Double" value="0.159" />
+                <Param name="最大外径" type="Double" value="16.000" />
+                <Param name="最小内径" type="Double" value="1.000" />
+            </Params>
+        </Item>
+    </Item>
+    <Item type="Point_Set" 面总数="61">
+        <Item id="1" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-11.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="200.918" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="2.000" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="2" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-99.750,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="148.437" />
+                <Param name="圆柱面半径" type="Double" value="13.900" />
+                <Param name="高度" type="Double" value="1.700" />
+                <Param name="相对面轴线包角" type="Double" value="9.425" />
+            </Params>
+        </Item>
+        <Item id="3" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-12.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="4" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cone" />
+                <Param name="内外表面" type="Int" value="-1" />
+                <Param name="原点" type="Vector" value="[0.000,-93.700,0.000]" />
+                <Param name="法向量" type="Vector" value="[-0.000,1.000,-0.000]" />
+                <Param name="面积" type="Double" value="18.029" />
+                <Param name="圆锥面半径" type="Double" value="2.500" />
+                <Param name="圆锥半锥角" type="Double" value="59.004" />
+                <Param name="高度" type="Double" value="0.601" />
+                <Param name="相对面轴线包角" type="Double" value="9.425" />
+            </Params>
+        </Item>
+        <Item id="5" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-7.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="160.128" />
+            </Params>
+        </Item>
+        <Item id="6" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-97.250,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="251.148" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="2.500" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="7" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-8.250,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="150.689" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="1.500" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="8" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="-1" />
+                <Param name="原点" type="Vector" value="[0.000,-6.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[-0.000,1.000,-0.000]" />
+                <Param name="面积" type="Double" value="149.707" />
+                <Param name="圆柱面半径" type="Double" value="2.000" />
+                <Param name="高度" type="Double" value="12.000" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="9" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-70.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="200.919" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="2.000" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="10" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-13.250,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="145.971" />
+                <Param name="圆柱面半径" type="Double" value="15.500" />
+                <Param name="高度" type="Double" value="1.500" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="11" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-69.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="12" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-62.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="13" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-6.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="26.796" />
+                <Param name="圆柱面半径" type="Double" value="4.000" />
+                <Param name="高度" type="Double" value="12.000" />
+                <Param name="相对面轴线包角" type="Double" value="0.560" />
+            </Params>
+        </Item>
+        <Item id="14" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-63.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="200.919" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="2.000" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="15" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cone" />
+                <Param name="内外表面" type="Int" value="-1" />
+                <Param name="原点" type="Vector" value="[0.000,-103.134,0.000]" />
+                <Param name="法向量" type="Vector" value="[-0.000,1.000,-0.000]" />
+                <Param name="面积" type="Double" value="43.667" />
+                <Param name="圆锥面半径" type="Double" value="3.500" />
+                <Param name="圆锥半锥角" type="Double" value="30.002" />
+                <Param name="高度" type="Double" value="1.732" />
+                <Param name="相对面轴线包角" type="Double" value="7.854" />
+            </Params>
+        </Item>
+        <Item id="16" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-15.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="200.918" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="2.000" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="17" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-64.750,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="145.970" />
+                <Param name="圆柱面半径" type="Double" value="15.500" />
+                <Param name="高度" type="Double" value="1.500" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="18" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cone" />
+                <Param name="内外表面" type="Int" value="-1" />
+                <Param name="原点" type="Vector" value="[0.000,-18.399,0.000]" />
+                <Param name="法向量" type="Vector" value="[-0.000,1.000,-0.000]" />
+                <Param name="面积" type="Double" value="14.337" />
+                <Param name="圆锥面半径" type="Double" value="1.000" />
+                <Param name="圆锥半锥角" type="Double" value="59.004" />
+                <Param name="高度" type="Double" value="1.202" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="19" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-68.250,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="145.970" />
+                <Param name="圆柱面半径" type="Double" value="15.500" />
+                <Param name="高度" type="Double" value="1.500" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="20" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-1.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="21" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-2.250,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="145.971" />
+                <Param name="圆柱面半径" type="Double" value="15.500" />
+                <Param name="高度" type="Double" value="1.500" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="22" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-6.000,-3.500]" />
+                <Param name="法向量" type="Vector" value="[0.000,0.000,-1.000]" />
+                <Param name="面积" type="Double" value="46.476" />
+            </Params>
+        </Item>
+        <Item id="23" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cone" />
+                <Param name="内外表面" type="Int" value="-1" />
+                <Param name="原点" type="Vector" value="[0.000,-12.601,0.000]" />
+                <Param name="法向量" type="Vector" value="[-0.000,-1.000,-0.000]" />
+                <Param name="面积" type="Double" value="14.337" />
+                <Param name="圆锥面半径" type="Double" value="1.000" />
+                <Param name="圆锥半锥角" type="Double" value="59.004" />
+                <Param name="高度" type="Double" value="1.202" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="24" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,0.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="32.598" />
+            </Params>
+        </Item>
+        <Item id="25" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="-1" />
+                <Param name="原点" type="Vector" value="[0.000,-5.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[-0.000,-1.000,-0.000]" />
+                <Param name="面积" type="Double" value="721.660" />
+                <Param name="圆柱面半径" type="Double" value="11.500" />
+                <Param name="高度" type="Double" value="10.000" />
+                <Param name="相对面轴线包角" type="Double" value="7.854" />
+            </Params>
+        </Item>
+        <Item id="26" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="-1" />
+                <Param name="原点" type="Vector" value="[0.000,-56.200,0.000]" />
+                <Param name="法向量" type="Vector" value="[-0.000,-1.000,-0.000]" />
+                <Param name="面积" type="Double" value="928.149" />
+                <Param name="圆柱面半径" type="Double" value="2.000" />
+                <Param name="高度" type="Double" value="74.399" />
+                <Param name="相对面轴线包角" type="Double" value="7.854" />
+            </Params>
+        </Item>
+        <Item id="27" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-67.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="28" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-14.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="29" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-65.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="30" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-101.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="160.128" />
+            </Params>
+        </Item>
+        <Item id="31" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-6.250,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="148.437" />
+                <Param name="圆柱面半径" type="Double" value="13.900" />
+                <Param name="高度" type="Double" value="1.700" />
+                <Param name="相对面轴线包角" type="Double" value="9.425" />
+            </Params>
+        </Item>
+        <Item id="32" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-16.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="488.813" />
+            </Params>
+        </Item>
+        <Item id="33" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-98.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="160.128" />
+            </Params>
+        </Item>
+        <Item id="34" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-60.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="35" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-6.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="26.796" />
+                <Param name="圆柱面半径" type="Double" value="4.000" />
+                <Param name="高度" type="Double" value="12.000" />
+                <Param name="相对面轴线包角" type="Double" value="0.560" />
+            </Params>
+        </Item>
+        <Item id="36" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-61.250,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="145.970" />
+                <Param name="圆柱面半径" type="Double" value="15.500" />
+                <Param name="高度" type="Double" value="1.500" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="37" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-6.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="26.796" />
+                <Param name="圆柱面半径" type="Double" value="4.000" />
+                <Param name="高度" type="Double" value="12.000" />
+                <Param name="相对面轴线包角" type="Double" value="0.560" />
+            </Params>
+        </Item>
+        <Item id="38" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[-3.500,-6.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[-1.000,0.000,0.000]" />
+                <Param name="面积" type="Double" value="46.476" />
+            </Params>
+        </Item>
+        <Item id="39" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-6.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="26.796" />
+                <Param name="圆柱面半径" type="Double" value="4.000" />
+                <Param name="高度" type="Double" value="12.000" />
+                <Param name="相对面轴线包角" type="Double" value="0.560" />
+            </Params>
+        </Item>
+        <Item id="40" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-9.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="41" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-64.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="42" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-6.000,3.500]" />
+                <Param name="法向量" type="Vector" value="[0.000,0.000,1.000]" />
+                <Param name="面积" type="Double" value="46.476" />
+            </Params>
+        </Item>
+        <Item id="43" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-0.750,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="150.689" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="1.500" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="44" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-66.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="200.919" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="2.000" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="45" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-37.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="1579.947" />
+                <Param name="圆柱面半径" type="Double" value="7.000" />
+                <Param name="高度" type="Double" value="36.000" />
+                <Param name="相对面轴线包角" type="Double" value="9.425" />
+            </Params>
+        </Item>
+        <Item id="46" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[3.500,-6.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[1.000,0.000,0.000]" />
+                <Param name="面积" type="Double" value="46.476" />
+            </Params>
+        </Item>
+        <Item id="47" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-71.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="488.813" />
+            </Params>
+        </Item>
+        <Item id="48" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-59.250,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="251.148" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="2.500" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="49" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-9.750,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="145.971" />
+                <Param name="圆柱面半径" type="Double" value="15.500" />
+                <Param name="高度" type="Double" value="1.500" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="50" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="-1" />
+                <Param name="原点" type="Vector" value="[0.000,-98.134,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,-0.000]" />
+                <Param name="面积" type="Double" value="155.080" />
+                <Param name="圆柱面半径" type="Double" value="3.000" />
+                <Param name="高度" type="Double" value="8.268" />
+                <Param name="相对面轴线包角" type="Double" value="9.425" />
+            </Params>
+        </Item>
+        <Item id="51" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-3.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="52" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-58.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="488.813" />
+            </Params>
+        </Item>
+        <Item id="53" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-4.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="200.918" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="2.000" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="54" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-83.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="833.934" />
+                <Param name="圆柱面半径" type="Double" value="7.000" />
+                <Param name="高度" type="Double" value="19.000" />
+                <Param name="相对面轴线包角" type="Double" value="9.425" />
+            </Params>
+        </Item>
+        <Item id="55" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-104.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="752.510" />
+            </Params>
+        </Item>
+        <Item id="56" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-96.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="488.813" />
+            </Params>
+        </Item>
+        <Item id="57" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-5.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="160.128" />
+            </Params>
+        </Item>
+        <Item id="58" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-10.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="49.530" />
+            </Params>
+        </Item>
+        <Item id="59" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,0.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,1.000,0.000]" />
+                <Param name="面积" type="Double" value="388.670" />
+            </Params>
+        </Item>
+        <Item id="60" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="cylinder" />
+                <Param name="内外表面" type="Int" value="1" />
+                <Param name="原点" type="Vector" value="[0.000,-102.500,0.000]" />
+                <Param name="法向量" type="Vector" value="[0.000,-1.000,0.000]" />
+                <Param name="面积" type="Double" value="301.377" />
+                <Param name="圆柱面半径" type="Double" value="16.000" />
+                <Param name="高度" type="Double" value="3.000" />
+                <Param name="相对面轴线包角" type="Double" value="6.283" />
+            </Params>
+        </Item>
+        <Item id="61" type="Point">
+            <Params>
+                <Param name="面类型" type="String" value="plane" />
+                <Param name="内外表面" type="Int" value="-1" />
+                <Param name="原点" type="Vector" value="[0.000,-12.000,0.000]" />
+                <Param name="法向量" type="Vector" value="[-0.000,1.000,-0.000]" />
+                <Param name="面积" type="Double" value="237.920" />
+            </Params>
+        </Item>
+    </Item>
+    <Item type="Line_Set" 倒圆连接数="9" 直接连接数="66" 总数="75">
+        <Item index="1" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="倒圆连接" />
+                <Param name="面序号一" type="Int" value="2" />
+                <Param name="面序号二" type="Int" value="33" />
+                <Param name="内外" type="Int" value="-1" />
+                <Param name="圆角半径" type="Double" value="0.400" />
+                <Param name="过渡面夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="2" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="倒圆连接" />
+                <Param name="面序号一" type="Int" value="45" />
+                <Param name="面序号二" type="Int" value="32" />
+                <Param name="内外" type="Int" value="-1" />
+                <Param name="圆角半径" type="Double" value="3.000" />
+                <Param name="过渡面夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="3" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="倒圆连接" />
+                <Param name="面序号一" type="Int" value="54" />
+                <Param name="面序号二" type="Int" value="56" />
+                <Param name="内外" type="Int" value="-1" />
+                <Param name="圆角半径" type="Double" value="3.000" />
+                <Param name="过渡面夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="4" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="倒圆连接" />
+                <Param name="面序号一" type="Int" value="25" />
+                <Param name="面序号二" type="Int" value="61" />
+                <Param name="内外" type="Int" value="-1" />
+                <Param name="圆角半径" type="Double" value="2.000" />
+                <Param name="过渡面夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="5" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="倒圆连接" />
+                <Param name="面序号一" type="Int" value="45" />
+                <Param name="面序号二" type="Int" value="52" />
+                <Param name="内外" type="Int" value="-1" />
+                <Param name="圆角半径" type="Double" value="3.000" />
+                <Param name="过渡面夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="6" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="倒圆连接" />
+                <Param name="面序号一" type="Int" value="31" />
+                <Param name="面序号二" type="Int" value="5" />
+                <Param name="内外" type="Int" value="-1" />
+                <Param name="圆角半径" type="Double" value="0.400" />
+                <Param name="过渡面夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="7" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="倒圆连接" />
+                <Param name="面序号一" type="Int" value="54" />
+                <Param name="面序号二" type="Int" value="47" />
+                <Param name="内外" type="Int" value="-1" />
+                <Param name="圆角半径" type="Double" value="3.000" />
+                <Param name="过渡面夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="8" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="倒圆连接" />
+                <Param name="面序号一" type="Int" value="2" />
+                <Param name="面序号二" type="Int" value="30" />
+                <Param name="内外" type="Int" value="-1" />
+                <Param name="圆角半径" type="Double" value="0.400" />
+                <Param name="过渡面夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="9" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="倒圆连接" />
+                <Param name="面序号一" type="Int" value="31" />
+                <Param name="面序号二" type="Int" value="57" />
+                <Param name="内外" type="Int" value="-1" />
+                <Param name="圆角半径" type="Double" value="0.400" />
+                <Param name="过渡面夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="10" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="1" />
+                <Param name="面序号二" type="Int" value="3" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="11" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="1" />
+                <Param name="面序号二" type="Int" value="58" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="12" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="3" />
+                <Param name="面序号二" type="Int" value="10" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="13" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="4" />
+                <Param name="面序号二" type="Int" value="26" />
+                <Param name="面与面之间夹角" type="Double" value="239.000" />
+            </Params>
+        </Item>
+        <Item index="14" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="4" />
+                <Param name="面序号二" type="Int" value="50" />
+                <Param name="面与面之间夹角" type="Double" value="121.000" />
+            </Params>
+        </Item>
+        <Item index="15" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="5" />
+                <Param name="面序号二" type="Int" value="7" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="16" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="6" />
+                <Param name="面序号二" type="Int" value="33" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="17" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="6" />
+                <Param name="面序号二" type="Int" value="56" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="18" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="7" />
+                <Param name="面序号二" type="Int" value="40" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="19" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="8" />
+                <Param name="面序号二" type="Int" value="23" />
+                <Param name="面与面之间夹角" type="Double" value="121.000" />
+            </Params>
+        </Item>
+        <Item index="20" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="8" />
+                <Param name="面序号二" type="Int" value="24" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="21" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="9" />
+                <Param name="面序号二" type="Int" value="11" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="22" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="9" />
+                <Param name="面序号二" type="Int" value="47" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="23" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="10" />
+                <Param name="面序号二" type="Int" value="28" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="24" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="11" />
+                <Param name="面序号二" type="Int" value="19" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="25" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="12" />
+                <Param name="面序号二" type="Int" value="14" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="26" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="12" />
+                <Param name="面序号二" type="Int" value="36" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="27" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="13" />
+                <Param name="面序号二" type="Int" value="24" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="28" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="13" />
+                <Param name="面序号二" type="Int" value="42" />
+                <Param name="面与面之间夹角" type="Double" value="208.955" />
+            </Params>
+        </Item>
+        <Item index="29" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="13" />
+                <Param name="面序号二" type="Int" value="46" />
+                <Param name="面与面之间夹角" type="Double" value="208.955" />
+            </Params>
+        </Item>
+        <Item index="30" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="13" />
+                <Param name="面序号二" type="Int" value="61" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="31" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="14" />
+                <Param name="面序号二" type="Int" value="41" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="32" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="15" />
+                <Param name="面序号二" type="Int" value="50" />
+                <Param name="面与面之间夹角" type="Double" value="210.000" />
+            </Params>
+        </Item>
+        <Item index="33" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="15" />
+                <Param name="面序号二" type="Int" value="55" />
+                <Param name="面与面之间夹角" type="Double" value="240.000" />
+            </Params>
+        </Item>
+        <Item index="34" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="16" />
+                <Param name="面序号二" type="Int" value="28" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="35" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="16" />
+                <Param name="面序号二" type="Int" value="32" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="36" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="17" />
+                <Param name="面序号二" type="Int" value="29" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="37" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="17" />
+                <Param name="面序号二" type="Int" value="41" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="38" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="18" />
+                <Param name="面序号二" type="Int" value="26" />
+                <Param name="面与面之间夹角" type="Double" value="121.000" />
+            </Params>
+        </Item>
+        <Item index="39" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="19" />
+                <Param name="面序号二" type="Int" value="27" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="40" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="20" />
+                <Param name="面序号二" type="Int" value="21" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="41" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="20" />
+                <Param name="面序号二" type="Int" value="43" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="42" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="21" />
+                <Param name="面序号二" type="Int" value="51" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="43" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="22" />
+                <Param name="面序号二" type="Int" value="24" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="44" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="22" />
+                <Param name="面序号二" type="Int" value="35" />
+                <Param name="面与面之间夹角" type="Double" value="208.955" />
+            </Params>
+        </Item>
+        <Item index="45" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="22" />
+                <Param name="面序号二" type="Int" value="37" />
+                <Param name="面与面之间夹角" type="Double" value="208.955" />
+            </Params>
+        </Item>
+        <Item index="46" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="22" />
+                <Param name="面序号二" type="Int" value="61" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="47" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="24" />
+                <Param name="面序号二" type="Int" value="35" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="48" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="24" />
+                <Param name="面序号二" type="Int" value="37" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="49" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="24" />
+                <Param name="面序号二" type="Int" value="38" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="50" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="24" />
+                <Param name="面序号二" type="Int" value="39" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="51" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="24" />
+                <Param name="面序号二" type="Int" value="42" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="52" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="24" />
+                <Param name="面序号二" type="Int" value="46" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="53" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="25" />
+                <Param name="面序号二" type="Int" value="59" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="54" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="27" />
+                <Param name="面序号二" type="Int" value="44" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="55" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="29" />
+                <Param name="面序号二" type="Int" value="44" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="56" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="30" />
+                <Param name="面序号二" type="Int" value="60" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="57" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="34" />
+                <Param name="面序号二" type="Int" value="36" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="58" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="34" />
+                <Param name="面序号二" type="Int" value="48" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="59" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="35" />
+                <Param name="面序号二" type="Int" value="46" />
+                <Param name="面与面之间夹角" type="Double" value="208.955" />
+            </Params>
+        </Item>
+        <Item index="60" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="35" />
+                <Param name="面序号二" type="Int" value="61" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="61" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="37" />
+                <Param name="面序号二" type="Int" value="38" />
+                <Param name="面与面之间夹角" type="Double" value="208.955" />
+            </Params>
+        </Item>
+        <Item index="62" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="37" />
+                <Param name="面序号二" type="Int" value="61" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="63" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="38" />
+                <Param name="面序号二" type="Int" value="39" />
+                <Param name="面与面之间夹角" type="Double" value="208.955" />
+            </Params>
+        </Item>
+        <Item index="64" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="38" />
+                <Param name="面序号二" type="Int" value="61" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="65" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="39" />
+                <Param name="面序号二" type="Int" value="42" />
+                <Param name="面与面之间夹角" type="Double" value="208.955" />
+            </Params>
+        </Item>
+        <Item index="66" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="39" />
+                <Param name="面序号二" type="Int" value="61" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="67" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="40" />
+                <Param name="面序号二" type="Int" value="49" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="68" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="42" />
+                <Param name="面序号二" type="Int" value="61" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="69" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="43" />
+                <Param name="面序号二" type="Int" value="59" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="70" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="46" />
+                <Param name="面序号二" type="Int" value="61" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="71" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="48" />
+                <Param name="面序号二" type="Int" value="52" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="72" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="49" />
+                <Param name="面序号二" type="Int" value="58" />
+                <Param name="面与面之间夹角" type="Double" value="90.000" />
+            </Params>
+        </Item>
+        <Item index="73" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="51" />
+                <Param name="面序号二" type="Int" value="53" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="74" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="53" />
+                <Param name="面序号二" type="Int" value="57" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+        <Item index="75" type="面面连接">
+            <Params>
+                <Param name="连接类型" type="String" value="直接连接" />
+                <Param name="面序号一" type="Int" value="55" />
+                <Param name="面序号二" type="Int" value="60" />
+                <Param name="面与面之间夹角" type="Double" value="270.000" />
+            </Params>
+        </Item>
+    </Item>
+    <Item type="同轴孔系组" sum="1">
+        <Item index="1" type="同轴孔系" sum="5">
+            <Params>
+                <Param name="面序号" type="Int" value="3" />
+                <Param name="面序号" type="Int" value="14" />
+                <Param name="面序号" type="Int" value="17" />
+                <Param name="面序号" type="Int" value="25" />
+                <Param name="面序号" type="Int" value="49" />
+            </Params>
+        </Item>
+    </Item>
+    <Item type="外回转面系组" sum="1" 外回转面系表面积总和="10368.226">
+        <Item index="1" type="外回转面系" sum="48" 原点="[0.000,-11.500,0.000]" 轴向="[0.000,-1.000,0.000]" 表面积="10368.226">
+            <Params>
+                <Param name="面序号" type="Int" value="0" />
+                <Param name="面序号" type="Int" value="1" />
+                <Param name="面序号" type="Int" value="2" />
+                <Param name="面序号" type="Int" value="4" />
+                <Param name="面序号" type="Int" value="5" />
+                <Param name="面序号" type="Int" value="6" />
+                <Param name="面序号" type="Int" value="8" />
+                <Param name="面序号" type="Int" value="9" />
+                <Param name="面序号" type="Int" value="10" />
+                <Param name="面序号" type="Int" value="11" />
+                <Param name="面序号" type="Int" value="12" />
+                <Param name="面序号" type="Int" value="13" />
+                <Param name="面序号" type="Int" value="15" />
+                <Param name="面序号" type="Int" value="16" />
+                <Param name="面序号" type="Int" value="18" />
+                <Param name="面序号" type="Int" value="19" />
+                <Param name="面序号" type="Int" value="20" />
+                <Param name="面序号" type="Int" value="23" />
+                <Param name="面序号" type="Int" value="26" />
+                <Param name="面序号" type="Int" value="27" />
+                <Param name="面序号" type="Int" value="28" />
+                <Param name="面序号" type="Int" value="29" />
+                <Param name="面序号" type="Int" value="30" />
+                <Param name="面序号" type="Int" value="31" />
+                <Param name="面序号" type="Int" value="32" />
+                <Param name="面序号" type="Int" value="33" />
+                <Param name="面序号" type="Int" value="34" />
+                <Param name="面序号" type="Int" value="35" />
+                <Param name="面序号" type="Int" value="36" />
+                <Param name="面序号" type="Int" value="38" />
+                <Param name="面序号" type="Int" value="39" />
+                <Param name="面序号" type="Int" value="40" />
+                <Param name="面序号" type="Int" value="42" />
+                <Param name="面序号" type="Int" value="43" />
+                <Param name="面序号" type="Int" value="44" />
+                <Param name="面序号" type="Int" value="46" />
+                <Param name="面序号" type="Int" value="47" />
+                <Param name="面序号" type="Int" value="48" />
+                <Param name="面序号" type="Int" value="50" />
+                <Param name="面序号" type="Int" value="51" />
+                <Param name="面序号" type="Int" value="52" />
+                <Param name="面序号" type="Int" value="53" />
+                <Param name="面序号" type="Int" value="54" />
+                <Param name="面序号" type="Int" value="55" />
+                <Param name="面序号" type="Int" value="56" />
+                <Param name="面序号" type="Int" value="57" />
+                <Param name="面序号" type="Int" value="58" />
+                <Param name="面序号" type="Int" value="59" />
+            </Params>
+        </Item>
+    </Item>
+    <Item type="内回转面系组" sum="1" 内回转面系表面积总和="2044.966">
+        <Item index="1" type="内回转面系" sum="8" 原点="[0.000,-93.700,0.000]" 轴向="[-0.000,1.000,-0.000]" 表面积="2044.966">
+            <Params>
+                <Param name="面序号" type="Int" value="3" />
+                <Param name="面序号" type="Int" value="7" />
+                <Param name="面序号" type="Int" value="14" />
+                <Param name="面序号" type="Int" value="17" />
+                <Param name="面序号" type="Int" value="22" />
+                <Param name="面序号" type="Int" value="24" />
+                <Param name="面序号" type="Int" value="25" />
+                <Param name="面序号" type="Int" value="49" />
+            </Params>
+        </Item>
+    </Item>
+</Kmsoft>

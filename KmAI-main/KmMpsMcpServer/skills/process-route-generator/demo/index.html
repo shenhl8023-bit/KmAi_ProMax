@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>统一工艺路线测试台</title>
+  <style>
+    :root {
+      --ink: #18231f;
+      --muted: #66736d;
+      --line: #d7ddd7;
+      --paper: #fffef8;
+      --wash: #eef2eb;
+      --panel: rgba(255, 254, 248, 0.95);
+      --deep: #284752;
+      --green: #2f6e58;
+      --amber: #9a6334;
+      --shadow: 0 18px 42px rgba(28, 35, 31, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(24, 35, 31, 0.045) 1px, transparent 1px) 0 0 / 28px 28px,
+        linear-gradient(0deg, rgba(24, 35, 31, 0.03) 1px, transparent 1px) 0 0 / 28px 28px,
+        #ecefe8;
+      font-family: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 420px 360px minmax(420px, 1fr);
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .pane {
+      min-width: 0;
+      min-height: 0;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+    }
+
+    .head {
+      padding: 16px 18px 14px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, #fffef8, #eff3ec);
+    }
+
+    .kicker {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 6px 0 0;
+      font-size: 23px;
+      line-height: 1.2;
+    }
+
+    .body {
+      min-height: 0;
+      overflow: auto;
+      padding: 14px;
+    }
+
+    .section {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      font-size: 13px;
+      font-weight: 820;
+      color: #36433e;
+    }
+
+    textarea,
+    select,
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fbfaf4;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 240px;
+      padding: 10px 12px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    select,
+    input[type="text"] {
+      min-height: 38px;
+      padding: 8px 10px;
+    }
+
+    .grid2,
+    .grid3 {
+      display: grid;
+      gap: 8px;
+    }
+
+    .grid2 { grid-template-columns: 1fr 1fr; }
+    .grid3 { grid-template-columns: repeat(3, 1fr); }
+
+    label.choice input,
+    label.check input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    label.choice span,
+    label.check span {
+      display: flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      background: #fbfaf4;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    label.choice input:checked + span {
+      background: var(--deep);
+      border-color: var(--deep);
+      color: #fff;
+    }
+
+    label.check span::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      margin-right: 8px;
+      border: 1px solid #8d9992;
+      background: #fff;
+      flex: 0 0 auto;
+    }
+
+    label.check input:checked + span {
+      background: #eef6f1;
+      border-color: #a3b8ad;
+    }
+
+    label.check input:checked + span::before {
+      background: var(--green);
+      border-color: var(--green);
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+
+    .checks {
+      display: grid;
+      gap: 8px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .upload-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .file-chip {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      background: #fbfaf4;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1 1 auto;
+    }
+
+    button {
+      min-height: 40px;
+      border: 1px solid var(--deep);
+      background: var(--deep);
+      color: #fff;
+      font: inherit;
+      font-weight: 820;
+      cursor: pointer;
+    }
+
+    button.alt {
+      background: #fffef8;
+      color: var(--ink);
+      border-color: var(--line);
+    }
+
+    .hint {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .merge-note {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      background: #f7f8f2;
+      color: #4d5954;
+      font-size: 12px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #f7f8f2;
+    }
+
+    .metric {
+      border-left: 4px solid var(--deep);
+      background: var(--paper);
+      padding: 10px 12px;
+    }
+
+    .metric b {
+      display: block;
+      font-size: 22px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .factor-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .factor {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr);
+      gap: 8px;
+      padding: 9px 10px;
+      border: 1px solid #e2e7e0;
+      background: var(--paper);
+    }
+
+    .factor-id {
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .factor-name {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .factor-value {
+      margin-top: 4px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 3px 8px;
+      background: #f1f3ee;
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 800;
+      color: #4c5954;
+    }
+
+    .factor-value.on {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .route-shell {
+      min-height: 0;
+      overflow: auto;
+      padding: 14px;
+    }
+
+    .route-stage {
+      margin-bottom: 14px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .route-stage-head {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: var(--wash);
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+      font-weight: 820;
+    }
+
+    .route-item {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 10px;
+      padding: 11px 12px;
+      border-bottom: 1px solid #e5e8e2;
+    }
+
+    .route-item:last-child { border-bottom: 0; }
+
+    .seq {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: #f6f7f2;
+      color: #51605a;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .proc-name {
+      font-size: 15px;
+      font-weight: 840;
+    }
+
+    .steps {
+      margin-top: 6px;
+      color: #4c5953;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .proc-meta {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+
+    .matched-steps {
+      margin-top: 8px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .matched-step {
+      padding: 8px 10px;
+      border: 1px solid #e3e8e1;
+      background: #fbfaf4;
+    }
+
+    .matched-step-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .matched-group {
+      margin-top: 5px;
+      color: #48544f;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    pre.output {
+      margin: 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      background: #f7f7f1;
+      overflow: auto;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .error {
+      padding: 12px;
+      border: 1px solid #d9b8b1;
+      background: #fff2ef;
+      color: #89392f;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1180px) {
+      .app { grid-template-columns: 1fr; }
+      .pane { max-height: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="pane">
+      <div class="head">
+        <div class="kicker">Unified Entry</div>
+        <h1>CAD 输入</h1>
+      </div>
+      <div class="body">
+        <div class="merge-note">这个页面已经合并原来的“工序路线因素选择演示”和“工序路线_简化输入到因素展开演示”，作为当前唯一测试入口。</div>
+        <div class="section">
+          <div class="section-title">CAD `input.json`</div>
+          <div class="upload-row">
+            <button id="uploadCadFile" type="button">上传 JSON</button>
+            <div id="cadFileName" class="file-chip">未选择文件</div>
+            <input id="cadFileInput" type="file" accept=".json,application/json" hidden>
+          </div>
+          <textarea id="cadInput"></textarea>
+          <div class="hint">上传或粘贴都可以。输入格式就是你当前 MPS/CAD 提供的特征列表：`group_path + features + feature_select + feat_rank`。</div>
+        </div>
+
+        <div class="actions">
+          <button id="loadSample" type="button">加载示例</button>
+          <button id="formatJson" type="button" class="alt">格式化</button>
+          <button id="generateRoute" type="button">生成路线</button>
+          <button id="exportRoute" type="button" class="alt">导出路线 JSON</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="pane">
+      <div class="head">
+        <div class="kicker">Step 2</div>
+        <h1>人工补充</h1>
+      </div>
+      <div class="body">
+        <div class="section">
+          <div class="section-title">主输入</div>
+          <div>
+            <div class="hint">材料牌号</div>
+            <select id="materialGrade">
+              <option value="">未指定</option>
+              <option value="9Cr18">9Cr18</option>
+              <option value="4Cr14Ni14W2Mo">4Cr14Ni14W2Mo</option>
+              <option value="6061">6061</option>
+            </select>
+          </div>
+          <div class="hint">零件类型不再作为主输入项。热处理默认由材料推导，只在高级覆盖中手工修正。</div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">表面处理</div>
+          <div class="checks">
+            <label class="check"><input type="checkbox" value="铬酸阳极化" data-surface><span>铬酸阳极化</span></label>
+            <label class="check"><input type="checkbox" value="硬质阳极化" data-surface><span>硬质阳极化</span></label>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">标识要求</div>
+          <div class="checks">
+            <label class="check"><input type="checkbox" value="标印" data-marking><span>标印 / 标刻</span></label>
+          </div>
+          <div class="hint">这里合并为一个输入项。当前规则里“标印”和“标刻”最终都映射到同一个因素。</div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">特殊补充</div>
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="flagShapedHole"><span>型孔 / 割扁</span></label>
+            <label class="check"><input type="checkbox" id="flagLateHole"><span>后段补充孔</span></label>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">高级覆盖</div>
+          <div class="hint">只在材料默认推导不符合图样时使用。</div>
+          <div style="margin-top: 8px;">
+            <div class="hint">热处理覆盖</div>
+            <select id="heatTreatmentOverride">
+              <option value="">按材料默认推导</option>
+              <option value="去应力">去应力</option>
+              <option value="淬火">淬火</option>
+              <option value="真空淬火">真空淬火</option>
+              <option value="渗氮层">渗氮层</option>
+            </select>
+          </div>
+          <div style="margin-top: 12px;">
+            <div class="hint">检测覆盖</div>
+            <div class="checks" style="margin-top: 8px;">
+              <label class="check"><input type="checkbox" value="裂纹检测" data-inspection><span>裂纹检测</span></label>
+              <label class="check"><input type="checkbox" value="烧伤检查" data-inspection><span>烧伤检查</span></label>
+            </div>
+            <div class="hint">默认建议由热处理、磨削等条件自动带出；只有图样明确要求或默认推导不对时再手工覆盖。</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">因素覆盖</div>
+          <textarea id="factorOverrides" style="min-height: 120px;"></textarea>
+          <div class="hint">可选。格式是 JSON 对象，例如：`{"needs_vacuum_quenching": true}`。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pane">
+      <div>
+        <div class="head">
+          <div class="kicker">Step 3</div>
+          <h1>输出结果</h1>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><b id="featureCount">0</b><span>CAD 特征数</span></div>
+          <div class="metric"><b id="factorCount">0</b><span>命中因素数</span></div>
+          <div class="metric"><b id="processCount">0</b><span>输出工序数</span></div>
+        </div>
+      </div>
+      <div class="route-shell">
+        <div class="section">
+          <div class="section-title">分组匹配工艺路线</div>
+          <div id="routeView"></div>
+        </div>
+        <div class="section">
+          <div class="section-title">因素展开</div>
+          <div id="factorView" class="factor-list"></div>
+        </div>
+        <div class="section">
+          <div class="section-title">分组匹配路线 JSON</div>
+          <pre id="jsonView" class="output">{}</pre>
+        </div>
+        <div id="errorView"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const cadInputEl = document.querySelector("#cadInput");
+    const factorOverridesEl = document.querySelector("#factorOverrides");
+    const routeViewEl = document.querySelector("#routeView");
+    const factorViewEl = document.querySelector("#factorView");
+    const jsonViewEl = document.querySelector("#jsonView");
+    const errorViewEl = document.querySelector("#errorView");
+    const cadFileInputEl = document.querySelector("#cadFileInput");
+    const cadFileNameEl = document.querySelector("#cadFileName");
+    let latestRouteJson = "{}";
+
+    function collectChecked(selector) {
+      return Array.from(document.querySelectorAll(selector))
+        .filter(el => el.checked)
+        .map(el => el.value);
+    }
+
+    function collectManual() {
+      let factorOverrides = {};
+      const rawOverrides = factorOverridesEl.value.trim();
+      if (rawOverrides) {
+        factorOverrides = JSON.parse(rawOverrides);
+      }
+
+      return {
+        material_grade: document.querySelector("#materialGrade").value || null,
+        heat_treatment: document.querySelector("#heatTreatmentOverride").value || null,
+        surface_treatments: collectChecked("[data-surface]"),
+        inspection_items: collectChecked("[data-inspection]"),
+        marking_methods: collectChecked("[data-marking]"),
+        special_process_flags: {
+          shaped_hole_or_cut_flat: document.querySelector("#flagShapedHole").checked,
+          post_stage_added_hole: document.querySelector("#flagLateHole").checked
+        },
+        factor_overrides: factorOverrides
+      };
+    }
+
+    function renderMatchedSteps(steps) {
+      if (!Array.isArray(steps) || !steps.length) {
+        return `<div class="steps">当前工序没有命中分组工步。</div>`;
+      }
+
+      return `<div class="matched-steps">${steps.map(step => {
+        const groups = Object.entries(step["候选分组"] || {});
+        const groupHtml = groups.length
+          ? groups.map(([group, features]) => `<div class="matched-group">${group}：${(features || []).join("、") || "无特征"}</div>`).join("")
+          : `<div class="matched-group">未命中候选分组</div>`;
+        return `
+          <div class="matched-step">
+            <div class="matched-step-name">${step["工步名"]}</div>
+            ${groupHtml}
+          </div>
+        `;
+      }).join("")}</div>`;
+    }
+
+    function renderRoute(route) {
+      if (!route.length) {
+        routeViewEl.innerHTML = `<div class="error">当前条件下没有生成任何工序。</div>`;
+        return;
+      }
+
+      const stages = new Map();
+      route.forEach(item => {
+        const seq = item["序号"];
+        let stage = "工艺路线";
+        if (seq < 50) stage = "前段主线";
+        else if (seq < 110) stage = "中段精加工";
+        else stage = "后段处理";
+        if (!stages.has(stage)) stages.set(stage, []);
+        stages.get(stage).push(item);
+      });
+
+      routeViewEl.innerHTML = Array.from(stages.entries()).map(([stage, items]) => `
+        <section class="route-stage">
+          <div class="route-stage-head"><span>${stage}</span><span>${items.length} 道</span></div>
+          ${items.map(item => `
+            <article class="route-item">
+              <div class="seq">${item["序号"]}</div>
+              <div>
+                <div class="proc-name">${item["工序名"]}</div>
+                <div class="proc-meta">工序类型：${item["工序类型"] || "未标注"}　加工精度：${item["加工精度"] || "未标注"}</div>
+                ${renderMatchedSteps(item["工步"] || [])}
+              </div>
+            </article>
+          `).join("")}
+        </section>
+      `).join("");
+    }
+
+    function renderFactors(factors) {
+      const entries = Object.entries(factors);
+      factorViewEl.innerHTML = entries.map(([key, value]) => `
+        <div class="factor">
+          <div class="factor-id">${key}</div>
+          <div>
+            <div class="factor-name">${key}</div>
+            <div class="factor-value ${value === true || value ? "on" : ""}">${Array.isArray(value) ? JSON.stringify(value) : String(value)}</div>
+          </div>
+        </div>
+      `).join("");
+
+      document.querySelector("#factorCount").textContent = entries.filter(([, value]) => value === true).length;
+    }
+
+    async function generateRoute() {
+      errorViewEl.innerHTML = "";
+      try {
+        const cadInput = JSON.parse(cadInputEl.value);
+        const payload = {
+          cad_input: cadInput,
+          manual: collectManual()
+        };
+
+        const response = await fetch("/api/generate-route", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "生成失败");
+
+        const matchedRoute = (data.matched_route && data.matched_route["工艺路线"]) || [];
+        const route = Array.isArray(data.route) ? data.route : [];
+        renderRoute(matchedRoute);
+        renderFactors(data.factors);
+        latestRouteJson = JSON.stringify(data.route, null, 2);
+        jsonViewEl.textContent = latestRouteJson;
+
+        document.querySelector("#featureCount").textContent = Array.isArray(cadInput)
+          ? cadInput.reduce((sum, item) => sum + ((item.features || []).length), 0)
+          : 0;
+        document.querySelector("#processCount").textContent = matchedRoute.length;
+      } catch (error) {
+        errorViewEl.innerHTML = `<div class="error">${error.message}</div>`;
+      }
+    }
+
+    function formatJson() {
+      try {
+        cadInputEl.value = JSON.stringify(JSON.parse(cadInputEl.value), null, 2);
+      } catch (error) {
+        errorViewEl.innerHTML = `<div class="error">CAD JSON 格式不正确：${error.message}</div>`;
+      }
+    }
+
+    function exportRoute() {
+      const blob = new Blob([latestRouteJson], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "output_route.json";
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function loadCadFile(file) {
+      if (!file) return;
+      const text = await file.text();
+      try {
+        const parsed = JSON.parse(text);
+        cadInputEl.value = JSON.stringify(parsed, null, 2);
+        cadFileNameEl.textContent = file.name;
+        errorViewEl.innerHTML = "";
+      } catch (error) {
+        errorViewEl.innerHTML = `<div class="error">上传文件不是有效 JSON：${error.message}</div>`;
+      }
+    }
+
+    async function loadSample() {
+      const response = await fetch("/api/sample-input");
+      const sample = await response.json();
+      cadInputEl.value = JSON.stringify(sample.cad_input, null, 2);
+      cadFileNameEl.textContent = "示例数据";
+      factorOverridesEl.value = JSON.stringify(sample.manual.factor_overrides || {}, null, 2);
+      document.querySelector("#materialGrade").value = sample.manual.material_grade || "";
+      document.querySelector("#heatTreatmentOverride").value = sample.manual.heat_treatment || "";
+
+      document.querySelectorAll("[data-surface]").forEach(el => el.checked = sample.manual.surface_treatments.includes(el.value));
+      document.querySelectorAll("[data-inspection]").forEach(el => el.checked = sample.manual.inspection_items.includes(el.value));
+      document.querySelectorAll("[data-marking]").forEach(el => el.checked = sample.manual.marking_methods.includes(el.value));
+      document.querySelector("#flagShapedHole").checked = !!sample.manual.special_process_flags.shaped_hole_or_cut_flat;
+      document.querySelector("#flagLateHole").checked = !!sample.manual.special_process_flags.post_stage_added_hole;
+
+      await generateRoute();
+    }
+
+    document.querySelector("#loadSample").addEventListener("click", loadSample);
+    document.querySelector("#formatJson").addEventListener("click", formatJson);
+    document.querySelector("#generateRoute").addEventListener("click", generateRoute);
+    document.querySelector("#exportRoute").addEventListener("click", exportRoute);
+    document.querySelector("#uploadCadFile").addEventListener("click", () => cadFileInputEl.click());
+    cadFileInputEl.addEventListener("change", async event => {
+      const [file] = event.target.files || [];
+      await loadCadFile(file);
+    });
+
+    loadSample();
+  </script>
+</body>
+</html>

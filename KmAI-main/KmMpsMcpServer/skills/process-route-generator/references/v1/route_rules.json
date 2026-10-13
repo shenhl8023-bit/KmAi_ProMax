@@ -1,0 +1,561 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "process-route-rules-v1",
+  "dataset_name": "工艺路线规则",
+  "description": "根据完整因素表从全集工艺路线中命中具体工序。当前内容由样例中的 rules.json 转换而来。",
+  "rules": [
+    {
+      "rule_id": "R001",
+      "enabled": true,
+      "priority": 100,
+      "when": {
+        "all": [
+          {
+            "factor_key": "material_grade",
+            "op": "=",
+            "value": "9Cr18"
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["quench_and_temper"]
+      },
+      "confidence": "high",
+      "note": "9Cr18 当前样例默认命中调质。"
+    },
+    {
+      "rule_id": "R002",
+      "enabled": true,
+      "priority": 100,
+      "when": {
+        "all": [
+          {
+            "factor_key": "material_grade",
+            "op": "=",
+            "value": "4Cr14Ni14W2Mo"
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["normalizing"]
+      },
+      "confidence": "medium",
+      "note": "4Cr14Ni14W2Mo 当前样例命中正常化。"
+    },
+    {
+      "rule_id": "R003",
+      "enabled": true,
+      "priority": 120,
+      "when": {
+        "all": [
+          {
+            "factor_key": "material_grade",
+            "op": "=",
+            "value": "4Cr14Ni14W2Mo"
+          },
+          {
+            "factor_key": "has_nitrided_layer",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["copper_plating_protection", "nitriding", "copper_removal"]
+      },
+      "confidence": "high",
+      "note": "4Cr14Ni14W2Mo 且存在渗氮层时命中渗氮保护链。"
+    },
+    {
+      "rule_id": "R004",
+      "enabled": true,
+      "priority": 110,
+      "when": {
+        "all": [
+          {
+            "factor_key": "material_grade",
+            "op": "=",
+            "value": "6061"
+          },
+          {
+            "factor_key": "needs_chromic_acid_anodizing",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["chromic_acid_anodizing"]
+      },
+      "confidence": "high",
+      "note": "6061 配合铬酸阳极化因素命中对应工序。"
+    },
+    {
+      "rule_id": "R005",
+      "enabled": true,
+      "priority": 110,
+      "when": {
+        "all": [
+          {
+            "factor_key": "material_grade",
+            "op": "=",
+            "value": "6061"
+          },
+          {
+            "factor_key": "needs_hard_anodizing",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["hard_anodizing"]
+      },
+      "confidence": "high",
+      "note": "6061 配合硬质阳极化因素命中对应工序。"
+    },
+    {
+      "rule_id": "R006",
+      "enabled": true,
+      "priority": 90,
+      "when": {
+        "all": [
+          {
+            "factor_key": "has_flat_or_plane",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["milling_flat"]
+      },
+      "confidence": "high",
+      "note": "平面类因素触发铣扁。"
+    },
+    {
+      "rule_id": "R007",
+      "enabled": true,
+      "priority": 90,
+      "when": {
+        "all": [
+          {
+            "factor_key": "has_slot_feature",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["milling_slot"]
+      },
+      "confidence": "high",
+      "note": "槽类因素触发铣槽。"
+    },
+    {
+      "rule_id": "R008",
+      "enabled": true,
+      "priority": 85,
+      "when": {
+        "all": [
+          {
+            "factor_key": "has_center_through_hole",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["drilling_center_through_hole"]
+      },
+      "confidence": "candidate",
+      "note": "仅中间通孔触发中间通孔钻孔工序。"
+    },
+    {
+      "rule_id": "R009",
+      "enabled": true,
+      "priority": 90,
+      "when": {
+        "all": [
+          {
+            "factor_key": "has_reamed_or_precision_hole",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["drill_and_ream_hole"]
+      },
+      "confidence": "candidate",
+      "note": "精孔因素触发钻铰孔。"
+    },
+    {
+      "rule_id": "R010",
+      "enabled": true,
+      "priority": 95,
+      "when": {
+        "all": [
+          {
+            "factor_key": "has_shaped_hole_or_cut_flat",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["shaped_hole_and_cut_flat"]
+      },
+      "confidence": "high",
+      "note": "型孔/割扁触发对应工序。"
+    },
+    {
+      "rule_id": "R011",
+      "enabled": true,
+      "priority": 95,
+      "when": {
+        "all": [
+          {
+            "factor_key": "has_post_stage_added_hole",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["supplementary_hole_drilling"]
+      },
+      "confidence": "high",
+      "note": "后段补充孔触发打孔。"
+    },
+    {
+      "rule_id": "R012",
+      "enabled": true,
+      "priority": 100,
+      "when": {
+        "all": [
+          {
+            "factor_key": "has_shaped_hole_or_cut_flat",
+            "op": "=",
+            "value": true
+          },
+          {
+            "factor_key": "has_post_stage_added_hole",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["shaped_hole_machining"]
+      },
+      "confidence": "medium",
+      "note": "型孔且后段补孔时追加打型孔。"
+    },
+    {
+      "rule_id": "R013",
+      "enabled": true,
+      "priority": 85,
+      "when": {
+        "all": [
+          {
+            "factor_key": "has_hole_finish_machining",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["hole_grinding"]
+      },
+      "confidence": "candidate",
+      "note": "孔精加工因素命中磨孔。"
+    },
+    {
+      "rule_id": "R014",
+      "enabled": true,
+      "priority": 90,
+      "when": {
+        "all": [
+          {
+            "factor_key": "requires_honing",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["honing"]
+      },
+      "confidence": "high",
+      "note": "珩孔要求命中珩孔。"
+    },
+    {
+      "rule_id": "R015",
+      "enabled": true,
+      "priority": 85,
+      "when": {
+        "all": [
+          {
+            "factor_key": "requires_hole_lapping",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["hole_lapping"]
+      },
+      "confidence": "candidate",
+      "note": "研孔要求命中研孔。"
+    },
+    {
+      "rule_id": "R016",
+      "enabled": true,
+      "priority": 85,
+      "when": {
+        "all": [
+          {
+            "factor_key": "requires_outer_diameter_grinding",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["outer_diameter_grinding"]
+      },
+      "confidence": "candidate",
+      "note": "外圆磨削要求命中磨外圆。"
+    },
+    {
+      "rule_id": "R017",
+      "enabled": true,
+      "priority": 90,
+      "when": {
+        "all": [
+          {
+            "factor_key": "requires_end_face_grinding",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["end_face_grinding"]
+      },
+      "confidence": "high",
+      "note": "端面磨削要求命中磨端面。"
+    },
+    {
+      "rule_id": "R018",
+      "enabled": true,
+      "priority": 90,
+      "when": {
+        "all": [
+          {
+            "factor_key": "requires_slot_grinding",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["slot_grinding"]
+      },
+      "confidence": "high",
+      "note": "槽磨削要求命中磨槽。"
+    },
+    {
+      "rule_id": "R019",
+      "enabled": true,
+      "priority": 90,
+      "when": {
+        "all": [
+          {
+            "factor_key": "requires_outer_diameter_lapping",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["outer_diameter_lapping"]
+      },
+      "confidence": "high",
+      "note": "研外圆要求命中研外圆。"
+    },
+    {
+      "rule_id": "R020",
+      "enabled": true,
+      "priority": 90,
+      "when": {
+        "all": [
+          {
+            "factor_key": "uses_center_hole_location",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["center_hole_lapping"]
+      },
+      "confidence": "high",
+      "note": "顶尖孔定位要求命中研顶尖孔。"
+    },
+    {
+      "rule_id": "R021",
+      "enabled": true,
+      "priority": 95,
+      "when": {
+        "all": [
+          {
+            "factor_key": "needs_stress_relief",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["stress_relief"]
+      },
+      "confidence": "high",
+      "note": "去应力因素命中去应力工序。"
+    },
+    {
+      "rule_id": "R022",
+      "enabled": true,
+      "priority": 95,
+      "when": {
+        "all": [
+          {
+            "factor_key": "needs_quenching",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["quenching"]
+      },
+      "confidence": "high",
+      "note": "淬火因素命中淬火。"
+    },
+    {
+      "rule_id": "R023",
+      "enabled": true,
+      "priority": 110,
+      "when": {
+        "all": [
+          {
+            "factor_key": "needs_vacuum_quenching",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["vacuum_quenching"],
+        "exclude_process_keys": ["quenching"]
+      },
+      "confidence": "high",
+      "note": "真空淬火优先于普通淬火。"
+    },
+    {
+      "rule_id": "R024",
+      "enabled": true,
+      "priority": 80,
+      "when": {
+        "all": [
+          {
+            "factor_key": "needs_marking",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["marking"]
+      },
+      "confidence": "high",
+      "note": "标识因素命中标印。"
+    },
+    {
+      "rule_id": "R025",
+      "enabled": true,
+      "priority": 85,
+      "when": {
+        "all": [
+          {
+            "factor_key": "needs_crack_inspection",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["nondestructive_inspection"]
+      },
+      "confidence": "high",
+      "note": "裂纹检测因素命中无损检查。"
+    },
+    {
+      "rule_id": "R026",
+      "enabled": true,
+      "priority": 85,
+      "when": {
+        "all": [
+          {
+            "factor_key": "needs_burn_inspection",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["burn_inspection"]
+      },
+      "confidence": "high",
+      "note": "烧伤检查因素命中烧伤检查。"
+    },
+    {
+      "rule_id": "R027",
+      "enabled": true,
+      "priority": 60,
+      "when": {
+        "all": [
+          {
+            "factor_key": "needs_quenching",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["nondestructive_inspection", "burn_inspection"]
+      },
+      "confidence": "recommend",
+      "note": "淬火后推荐进行无损和烧伤检查。"
+    },
+    {
+      "rule_id": "R028",
+      "enabled": true,
+      "priority": 65,
+      "when": {
+        "all": [
+          {
+            "factor_key": "needs_vacuum_quenching",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "then": {
+        "include_process_keys": ["nondestructive_inspection", "burn_inspection"]
+      },
+      "confidence": "recommend",
+      "note": "真空淬火后推荐进行无损和烧伤检查。"
+    }
+  ]
+}
