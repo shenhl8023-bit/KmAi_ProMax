@@ -1,0 +1,24 @@
+{
+  "name": "kmrag-search",
+  "display_name": "KMRAG Search",
+  "description": "企业知识库混合检索。",
+  "skill_dir": "kmrag-search",
+  "actions": [
+    {
+      "name": "search",
+      "tool_name": "kmrag_search",
+      "command": "python-auto",
+      "args": ["scripts/kmai_kmrag_search.py"],
+      "python_min_version": "3.10",
+      "timeout": 35,
+      "description": "检索企业知识库并返回有限、可追溯的记录。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {"type": "string", "description": "需要在企业知识库中检索的问题。"}
+        },
+        "required": ["query"]
+      }
+    }
+  ]
+}

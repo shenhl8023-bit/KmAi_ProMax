@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "Kmsoft Group Template Selection"
+  short_description: "Select a group template for the first MPS workflow step."
+  default_prompt: "Use $kmsoft-group-template to recommend clickable group-template candidates from my Chinese part description, then confirm my selected template and return the draft/XML handoff payload."

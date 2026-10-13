@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>卡片编辑功能预览</title>
+  <style>
+    :root {
+      --color-bg: #f5f7fb;
+      --color-bg-soft: #f8fafc;
+      --color-surface: #ffffff;
+      --color-border: #e2e8f0;
+      --color-border-strong: #cbd5e1;
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+      --color-text-soft: #475569;
+      --color-primary: #3b82f6;
+      --color-primary-strong: #2563eb;
+      --color-primary-soft: #dbeafe;
+      --color-primary-glow: rgba(59, 130, 246, 0.25);
+      --color-primary-text: #1d4ed8;
+      --gradient-primary: linear-gradient(135deg, #3b82f6, #6366f1);
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 10px 24px rgba(15, 23, 42, 0.08);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 20px; font-family: Microsoft YaHei, "Segoe UI", Arial, sans-serif; background: var(--color-bg); color: var(--color-text); }
+    h1 { font-size: 18px; margin: 0 0 16px; color: var(--color-text); }
+    .preview-wrap { display: grid; gap: 16px; }
+  </style>
+  <!-- 引入主项目同一份 CSS,确保样式 1:1 复刻 -->
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/cards.css">
+  <link rel="stylesheet" href="/assets/css/modals.css">
+</head>
+<body>
+  <h1>📋 模板卡片 — 编辑功能预览 (点右上角 ✏️ 试一下)</h1>
+  <div id="preview" class="preview-wrap"></div>
+
+  <script type="module">
+    // 加载当前项目的工具渲染模块,直接复刻 option_card 渲染逻辑
+    import { buildOptionCardHtml, attachOptionCardEvents } from './preview-helper.js';
+
+    const sample = [
+      {
+        id: 'tpl-001',
+        templateId: 'tpl-001',
+        title: '新村套模板',
+        subtitle: '新村套模板.xml1',
+        confidence: 0.99,
+        reasons: ['零件类型匹配:衬套/套类/回转体', '结构/特征匹配:A侧', '结构/特征匹配:B侧'],
+        tags: ['A侧', '端面', '外圆', '外圆车', '外圆磨', '外环槽'],
+        meta: { groupCount: 33, depth: 4, relativePath: 'sample-templates/新村套模板.xml1' },
+        filename: '新村套模板.xml1',
+        displayName: '新村套模板'
+      },
+      {
+        id: 'tpl-002',
+        templateId: 'tpl-002',
+        title: '新村套工序模板001',
+        subtitle: '新村套工序模板001.xml1',
+        confidence: 0.99,
+        reasons: ['零件类型匹配:衬套/套类/回转体', '结构/特征匹配:A侧', '结构/特征匹配:B侧'],
+        tags: ['中间通孔', 'A侧', '端面', '外圆', '外环槽', '孔'],
+        meta: { groupCount: 18, depth: 3, relativePath: 'sample-templates/新村套工序模板001.xml1' },
+        filename: '新村套工序模板001.xml1',
+        displayName: '新村套工序模板001'
+      },
+      {
+        id: 'tpl-003',
+        templateId: 'tpl-003',
+        title: '套筒类',
+        subtitle: '套筒类.xml1',
+        confidence: 0.664,
+        reasons: ['结构/特征匹配:A侧', '结构/特征匹配:B侧', '结构/特征匹配:端面'],
+        tags: ['中间通孔', 'A侧', '端面', '外圆', '外环槽', '孔'],
+        meta: { groupCount: 18, depth: 3, relativePath: 'sample-templates/套筒类.xml1' },
+        filename: '套筒类.xml1',
+        displayName: '套筒类'
+      }
+    ];
+
+    const grid = document.createElement('div');
+    grid.className = 'cards-grid';
+
+    for (const opt of sample) {
+      const wrap = document.createElement('div');
+      wrap.className = 'cards-msg';
+      wrap.innerHTML = '<div class="cards-header"><span class="cards-icon">📋</span><span>共找到 <b>3</b> 个候选:分组模板 请选择:</span></div>';
+      const cardHtml = buildOptionCardHtml(opt, { groupTemplateOnly: true });
+      const cardWrap = document.createElement('div');
+      cardWrap.innerHTML = cardHtml;
+      const card = cardWrap.firstElementChild;
+      attachOptionCardEvents(card, opt, { groupTemplateOnly: true });
+      const g = document.createElement('div');
+      g.className = 'cards-grid';
+      g.appendChild(card);
+      wrap.appendChild(g);
+      grid.appendChild(wrap);
+    }
+
+    document.getElementById('preview').appendChild(grid);
+  </script>
+</body>
+</html>

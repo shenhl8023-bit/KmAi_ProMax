@@ -1,0 +1,31 @@
+# Python 缓存
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.DS_Store
+
+# 运行日志
+*.log
+
+# 本机向量索引和模型缓存
+cache/
+
+# 本地敏感配置（示例见 config.example.ini）
+config.ini
+
+# Windows/CEF/Qt 运行时二进制（由应用构建/发布获取，不纳入版本库）
+*.dll
+*.exe
+*.pdb
+*.pak
+*.bin
+*.dat
+CefView/locales/
+platforms/
+
+# 本机调试截图和探针结果
+/3dmps_mcp_demo_first_frame.png
+/tree_capture*.png
+/mcp_*.json
+/MCP_Tool_Availability_Check.md

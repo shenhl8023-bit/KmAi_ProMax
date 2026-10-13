@@ -1,0 +1,44 @@
+{
+  "_comment": "Technical requirements generation skill for KMAI. Appends technical requirements onto an existing process route JSON without changing route order or process naming, and auto-selects an available Python interpreter.",
+  "name": "technical-requirements-generator",
+  "display_name": "Technical Requirements Generator",
+  "description": "根据已有工艺路线、CAD 输入和人工上下文补充技术要求，仅追加或补充 technical_requirements，不改工序顺序、工序名称和工序编号。",
+  "skill_dir": "technical-requirements-generator",
+  "actions": [
+    {
+      "name": "generate",
+      "tool_name": "technical_requirements_generate",
+      "command": "python-auto",
+      "args": [
+        "scripts/kmai_generate_technical_requirements.py"
+      ],
+      "python_min_version": "3.10",
+      "timeout": 120,
+      "description": "根据已有工艺路线、CAD 输入和人工上下文补充技术要求，返回更新后的 route、matched_route 和 part_context。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "route_input": {
+            "type": "object",
+            "description": "已有工艺路线 JSON，可传 matched_route 或包含 工艺路线/route 的对象。"
+          },
+          "cad_input": {
+            "type": "array",
+            "description": "3DMPS 推送的 CAD 分组特征数组。"
+          },
+          "manual": {
+            "type": "object",
+            "description": "人工补充参数，如 material_grade、part_type、heat_treatment、surface_treatments、inspection_items、marking_methods、special_process_flags。"
+          },
+          "upstream_part_context": {
+            "type": "object",
+            "description": "可选的标准化 part_context；若提供，优先级高于 cad_input/manual 推导结果。"
+          }
+        },
+        "required": [
+          "route_input"
+        ]
+      }
+    }
+  ]
+}

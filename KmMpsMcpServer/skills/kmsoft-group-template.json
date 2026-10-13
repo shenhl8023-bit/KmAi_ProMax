@@ -1,0 +1,62 @@
+﻿{
+    "_comment":  "kmsoft-group-template Skill 注册。路径指向 F:\\中转文件\\kmsoft-group-template 下的 Node.js 脚本。运行时通过 stdin 传 JSON。",
+    "name":  "kmsoft-group-template",
+    "display_name":  "Kmsoft Group Template Selection",
+    "description":  "选择 Kmsoft/MPS 分组模板。从用户的中文零件描述中推荐可点击的分组模板候选，确认后返回选中的模板草稿/XML/结构摘要，交给下一步 MPS 工作流。",
+    "skill_dir":  "kmsoft-group-template",
+    "actions":  [
+                    {
+                        "name":  "propose",
+                        "tool_name":  "kmsoft_group_template_propose",
+                        "command":  "node",
+                        "args":  [
+                                     "scripts/select_group_template.js",
+                                     "propose",
+                                     "--stdin"
+                                 ],
+                        "timeout":  30,
+                        "description":  "从中文零件描述推荐分组模板候选。返回候选卡片（含 templateId / confidence / reasons）。",
+                        "parameters":  {
+                                           "type":  "object",
+                                           "properties":  {
+                                                              "text":  {
+                                                                           "type":  "string",
+                                                                           "description":  "零件描述（中文自然语言）。例如：\u0027衬套类回转体零件，A侧和B侧，包含端面、外圆、孔和外环槽\u0027。"
+                                                                       },
+                                                              "limit":  {
+                                                                            "type":  "integer",
+                                                                            "description":  "返回候选数（1-10，默认 3）。",
+                                                                            "default":  3
+                                                                        }
+                                                          },
+                                           "required":  [
+                                                            "text"
+                                                        ]
+                                       }
+                    },
+                    {
+                        "name":  "confirm",
+                        "tool_name":  "kmsoft_group_template_confirm",
+                        "command":  "node",
+                        "args":  [
+                                     "scripts/select_group_template.js",
+                                     "confirm",
+                                     "--stdin"
+                                 ],
+                        "timeout":  30,
+                        "description":  "用户选中某个候选后调用。返回选中模板的草稿、XML、结构摘要与 handoff payload。",
+                        "parameters":  {
+                                           "type":  "object",
+                                           "properties":  {
+                                                              "templateId":  {
+                                                                                 "type":  "string",
+                                                                                 "description":  "用户在候选卡片中选中的 templateId。"
+                                                                             }
+                                                          },
+                                           "required":  [
+                                                            "templateId"
+                                                        ]
+                                       }
+                    }
+                ]
+}

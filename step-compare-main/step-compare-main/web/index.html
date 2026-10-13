@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>STEP 比对</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>STEP 比对</h1>
+    <p class="sub">一次打开一到两个模型，分屏或叠加查看</p>
+  </header>
+
+  <section class="slots">
+    <div class="slot" id="slot-a">
+      <input id="input-a" type="file" accept=".stp,.step" data-slot="a" aria-label="打开模型 A" />
+      <label class="dropzone" for="input-a">
+        <span class="slot-tag">A</span>
+        <span class="slot-name" data-name="a">点击或拖入 STEP</span>
+        <span class="slot-meta" data-meta="a"></span>
+      </label>
+      <button type="button" class="clear" data-clear="a" hidden>清除</button>
+    </div>
+    <div class="slot" id="slot-b">
+      <input id="input-b" type="file" accept=".stp,.step" data-slot="b" aria-label="打开模型 B" />
+      <label class="dropzone" for="input-b">
+        <span class="slot-tag b">B</span>
+        <span class="slot-name" data-name="b">点击或拖入 STEP（可选）</span>
+        <span class="slot-meta" data-meta="b"></span>
+      </label>
+      <button type="button" class="clear" data-clear="b" hidden>清除</button>
+    </div>
+  </section>
+
+  <section class="toolbar">
+    <div class="modes">
+      <button type="button" data-mode="split" class="active" aria-pressed="true">分屏</button>
+      <button type="button" data-mode="overlay" aria-pressed="false">叠加</button>
+    </div>
+    <button type="button" id="fit">适应窗口</button>
+    <span id="status"></span>
+  </section>
+
+  <div id="stage">
+    <canvas id="c"></canvas>
+    <div class="labels">
+      <span id="label-a">A</span>
+      <span id="label-b">B</span>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "/static/vendor/three/build/three.module.js",
+      "three/addons/": "/static/vendor/three/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>

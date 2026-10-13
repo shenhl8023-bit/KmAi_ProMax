@@ -1,0 +1,592 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "group-match-rules-v1",
+  "dataset_name": "工步分组匹配规则",
+  "description": "基于当前 CAD input.json 样本和分组匹配说明文档整理的稳定首版规则。结构通用，内容可替换。",
+  "context_rules": {
+    "region_extract_policy": {
+      "source": "group_path_level_1",
+      "path_separator": "/",
+      "ignore_empty_levels": true
+    },
+    "region_rules": [
+      {
+        "context_key": "side_a",
+        "process_tokens": [
+          "A侧"
+        ],
+        "group_regions": [
+          "A侧"
+        ]
+      },
+      {
+        "context_key": "side_b",
+        "process_tokens": [
+          "B侧"
+        ],
+        "group_regions": [
+          "B侧"
+        ]
+      },
+      {
+        "context_key": "peripheral",
+        "process_tokens": [
+          "周边"
+        ],
+        "group_regions": [
+          "周边"
+        ]
+      }
+    ],
+    "region_match_policy": {
+      "prefer_region_candidates_first": true,
+      "fallback_to_global_if_region_empty": true
+    },
+    "bias_rules": [
+      {
+        "step_names": [
+          "铣槽",
+          "挖槽"
+        ],
+        "candidate_region_keys": [
+          "peripheral"
+        ],
+        "bonus": 0.12
+      },
+      {
+        "step_names": [
+          "车槽",
+          "切槽",
+          "磨槽"
+        ],
+        "candidate_path_contains": [
+          "外环槽",
+          "内环槽",
+          "端面环槽"
+        ],
+        "bonus": 0.12
+      },
+      {
+        "step_names": [
+          "平端面",
+          "车端面",
+          "磨端面"
+        ],
+        "candidate_path_contains": [
+          "端面",
+          "平面"
+        ],
+        "bonus": 0.08
+      },
+      {
+        "step_names": [
+          "钻孔",
+          "镗孔",
+          "钻锪孔",
+          "磨孔",
+          "研孔",
+          "珩孔"
+        ],
+        "candidate_path_contains": [
+          "/孔",
+          "通孔"
+        ],
+        "bonus": 0.06
+      }
+    ]
+  },
+  "group_tag_rules": [
+    {
+      "path_pattern": "中间通孔",
+      "match_mode": "contains",
+      "tags": [
+        "孔",
+        "通孔"
+      ]
+    },
+    {
+      "path_pattern": "端面",
+      "match_mode": "contains",
+      "tags": [
+        "端面",
+        "平面"
+      ]
+    },
+    {
+      "path_pattern": "外圆",
+      "match_mode": "contains",
+      "tags": [
+        "外圆"
+      ]
+    },
+    {
+      "path_pattern": "孔",
+      "match_mode": "contains",
+      "tags": [
+        "孔"
+      ]
+    },
+    {
+      "path_pattern": "平面和凹槽",
+      "match_mode": "contains",
+      "tags": [
+        "平面",
+        "槽"
+      ]
+    },
+    {
+      "path_pattern": "外环槽",
+      "match_mode": "contains",
+      "tags": [
+        "槽",
+        "环槽"
+      ]
+    },
+    {
+      "path_pattern": "倒角倒圆",
+      "match_mode": "contains",
+      "tags": [
+        "倒角倒圆"
+      ]
+    }
+  ],
+  "precision_rules": {
+    "primary_source": "cad_input.features[].feat_rank",
+    "feat_rank_semantics": "smaller_is_finer",
+    "special_ultra_precision_values": [
+      "0.001",
+      "1E-3"
+    ],
+    "rank_bands": [
+      {
+        "max_rank": 6,
+        "precision_label": "精加工"
+      },
+      {
+        "max_rank": 8,
+        "precision_label": "半精加工"
+      },
+      {
+        "max_rank": 10,
+        "precision_label": "一般加工"
+      },
+      {
+        "max_rank": 12,
+        "precision_label": "粗加工"
+      }
+    ],
+    "step_precision_policy": "min_matched_feature_rank",
+    "process_precision_policy": "min_step_rank",
+    "missing_rank_policy": "一般加工",
+    "display_merge_policy": {
+      "merge_general_into_rough": false
+    }
+  },
+  "scoring_rules": {
+    "tag_weight": 0.4,
+    "feature_weight": 0.6,
+    "feat_rank_bonus": [
+      {
+        "max_rank": 6,
+        "bonus": 0.03
+      },
+      {
+        "max_rank": 8,
+        "bonus": 0.02
+      },
+      {
+        "max_rank": 10,
+        "bonus": 0.01
+      },
+      {
+        "max_rank": 12,
+        "bonus": 0.0
+      }
+    ]
+  },
+  "step_rules": [
+    {
+      "step_name": "平端面",
+      "match_enabled": true,
+      "step_tags": [
+        "端面",
+        "平面"
+      ],
+      "candidate_features": [
+        "轴端面"
+      ]
+    },
+    {
+      "step_name": "车端面",
+      "match_enabled": true,
+      "step_tags": [
+        "端面",
+        "平面"
+      ],
+      "candidate_features": [
+        "轴端面"
+      ]
+    },
+    {
+      "step_name": "磨端面",
+      "match_enabled": true,
+      "step_tags": [
+        "端面",
+        "平面"
+      ],
+      "candidate_features": [
+        "轴端面"
+      ]
+    },
+    {
+      "step_name": "车外圆",
+      "match_enabled": true,
+      "step_tags": [
+        "外圆"
+      ],
+      "candidate_features": [
+        "外圆柱面"
+      ]
+    },
+    {
+      "step_name": "磨外圆",
+      "match_enabled": true,
+      "step_tags": [
+        "外圆"
+      ],
+      "candidate_features": [
+        "外圆柱面"
+      ]
+    },
+    {
+      "step_name": "研外圆",
+      "match_enabled": true,
+      "step_tags": [
+        "外圆"
+      ],
+      "candidate_features": [
+        "外圆柱面"
+      ]
+    },
+    {
+      "step_name": "车球面",
+      "match_enabled": true,
+      "step_tags": [
+        "外圆"
+      ],
+      "candidate_features": [
+        "外圆柱面"
+      ]
+    },
+    {
+      "step_name": "车锥面",
+      "match_enabled": true,
+      "step_tags": [
+        "外圆"
+      ],
+      "candidate_features": [
+        "外圆柱面"
+      ]
+    },
+    {
+      "step_name": "车槽",
+      "match_enabled": true,
+      "step_tags": [
+        "槽",
+        "环槽"
+      ],
+      "candidate_features": [
+        "U形外环槽"
+      ],
+      "candidate_path_contains": [
+        "槽"
+      ]
+    },
+    {
+      "step_name": "切槽",
+      "match_enabled": true,
+      "step_tags": [
+        "槽",
+        "环槽"
+      ],
+      "candidate_features": [
+        "U形外环槽"
+      ],
+      "candidate_path_contains": [
+        "槽"
+      ]
+    },
+    {
+      "step_name": "磨槽",
+      "match_enabled": true,
+      "step_tags": [
+        "槽",
+        "环槽"
+      ],
+      "candidate_features": [
+        "U形外环槽"
+      ],
+      "candidate_path_contains": [
+        "槽"
+      ]
+    },
+    {
+      "step_name": "挖槽",
+      "match_enabled": true,
+      "step_tags": [
+        "槽",
+        "平面"
+      ],
+      "candidate_features": [
+        "U形外环槽",
+        "单纯底凹槽",
+        "侧壁"
+      ],
+      "candidate_path_contains": [
+        "槽"
+      ]
+    },
+    {
+      "step_name": "铣槽",
+      "match_enabled": true,
+      "step_tags": [
+        "槽",
+        "平面"
+      ],
+      "candidate_features": [
+        "U形外环槽",
+        "单纯底凹槽",
+        "侧壁"
+      ],
+      "candidate_path_contains": [
+        "槽"
+      ]
+    },
+    {
+      "step_name": "铣扁",
+      "match_enabled": true,
+      "step_tags": [
+        "平面"
+      ],
+      "candidate_features": [
+        "侧壁"
+      ]
+    },
+    {
+      "step_name": "钻孔",
+      "process_tokens": [
+        "中间通孔"
+      ],
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ],
+      "candidate_path_contains": [
+        "中间通孔"
+      ]
+    },
+    {
+      "step_name": "钻孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "钻锪孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "钻锚孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "钻铰孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "钻预孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "镗孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "铰孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "磨孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "研孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "珩孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "打孔",
+      "match_enabled": true,
+      "step_tags": [
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "螺纹底孔加工",
+      "match_enabled": true,
+      "step_tags": [
+        "孔",
+        "螺纹"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "攻螺纹",
+      "match_enabled": true,
+      "step_tags": [
+        "螺纹",
+        "孔"
+      ],
+      "candidate_features": [
+        "孔"
+      ]
+    },
+    {
+      "step_name": "倒角",
+      "match_enabled": true,
+      "step_tags": [
+        "倒角倒圆"
+      ],
+      "candidate_features": [
+        "外倒角"
+      ]
+    },
+    {
+      "step_name": "锐边磨圆",
+      "match_enabled": true,
+      "step_tags": [
+        "倒角倒圆"
+      ],
+      "candidate_features": [
+        "回转面倒圆"
+      ]
+    },
+    {
+      "step_name": "刻线",
+      "match_enabled": false,
+      "skip_reason": "非稳定几何匹配工步"
+    },
+    {
+      "step_name": "标印",
+      "match_enabled": false,
+      "skip_reason": "非稳定几何匹配工步"
+    },
+    {
+      "step_name": "切断",
+      "match_enabled": false,
+      "skip_reason": "非稳定几何匹配工步"
+    },
+    {
+      "step_name": "割型孔",
+      "match_enabled": false,
+      "skip_reason": "非稳定几何匹配工步"
+    },
+    {
+      "step_name": "打型孔",
+      "match_enabled": false,
+      "skip_reason": "非稳定几何匹配工步"
+    },
+    {
+      "step_name": "车顶尖孔",
+      "match_enabled": false,
+      "skip_reason": "当前样本未出现中心孔特征"
+    },
+    {
+      "step_name": "研顶尖孔",
+      "match_enabled": false,
+      "skip_reason": "当前样本未出现中心孔特征"
+    },
+    {
+      "step_name": "车螺纹",
+      "match_enabled": false,
+      "skip_reason": "当前样本未出现外螺纹特征"
+    }
+  ],
+  "output_policy": {
+    "keep_only_positive_scores": true,
+    "restrict_to_context_prefix_first": true,
+    "keep_all_top_ties": true,
+    "show_matched_features_first": true,
+    "fallback_to_group_features_when_no_direct_feature_hit": true,
+    "skip_auxiliary_processes": true
+  }
+}

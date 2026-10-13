@@ -1,0 +1,876 @@
+{
+  "version": "v1-draft",
+  "notes": [
+    "这是首版结构化草稿，优先覆盖当前样例中最常见且最稳定的规则。",
+    "复杂动态文本、特种表面处理和少量样例中未完全稳定的工序，后续可继续补充。",
+    "条件字段采用通用路径表达，执行器可按路径读取 part_context 和 route_input。",
+    "新增 required_context 和 skip_if_unknown，用于支持 CAD-only / 可选人工补充 / 上游直供上下文 三种模式。"
+  ],
+  "rule_meta_schema": {
+    "required_context": {
+      "description": "列出该规则判断前必须知道的上下文字段。",
+      "examples": [
+        "material.grade",
+        "part.part_class",
+        "features.side_a.inner_groove.exists"
+      ]
+    },
+    "skip_if_unknown": {
+      "description": "当 required_context 中任一字段未知时的处理策略。",
+      "allowed_values": ["true", "false"],
+      "meaning": {
+        "true": "字段未知则直接跳过该规则",
+        "false": "字段未知也允许继续判断"
+      }
+    },
+    "completeness_tier": {
+      "description": "规则所需上下文完整度级别。",
+      "allowed_values": ["cad_only", "part_class_required", "material_required", "advanced_process_required"]
+    }
+  },
+  "rules": [
+    {
+      "rule_id": "cutting_material_standard_9cr18",
+      "process_names": ["下料"],
+      "required_context": ["material.grade"],
+      "skip_if_unknown": true,
+      "completeness_tier": "material_required",
+      "when": {
+        "material.grade_in": ["9Cr18"]
+      },
+      "append_template": "material_standard_gjb_2294_95"
+    },
+    {
+      "rule_id": "cutting_formula_common",
+      "process_names": ["下料"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "single_piece_cutting_formula"
+    },
+    {
+      "rule_id": "temper_9cr18",
+      "process_names": ["调质"],
+      "required_context": ["material.grade"],
+      "skip_if_unknown": true,
+      "completeness_tier": "material_required",
+      "when": {
+        "material.grade_in": ["9Cr18"]
+      },
+      "append_template": "temper_27_35_hrc"
+    },
+    {
+      "rule_id": "normalizing_4cr14_no_requirement",
+      "process_names": ["正常化"],
+      "required_context": ["material.grade"],
+      "skip_if_unknown": true,
+      "completeness_tier": "material_required",
+      "when": {
+        "material.grade_in": ["4Cr14Ni14W2Mo"]
+      },
+      "append_templates": []
+    },
+    {
+      "rule_id": "turn_side_a_bushing_sharp_except",
+      "process_names": ["车外形(粗/半精车A侧)", "车外形(精车A侧)"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "any_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "turn_side_a_bushing_sharp_plain",
+      "process_names": ["车外形(粗/半精车A侧)", "车外形(精车A侧)"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "none_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp"
+    },
+    {
+      "rule_id": "turn_side_a_common_edge_round",
+      "process_names": ["车外形(粗/半精车A侧)", "车外形(精车A侧)"],
+      "required_context": ["part.part_class"],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing", "valve"]
+      },
+      "append_template": "edge_round_r01_r03"
+    },
+    {
+      "rule_id": "turn_side_a_generic_edge_round",
+      "process_names": ["车外形(粗/半精车A侧)", "车外形(精车A侧)"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "edge_round_r01_r03"
+    },
+    {
+      "rule_id": "turn_side_b_bushing_sharp_except",
+      "process_names": ["车外形(粗/半精车B侧)", "车外形(精车B侧)"],
+      "required_context": [
+        "part.part_class",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "any_of": [
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "turn_side_b_bushing_sharp_plain",
+      "process_names": ["车外形(粗/半精车B侧)", "车外形(精车B侧)"],
+      "required_context": [
+        "part.part_class",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "none_of": [
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp"
+    },
+    {
+      "rule_id": "turn_side_b_common_edge_round",
+      "process_names": ["车外形(粗/半精车B侧)", "车外形(精车B侧)"],
+      "required_context": ["part.part_class"],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing", "valve"]
+      },
+      "append_template": "edge_round_r01_r03"
+    },
+    {
+      "rule_id": "turn_side_b_runout",
+      "process_names": ["车外形(粗/半精车B侧)", "车外形(精车B侧)"],
+      "required_context": ["part.part_class"],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing", "valve"]
+      },
+      "append_template": "boring_soft_jaw_runout_0015max"
+    },
+    {
+      "rule_id": "turn_side_b_generic_edge_round",
+      "process_names": ["车外形(粗/半精车B侧)", "车外形(精车B侧)"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "edge_round_r01_r03"
+    },
+    {
+      "rule_id": "marking_common",
+      "process_names": ["标印"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "mark_batch_number_laser"
+    },
+    {
+      "rule_id": "deburr_bushing_sharp_except",
+      "process_names": ["去毛刺"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "any_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "deburr_bushing_sharp_plain",
+      "process_names": ["去毛刺"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "none_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp"
+    },
+    {
+      "rule_id": "deburr_common_borescope",
+      "process_names": ["去毛刺"],
+      "required_context": ["part.part_class"],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"]
+      },
+      "append_template": "deburr_borescope_check_uniform_smooth"
+    },
+    {
+      "rule_id": "deburr_common_minor_burr_allowed",
+      "process_names": ["去毛刺"],
+      "required_context": ["part.part_class"],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"]
+      },
+      "append_template": "axis_radial_intersection_minor_burr_allowed"
+    },
+    {
+      "rule_id": "deburr_generic_magnifier_check",
+      "process_names": ["去毛刺"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "magnifier_no_burrs_imperative"
+    },
+    {
+      "rule_id": "clean_bushing_sharp_except",
+      "process_names": ["清洗"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "any_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "clean_bushing_sharp_plain",
+      "process_names": ["清洗"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "none_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp"
+    },
+    {
+      "rule_id": "clean_surface_dry",
+      "process_names": ["清洗"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "clean_surface_dry_no_contaminant"
+    },
+    {
+      "rule_id": "clean_surface_no_damage",
+      "process_names": ["清洗"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "clean_surface_no_damage_rust"
+    },
+    {
+      "rule_id": "inspect_bushing_sharp_except",
+      "process_names": ["检验(A/B侧加工后)", "检验(周边加工后)", "检验(精加工后)", "检验(终检)"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "any_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "inspect_bushing_sharp_plain",
+      "process_names": ["检验(A/B侧加工后)", "检验(周边加工后)", "检验(精加工后)", "检验(终检)"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "none_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp"
+    },
+    {
+      "rule_id": "inspect_common_no_damage",
+      "process_names": ["检验(A/B侧加工后)", "检验(周边加工后)", "检验(精加工后)", "检验(终检)"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "inspect_no_damage_rust"
+    },
+    {
+      "rule_id": "inspect_common_roughness",
+      "process_names": ["检验(A/B侧加工后)", "检验(周边加工后)", "检验(精加工后)", "检验(终检)"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "inspect_surface_roughness"
+    },
+    {
+      "rule_id": "inspect_common_magnifier",
+      "process_names": ["检验(A/B侧加工后)", "检验(周边加工后)", "检验(精加工后)", "检验(终检)"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "magnifier_no_burrs_surface"
+    },
+    {
+      "rule_id": "inspect_bushing_axis_hole_clean",
+      "process_names": ["检验(A/B侧加工后)", "检验(周边加工后)", "检验(精加工后)", "检验(终检)"],
+      "required_context": ["part.part_class"],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"]
+      },
+      "append_template": "inspect_axis_hole_no_foreign_matter"
+    },
+    {
+      "rule_id": "inspect_marking_if_previous_exists",
+      "process_names": ["检验(A/B侧加工后)", "检验(周边加工后)", "检验(精加工后)", "检验(终检)"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {
+        "previous_process_exists": "标印"
+      },
+      "append_template": "inspect_marking_clear_unique"
+    },
+    {
+      "rule_id": "peripheral_slot_keep_sharp_except",
+      "process_names": ["槽", "凹槽"],
+      "required_context": [
+        "features.side_a.outer_round.exists",
+        "features.side_a.outer_groove.exists",
+        "features.side_b.outer_round.exists",
+        "features.side_b.outer_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "cad_only",
+      "when": {
+        "any_of": [
+          "features.side_a.outer_round.exists",
+          "features.side_a.outer_groove.exists",
+          "features.side_b.outer_round.exists",
+          "features.side_b.outer_groove.exists"
+        ]
+      },
+      "append_template": "slot_outer_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "peripheral_slot_keep_sharp_plain",
+      "process_names": ["槽", "凹槽"],
+      "required_context": [
+        "features.side_a.outer_round.exists",
+        "features.side_a.outer_groove.exists",
+        "features.side_b.outer_round.exists",
+        "features.side_b.outer_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "cad_only",
+      "when": {
+        "none_of": [
+          "features.side_a.outer_round.exists",
+          "features.side_a.outer_groove.exists",
+          "features.side_b.outer_round.exists",
+          "features.side_b.outer_groove.exists"
+        ]
+      },
+      "append_template": "slot_outer_keep_sharp"
+    },
+    {
+      "rule_id": "peripheral_slot_generic_keep_sharp",
+      "process_names": ["槽", "凹槽"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "slot_generic_keep_sharp"
+    },
+    {
+      "rule_id": "peripheral_flat_bushing_except",
+      "process_names": ["扁", "平键"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "any_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "flat_axis_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "peripheral_flat_bushing_plain",
+      "process_names": ["扁", "平键"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "none_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "flat_axis_keep_sharp"
+    },
+    {
+      "rule_id": "peripheral_flat_valve_outer",
+      "process_names": ["扁", "平键"],
+      "required_context": ["part.part_class"],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["valve"]
+      },
+      "append_template": "flat_outer_keep_sharp"
+    },
+    {
+      "rule_id": "peripheral_flat_valve_outer_except",
+      "process_names": ["扁", "平键"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.outer_round.exists",
+        "features.side_a.outer_groove.exists",
+        "features.side_b.outer_round.exists",
+        "features.side_b.outer_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["valve"],
+        "any_of": [
+          "features.side_a.outer_round.exists",
+          "features.side_a.outer_groove.exists",
+          "features.side_b.outer_round.exists",
+          "features.side_b.outer_groove.exists"
+        ]
+      },
+      "append_template": "flat_outer_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "peripheral_flat_generic_keep_sharp",
+      "process_names": ["扁", "平键"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "flat_generic_keep_sharp"
+    },
+    {
+      "rule_id": "peripheral_drill_bushing_axis_intersection",
+      "process_names": ["钻孔"],
+      "required_context": ["part.part_class"],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"]
+      },
+      "append_templates": [
+        "radial_hole_axis_keep_sharp",
+        "drill_borescope_no_chipping",
+        "radial_hole_axis_connectivity_check_if_needed"
+      ]
+    },
+    {
+      "rule_id": "peripheral_drill_valve_outer",
+      "process_names": ["钻孔"],
+      "required_context": ["part.part_class"],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["valve"]
+      },
+      "append_templates": [
+        "axis_hole_outer_keep_sharp",
+        "drill_borescope_no_chipping",
+        "radial_hole_axis_connectivity_check_if_needed"
+      ]
+    },
+    {
+      "rule_id": "peripheral_drill_generic_keep_sharp",
+      "process_names": ["钻孔"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_templates": [
+        "radial_hole_axis_keep_sharp",
+        "drill_generic_borescope_check"
+      ]
+    },
+    {
+      "rule_id": "peripheral_drill_valve_outer_except",
+      "process_names": ["钻孔"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.outer_round.exists",
+        "features.side_a.outer_groove.exists",
+        "features.side_b.outer_round.exists",
+        "features.side_b.outer_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["valve"],
+        "any_of": [
+          "features.side_a.outer_round.exists",
+          "features.side_a.outer_groove.exists",
+          "features.side_b.outer_round.exists",
+          "features.side_b.outer_groove.exists"
+        ]
+      },
+      "append_template": "axis_hole_outer_keep_sharp"
+    },
+    {
+      "rule_id": "stress_relief_bushing_except",
+      "process_names": ["去应力(淬火前)", "去应力"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "any_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "stress_relief_do_not_damage_bushing_except_transition_arc"
+    },
+    {
+      "rule_id": "stress_relief_bushing_plain",
+      "process_names": ["去应力(淬火前)", "去应力"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "none_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "stress_relief_do_not_damage_bushing"
+    },
+    {
+      "rule_id": "quench_9cr18",
+      "process_names": ["淬火"],
+      "required_context": ["material.grade"],
+      "skip_if_unknown": true,
+      "completeness_tier": "material_required",
+      "when": {
+        "material.grade_in": ["9Cr18"]
+      },
+      "append_template": "carburizing_quench_hardness_ge_56_hrc"
+    },
+    {
+      "rule_id": "external_grinding_bushing_except",
+      "process_names": ["磨外圆"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "any_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "external_grinding_bushing_plain",
+      "process_names": ["磨外圆"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "none_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp"
+    },
+    {
+      "rule_id": "external_grinding_quality",
+      "process_names": ["磨外圆"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_template": "external_grinding_no_burn_crack"
+    },
+    {
+      "rule_id": "wire_cut_edm_none",
+      "process_names": ["线切割、电火花"],
+      "required_context": [],
+      "skip_if_unknown": false,
+      "completeness_tier": "cad_only",
+      "when": {},
+      "append_templates": []
+    },
+    {
+      "rule_id": "magnetic_particle_bushing_except",
+      "process_names": ["磁粉检查", "烧伤检查"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "any_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "magnetic_particle_bushing_plain",
+      "process_names": ["磁粉检查", "烧伤检查"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "none_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp"
+    },
+    {
+      "rule_id": "magnetic_particle_common_crack_check",
+      "process_names": ["磁粉检查", "烧伤检查"],
+      "required_context": ["material.grade"],
+      "skip_if_unknown": true,
+      "completeness_tier": "material_required",
+      "when": {
+        "material.grade_in": ["9Cr18"]
+      },
+      "append_template": "surface_no_crack_mt_995"
+    },
+    {
+      "rule_id": "package_bushing_except",
+      "process_names": ["包装"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "any_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp_except_transition_arc"
+    },
+    {
+      "rule_id": "package_bushing_plain",
+      "process_names": ["包装"],
+      "required_context": [
+        "part.part_class",
+        "features.side_a.inner_round.exists",
+        "features.side_a.inner_groove.exists",
+        "features.side_b.inner_round.exists",
+        "features.side_b.inner_groove.exists"
+      ],
+      "skip_if_unknown": true,
+      "completeness_tier": "part_class_required",
+      "when": {
+        "part.part_class_in": ["bushing"],
+        "none_of": [
+          "features.side_a.inner_round.exists",
+          "features.side_a.inner_groove.exists",
+          "features.side_b.inner_round.exists",
+          "features.side_b.inner_groove.exists"
+        ]
+      },
+      "append_template": "bushing_axis_hole_keep_sharp"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kmsoft.local/schemas/select_group_template.confirm.request.schema.json",
+  "title": "SelectGroupTemplateConfirmRequest",
+  "type": "object",
+  "required": ["action", "templateId"],
+  "additionalProperties": true,
+  "properties": {
+    "action": {
+      "const": "confirm"
+    },
+    "templateId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "samples": {
+      "type": "string"
+    },
+    "outDraft": {
+      "type": "string"
+    },
+    "outXml": {
+      "type": "string"
+    },
+    "writeEncoding": {
+      "enum": ["utf8", "gb2312"],
+      "default": "utf8"
+    },
+    "validate": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

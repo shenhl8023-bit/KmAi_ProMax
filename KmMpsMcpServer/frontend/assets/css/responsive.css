@@ -1,0 +1,79 @@
+/* assets/css/responsive.css —— 响应式覆盖
+   一定要放在最后,这样媒体查询里的规则才能覆盖上面默认的桌面布局。
+*/
+    @media (max-width: 900px) {
+      header { padding: 10px 14px; font-size: var(--fs-base); }
+      .header-actions select { min-width: 120px; font-size: var(--fs-xs); }
+      .status { padding: 4px 8px; font-size: var(--fs-2xs); }
+      .header-actions button { padding: 5px 10px; font-size: var(--fs-2xs); }
+      .process-route-panel { top: 62px; left: 50%; bottom: 10px; width: min(calc(100vw - 20px), 760px); }
+      #log { padding: 12px; }
+      .msg { max-width: 92%; padding: 10px 14px; font-size: var(--fs-sm); }
+      .msg.user { max-width: 92%; }
+      .bot { padding-left: 34px; }
+  .pr-head { padding: 10px 12px; }
+  .pr-head-title { font-size: var(--fs-lg); }
+  .pr-head-title .pr-head-icon { width: 22px; height: 22px; }
+  .pr-summary { padding: 12px; gap: 8px; font-size: var(--fs-sm); }
+  .pr-params { padding: 0 12px; }
+  .pr-panel-card-head { padding: 10px 12px 0 12px; }
+  .pr-panel-card-summary .pr-params-row { padding-top: 8px; }
+  .pr-params-row { padding: 10px 12px 12px 12px; }
+  .pr-params-detail { padding: 10px 12px 12px 12px; }
+  .table-card { overflow-x: auto; }
+  .table-card table { min-width: 680px; }
+  .pr-result-switch { padding: 6px 12px 0 12px; gap: 6px; }
+  .pr-result-tab { padding: 5px 10px; font-size: var(--fs-sm); }
+  .pr-technical-view { padding: 0; }
+  .pr-tech-card-head { padding: 10px 12px; gap: 8px; }
+  .pr-tech-card-body { padding: 10px 12px 12px 12px; }
+  .pr-status { margin: 8px 12px; padding: 6px 10px; }
+  .pr-step { margin-left: 14px; }
+  .pr-step-num { width: 22px; height: 22px; font-size: var(--fs-xs); }
+  .pr-step-name { font-size: var(--fs-lg); }
+  .pr-step-meta { font-size: var(--fs-sm); margin-bottom: 6px; }
+  .pr-step-sub-name { font-size: var(--fs-base); }
+  .pr-step-sub li { padding: 7px 9px; }
+  .pr-step-sub-path, .pr-step-sub-text { font-size: var(--fs-sm); }
+  .pr-step-block { grid-template-columns: 60px 1fr; gap: 10px; }
+  .pr-action-row { padding: 0; }
+      .process-workflow-msg { padding: 12px; }
+      .process-workflow-step { padding: 9px 10px; }
+      .process-workflow-step-icon { width: 24px; height: 24px; font-size: var(--fs-xs); }
+      .cards-msg { padding: 12px; max-width: 100%; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .template-type-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .auto-combo-grid { grid-template-columns: 1fr; }
+      .bar { padding: 10px; gap: 6px; }
+      .bar input { padding: 10px 12px; font-size: var(--fs-sm); }
+      .bar button { padding: 10px 16px; font-size: var(--fs-sm); }
+      .config-dialog { max-width: 96vw; }
+      .config-row, .config-row.inline { grid-template-columns: 1fr; gap: 6px; }
+      .config-row label { font-size: var(--fs-xs); }
+    }
+    @media (max-width: 600px) {
+      .header-actions { width: 100%; justify-content: flex-end; }
+      .header-actions select { flex: 1; min-width: 0; }
+      .process-route-panel { top: 58px; left: 50%; bottom: 8px; width: calc(100vw - 16px); }
+  .pr-head-title { font-size: var(--fs-base); }
+  .pr-head-title .pr-head-icon { width: 20px; height: 20px; }
+  .pr-result-switch { padding: 5px 10px 0 10px; }
+  .pr-result-tab { flex: 1; justify-content: center; }
+  .pr-fields { grid-template-columns: 1fr; }
+  .pr-params { padding: 0 10px; }
+  .pr-panel-card-head { padding: 10px 10px 0 10px; }
+  .pr-params-row { padding: 10px; }
+  .pr-params-detail { padding: 12px; }
+  .table-card { overflow-x: auto; }
+  .table-card table { min-width: 680px; }
+  .pr-group { padding: 0; }
+  .pr-step { margin-left: 12px; }
+  .pr-step::before { left: -18px; top: 22px; width: 8px; height: 8px; }
+  .pr-step-head { padding: 12px; }
+  .pr-step-content-area { padding: 12px; }
+  .pr-step-block { grid-template-columns: 1fr; gap: 8px; }
+  .pr-step-name { font-size: var(--fs-base); }
+  .pr-step-sub-name { width: auto; padding-top: 0; }
+  .pr-tech-card-name { font-size: var(--fs-base); }
+  .bar button { padding: 10px 12px; }
+}
