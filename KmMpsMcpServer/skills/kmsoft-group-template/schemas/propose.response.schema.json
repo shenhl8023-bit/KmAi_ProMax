@@ -1,0 +1,303 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kmsoft.local/schemas/select_group_template.propose.response.schema.json",
+  "title": "SelectGroupTemplateProposeResponse",
+  "type": "object",
+  "required": [
+    "ok",
+    "action",
+    "stage",
+    "mode",
+    "workflow",
+    "ui",
+    "candidates"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "action": {
+      "const": "propose"
+    },
+    "stage": {
+      "const": "select_group_template"
+    },
+    "mode": {
+      "enum": [
+        "awaiting_choice",
+        "needs_input"
+      ]
+    },
+    "queryText": {
+      "type": "string"
+    },
+    "browse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "available",
+        "total",
+        "matching",
+        "shown",
+        "excluded",
+        "threshold"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "recommended",
+            "all"
+          ]
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matching": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "shown": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "excluded": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "threshold": {
+          "type": "number"
+        }
+      }
+    },
+    "reply": {
+      "type": "string"
+    },
+    "workflow": {
+      "$ref": "#/$defs/workflow"
+    },
+    "ui": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/optionCards"
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/templateCandidate"
+      }
+    }
+  },
+  "$defs": {
+    "workflow": {
+      "type": "object",
+      "required": [
+        "currentStep",
+        "steps"
+      ],
+      "properties": {
+        "currentStep": {
+          "const": "select_group_template"
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "status"
+            ],
+            "properties": {
+              "id": {
+                "const": "select_group_template"
+              },
+              "title": {
+                "const": "选择分组模板"
+              },
+              "status": {
+                "enum": [
+                  "awaiting_choice",
+                  "needs_input"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "optionCards": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "stage",
+        "title",
+        "options"
+      ],
+      "properties": {
+        "type": {
+          "const": "option_cards"
+        },
+        "id": {
+          "const": "group_template_candidates"
+        },
+        "stage": {
+          "const": "select_group_template"
+        },
+        "title": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/templateOption"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "templateOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "choiceId",
+        "templateId",
+        "filename",
+        "title",
+        "subtitle",
+        "confidence",
+        "reasons",
+        "tags",
+        "meta",
+        "selected"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "choiceId": {
+          "type": "string"
+        },
+        "templateId": {
+          "type": "string"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "string"
+          }
+        },
+        "meta": {
+          "$ref": "#/$defs/templateOptionMeta"
+        },
+        "selected": {
+          "type": "boolean"
+        }
+      }
+    },
+    "templateCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "templateId",
+        "filename",
+        "displayName",
+        "relativePath",
+        "groupCount",
+        "depth",
+        "tags",
+        "confidence",
+        "reasons"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "templateId": {
+          "type": "string"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "relativePath": {
+          "type": "string"
+        },
+        "groupCount": {
+          "type": "integer"
+        },
+        "depth": {
+          "type": "integer"
+        },
+        "tags": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "string"
+          }
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "templateOptionMeta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "groupCount",
+        "depth",
+        "relativePath"
+      ],
+      "properties": {
+        "groupCount": {
+          "type": "integer"
+        },
+        "depth": {
+          "type": "integer"
+        },
+        "relativePath": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

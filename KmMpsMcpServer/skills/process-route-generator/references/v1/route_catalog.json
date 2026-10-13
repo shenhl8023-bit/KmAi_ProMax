@@ -1,0 +1,526 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "process-route-catalog-v1",
+  "dataset_name": "全集工艺路线",
+  "description": "当前样例中的 P001-P041 工艺路线全集，转换为对象式通用协议。",
+  "post_stage_bundles": [
+    {
+      "bundle_key": "machining_tail_bundle",
+      "trigger_stages": ["rough_machining", "semi_finish", "finish"],
+      "process_keys": ["deburring", "cleaning", "inspection"],
+      "final_only": false
+    },
+    {
+      "bundle_key": "final_tail_bundle",
+      "trigger_stages": ["package"],
+      "process_keys": ["deburring", "cleaning", "inspection"],
+      "final_only": true
+    }
+  ],
+  "processes": [
+    {
+      "process_key": "blanking",
+      "process_id": "P001",
+      "process_name": "下料",
+      "process_type": "main",
+      "stage": "prepare",
+      "sequence": 0,
+      "enabled": true,
+      "default_included": true,
+      "steps": [
+        { "step_key": "p001_s01", "step_name": "下料", "step_order": 1 },
+        { "step_key": "p001_s02", "step_name": "备料", "step_order": 2 },
+        { "step_key": "p001_s03", "step_name": "毛坯准备", "step_order": 3 }
+      ]
+    },
+    {
+      "process_key": "normalizing",
+      "process_id": "P002",
+      "process_name": "正常化",
+      "process_type": "conditional",
+      "stage": "heat_treatment",
+      "sequence": 5,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p002_s01", "step_name": "正常化", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "quench_and_temper",
+      "process_id": "P003",
+      "process_name": "调质",
+      "process_type": "conditional",
+      "stage": "heat_treatment",
+      "sequence": 10,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p003_s01", "step_name": "调质", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "drilling_center_through_hole",
+      "process_id": "P003A",
+      "process_name": "钻孔（中间通孔）",
+      "process_type": "conditional",
+      "stage": "rough_machining",
+      "sequence": 12,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p003a_s01", "step_name": "钻孔", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "turning_pass_1",
+      "process_id": "P004",
+      "process_name": "车削加工（A侧）",
+      "process_type": "main",
+      "stage": "rough_machining",
+      "sequence": 15,
+      "enabled": true,
+      "default_included": true,
+      "steps": [
+        { "step_key": "p004_s01", "step_name": "车外圆", "step_order": 1 },
+        { "step_key": "p004_s02", "step_name": "切断", "step_order": 2 },
+        { "step_key": "p004_s03", "step_name": "锐边磨圆", "step_order": 3 },
+        { "step_key": "p004_s04", "step_name": "车槽", "step_order": 4 },
+        { "step_key": "p004_s05", "step_name": "平端面", "step_order": 5 },
+        { "step_key": "p004_s06", "step_name": "倒角", "step_order": 6 },
+        { "step_key": "p004_s07", "step_name": "钻锪孔", "step_order": 7 },
+        { "step_key": "p004_s08", "step_name": "车端面", "step_order": 8 },
+        { "step_key": "p004_s09", "step_name": "切槽", "step_order": 9 },
+        { "step_key": "p004_s10", "step_name": "车顶尖孔", "step_order": 10 },
+        { "step_key": "p004_s11", "step_name": "镗孔", "step_order": 11 },
+        { "step_key": "p004_s12", "step_name": "挖槽", "step_order": 12 },
+        { "step_key": "p004_s13", "step_name": "钻孔", "step_order": 13 }
+      ]
+    },
+    {
+      "process_key": "turning_pass_2",
+      "process_id": "P005",
+      "process_name": "车削加工（B侧）",
+      "process_type": "main",
+      "stage": "rough_machining",
+      "sequence": 20,
+      "enabled": true,
+      "default_included": true,
+      "steps": [
+        { "step_key": "p005_s01", "step_name": "锐边磨圆", "step_order": 1 },
+        { "step_key": "p005_s02", "step_name": "倒角", "step_order": 2 },
+        { "step_key": "p005_s03", "step_name": "平端面", "step_order": 3 },
+        { "step_key": "p005_s04", "step_name": "车外圆", "step_order": 4 },
+        { "step_key": "p005_s05", "step_name": "螺纹底孔加工", "step_order": 5 },
+        { "step_key": "p005_s06", "step_name": "攻螺纹", "step_order": 6 },
+        { "step_key": "p005_s07", "step_name": "镗孔", "step_order": 7 },
+        { "step_key": "p005_s08", "step_name": "车槽", "step_order": 8 },
+        { "step_key": "p005_s09", "step_name": "车端面", "step_order": 9 },
+        { "step_key": "p005_s10", "step_name": "车螺纹", "step_order": 10 },
+        { "step_key": "p005_s11", "step_name": "钻锪孔", "step_order": 11 },
+        { "step_key": "p005_s12", "step_name": "车球面", "step_order": 12 },
+        { "step_key": "p005_s13", "step_name": "车锥面", "step_order": 13 },
+        { "step_key": "p005_s14", "step_name": "钻孔", "step_order": 14 }
+      ]
+    },
+    {
+      "process_key": "milling_flat",
+      "process_id": "P006",
+      "process_name": "铣扁（周边）",
+      "process_type": "conditional",
+      "stage": "rough_machining",
+      "sequence": 25,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p006_s01", "step_name": "铣扁", "step_order": 1 },
+        { "step_key": "p006_s02", "step_name": "钻孔", "step_order": 2 },
+        { "step_key": "p006_s03", "step_name": "刻线", "step_order": 3 }
+      ]
+    },
+    {
+      "process_key": "drilling",
+      "process_id": "P007",
+      "process_name": "钻孔（周边）",
+      "process_type": "conditional",
+      "stage": "rough_machining",
+      "sequence": 30,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p007_s01", "step_name": "钻孔", "step_order": 1 },
+        { "step_key": "p007_s02", "step_name": "钻锚孔", "step_order": 2 }
+      ]
+    },
+    {
+      "process_key": "drill_and_ream_hole",
+      "process_id": "P008",
+      "process_name": "钻铰孔（周边）",
+      "process_type": "conditional",
+      "stage": "semi_finish",
+      "sequence": 35,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p008_s01", "step_name": "钻铰孔", "step_order": 1 },
+        { "step_key": "p008_s02", "step_name": "钻预孔", "step_order": 2 },
+        { "step_key": "p008_s03", "step_name": "铰孔", "step_order": 3 }
+      ]
+    },
+    {
+      "process_key": "milling_slot",
+      "process_id": "P009",
+      "process_name": "铣槽（周边）",
+      "process_type": "conditional",
+      "stage": "rough_machining",
+      "sequence": 40,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p009_s01", "step_name": "铣槽", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "marking",
+      "process_id": "P010",
+      "process_name": "标印",
+      "process_type": "conditional",
+      "stage": "marking",
+      "sequence": 45,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p010_s01", "step_name": "标印", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "deburring",
+      "process_id": "P011",
+      "process_name": "去毛刺",
+      "process_type": "support_bundle",
+      "stage": "auxiliary",
+      "sequence": 50,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p011_s01", "step_name": "去毛刺", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "cleaning",
+      "process_id": "P012",
+      "process_name": "清洗",
+      "process_type": "support_bundle",
+      "stage": "auxiliary",
+      "sequence": 55,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p012_s01", "step_name": "清洗", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "inspection",
+      "process_id": "P013",
+      "process_name": "检验",
+      "process_type": "support_bundle",
+      "stage": "inspection",
+      "sequence": 60,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p013_s01", "step_name": "检验", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "stress_relief",
+      "process_id": "P014",
+      "process_name": "去应力",
+      "process_type": "conditional",
+      "stage": "heat_treatment",
+      "sequence": 65,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p014_s01", "step_name": "去应力", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "hole_grinding",
+      "process_id": "P015",
+      "process_name": "磨孔",
+      "process_type": "conditional",
+      "stage": "finish",
+      "sequence": 70,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p015_s01", "step_name": "磨孔", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "honing",
+      "process_id": "P016",
+      "process_name": "珩孔",
+      "process_type": "conditional",
+      "stage": "finish",
+      "sequence": 75,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p016_s01", "step_name": "珩孔", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "outer_diameter_grinding",
+      "process_id": "P017",
+      "process_name": "磨外圆",
+      "process_type": "conditional",
+      "stage": "finish",
+      "sequence": 80,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p017_s01", "step_name": "磨外圆", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "end_face_grinding",
+      "process_id": "P018",
+      "process_name": "磨端面",
+      "process_type": "conditional",
+      "stage": "finish",
+      "sequence": 85,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p018_s01", "step_name": "磨端面", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "slot_grinding",
+      "process_id": "P019",
+      "process_name": "磨槽",
+      "process_type": "conditional",
+      "stage": "finish",
+      "sequence": 90,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p019_s01", "step_name": "磨槽", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "quenching",
+      "process_id": "P023",
+      "process_name": "淬火",
+      "process_type": "conditional",
+      "stage": "heat_treatment",
+      "sequence": 110,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p023_s01", "step_name": "淬火", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "vacuum_quenching",
+      "process_id": "P024",
+      "process_name": "真空淬火",
+      "process_type": "conditional",
+      "stage": "heat_treatment",
+      "sequence": 115,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p024_s01", "step_name": "真空淬火", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "copper_plating_protection",
+      "process_id": "P025",
+      "process_name": "镀铜",
+      "process_type": "conditional",
+      "stage": "surface_treatment",
+      "sequence": 120,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p025_s01", "step_name": "镀铜", "step_order": 1 },
+        { "step_key": "p025_s02", "step_name": "渗氮保护", "step_order": 2 }
+      ]
+    },
+    {
+      "process_key": "chromic_acid_anodizing",
+      "process_id": "P026",
+      "process_name": "铬酸阳极化",
+      "process_type": "conditional",
+      "stage": "surface_treatment",
+      "sequence": 125,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p026_s01", "step_name": "铬酸阳极化", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "nitriding",
+      "process_id": "P027",
+      "process_name": "渗氮",
+      "process_type": "conditional",
+      "stage": "surface_treatment",
+      "sequence": 130,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p027_s01", "step_name": "渗氮", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "copper_removal",
+      "process_id": "P028",
+      "process_name": "除铜",
+      "process_type": "conditional",
+      "stage": "surface_treatment",
+      "sequence": 135,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p028_s01", "step_name": "除铜", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "hard_anodizing",
+      "process_id": "P029",
+      "process_name": "硬质阳极化",
+      "process_type": "conditional",
+      "stage": "surface_treatment",
+      "sequence": 140,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p029_s01", "step_name": "硬质阳极化", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "nondestructive_inspection",
+      "process_id": "P030",
+      "process_name": "无损检查",
+      "process_type": "conditional",
+      "stage": "inspection",
+      "sequence": 145,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p030_s01", "step_name": "磁粉检查", "step_order": 1 },
+        { "step_key": "p030_s02", "step_name": "裂纹检查", "step_order": 2 },
+        { "step_key": "p030_s03", "step_name": "荧光检查", "step_order": 3 }
+      ]
+    },
+    {
+      "process_key": "burn_inspection",
+      "process_id": "P031",
+      "process_name": "烧伤检查",
+      "process_type": "conditional",
+      "stage": "inspection",
+      "sequence": 150,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p031_s01", "step_name": "烧伤检查", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "supplementary_hole_drilling",
+      "process_id": "P032",
+      "process_name": "打孔",
+      "process_type": "conditional",
+      "stage": "rough_machining",
+      "sequence": 155,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p032_s01", "step_name": "打孔", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "shaped_hole_and_cut_flat",
+      "process_id": "P033",
+      "process_name": "割型孔及割扁",
+      "process_type": "conditional",
+      "stage": "rough_machining",
+      "sequence": 160,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p033_s01", "step_name": "割型孔", "step_order": 1 },
+        { "step_key": "p033_s02", "step_name": "割扁", "step_order": 2 }
+      ]
+    },
+    {
+      "process_key": "shaped_hole_machining",
+      "process_id": "P034",
+      "process_name": "打型孔",
+      "process_type": "conditional",
+      "stage": "rough_machining",
+      "sequence": 165,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p034_s01", "step_name": "打型孔", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "center_hole_lapping",
+      "process_id": "P036",
+      "process_name": "研顶尖孔",
+      "process_type": "conditional",
+      "stage": "finish",
+      "sequence": 175,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p036_s01", "step_name": "研顶尖孔", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "hole_lapping",
+      "process_id": "P037",
+      "process_name": "研孔",
+      "process_type": "conditional",
+      "stage": "finish",
+      "sequence": 180,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p037_s01", "step_name": "研孔", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "outer_diameter_lapping",
+      "process_id": "P038",
+      "process_name": "研外圆",
+      "process_type": "conditional",
+      "stage": "finish",
+      "sequence": 185,
+      "enabled": true,
+      "default_included": false,
+      "steps": [
+        { "step_key": "p038_s01", "step_name": "研外圆", "step_order": 1 }
+      ]
+    },
+    {
+      "process_key": "packaging",
+      "process_id": "P041",
+      "process_name": "包装",
+      "process_type": "main",
+      "stage": "package",
+      "sequence": 200,
+      "enabled": true,
+      "default_included": true,
+      "steps": [
+        { "step_key": "p041_s01", "step_name": "包装", "step_order": 1 }
+      ]
+    }
+  ]
+}

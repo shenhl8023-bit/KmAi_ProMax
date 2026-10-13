@@ -1,0 +1,3 @@
+display_name: 技术要求生成
+short_description: 根据已有工艺路线和CAD输入补充技术要求
+default_prompt: 根据已有route_input.json、可选cad_input.json和manual_context.json，调用技术要求生成技能，输出保持原工艺路线结构不变，仅补充技术要求字段。

@@ -1,0 +1,134 @@
+{
+  "version": "v1-draft",
+  "templates": {
+    "material_standard_gjb_2294_95": {
+      "text": "材料技术标准:GJB 2294-95"
+    },
+    "single_piece_cutting_formula": {
+      "text": "允许按单件计算下料尺寸和发料单件(n),下料尺寸:L=n(a+b)+c"
+    },
+    "temper_27_35_hrc": {
+      "text": "调质:27~35HRC(洛氏硬度)"
+    },
+    "carburizing_quench_hardness_ge_56_hrc": {
+      "text": "渗碳淬火:其渗碳表面硬度≥56HRC"
+    },
+    "mark_batch_number_laser": {
+      "text": "在标印处用激光标印机标印零件批次号"
+    },
+    "bushing_axis_hole_keep_sharp_except_transition_arc": {
+      "text": "除过渡圆弧之外,轴向孔交接处需要保持光洁锐边"
+    },
+    "bushing_axis_hole_keep_sharp": {
+      "text": "轴向孔交接处保持光洁锐边"
+    },
+    "valve_outer_surface_keep_sharp_except_transition_arc": {
+      "text": "除过渡圆弧之外,零件外圆表面交接处保持光洁锐边"
+    },
+    "valve_outer_surface_keep_sharp": {
+      "text": "零件外圆表面交接处保持光洁锐边"
+    },
+    "outer_edge_keep_sharp_except_transition_arc": {
+      "text": "除过渡圆弧之外,外圆交接处保持光洁锐边"
+    },
+    "outer_edge_keep_sharp": {
+      "text": "外圆交接处保持光洁锐边"
+    },
+    "edge_round_r01_r03": {
+      "text": "本工序形成的棱边磨圆范围在R0.1~0.3"
+    },
+    "boring_soft_jaw_runout_0015max": {
+      "text": "镗软爪跳动0.015max"
+    },
+    "deburr_borescope_check_uniform_smooth": {
+      "text": "用内窥镜检查,检查部位应均匀,圆滑,无缺口,塌边,崩块,锯齿状"
+    },
+    "axis_radial_intersection_minor_burr_allowed": {
+      "text": "轴线孔与径向孔交接处允许有细微残留毛刺"
+    },
+    "deburr_no_scraper_file_polish": {
+      "text": "去毛刺时,不允许使用刮刀、锉刀直接去除尖边处的毛刺,将零件顶持装夹在旋转头上,使用抛光纸或绸带对尖边进行抛光"
+    },
+    "magnifier_no_burrs_imperative": {
+      "text": "用10倍放大镜检查零件应无毛刺"
+    },
+    "magnifier_no_burrs_surface": {
+      "text": "用10倍放大镜检查零件,表面应无毛刺"
+    },
+    "clean_surface_dry_no_contaminant": {
+      "text": "清洗干燥后,目视检查零件内外表面应干燥、无残留水分、无附着的污染物"
+    },
+    "clean_surface_no_damage_rust": {
+      "text": "清洗干燥后,目视检查零件内外表面无碰伤、压伤、划伤、锈蚀等缺陷"
+    },
+    "inspect_no_damage_rust": {
+      "text": "零件应无碰伤、压伤、划伤、锈蚀等缺陷"
+    },
+    "inspect_surface_roughness": {
+      "text": "检查零件表面粗糙度"
+    },
+    "inspect_axis_hole_no_foreign_matter": {
+      "text": "用冷光源检查轴向孔内应无异物,若不净,则重复"
+    },
+    "inspect_marking_clear_unique": {
+      "text": "检查标印内容是否清晰不重复"
+    },
+    "stress_relief_do_not_damage_bushing_except_transition_arc": {
+      "text": "不应该损伤零件,除过渡圆弧之外,轴向孔交接处需要保持光洁锐边"
+    },
+    "stress_relief_do_not_damage_bushing": {
+      "text": "不应该损伤零件,轴向孔交接处保持光洁锐边"
+    },
+    "stress_relief_do_not_damage_valve_except_transition_arc": {
+      "text": "不应该损伤零件,除过渡圆弧之外,零件外圆表面交接处保持光洁锐边"
+    },
+    "stress_relief_do_not_damage_valve": {
+      "text": "不应该损伤零件,零件外圆表面交接处保持光洁锐边"
+    },
+    "external_grinding_no_burn_crack": {
+      "text": "外圆加工表面不允许有烧伤和裂纹"
+    },
+    "surface_no_crack_mt_995": {
+      "text": "检查零件表面应无裂纹,按MT-995检验"
+    },
+    "slot_outer_keep_sharp_except_transition_arc": {
+      "text": "除过渡圆弧之外,型槽与外圆交接处保持光洁锐边"
+    },
+    "slot_outer_keep_sharp": {
+      "text": "型槽与外圆交接处保持光洁锐边"
+    },
+    "flat_axis_keep_sharp_except_transition_arc": {
+      "text": "除过渡圆弧之外,扁与轴向孔交接处保持光洁锐边"
+    },
+    "flat_axis_keep_sharp": {
+      "text": "扁与轴向孔交接处保持光洁锐边"
+    },
+    "flat_outer_keep_sharp_except_transition_arc": {
+      "text": "除过渡圆弧之外,扁与外圆交接处保持光洁锐边"
+    },
+    "flat_outer_keep_sharp": {
+      "text": "扁与外圆交接处保持光洁锐边"
+    },
+    "radial_hole_axis_keep_sharp": {
+      "text": "径向孔与轴向孔交接处保持光洁锐边"
+    },
+    "axis_hole_outer_keep_sharp": {
+      "text": "轴向孔与外圆交接处保持光洁锐边"
+    },
+    "drill_borescope_no_chipping": {
+      "text": "钻孔后用内窥镜检查,检查部位应无崩块"
+    },
+    "radial_hole_axis_connectivity_check_if_needed": {
+      "text": "若周边孔与轴向孔有互通要求,则需要检查"
+    },
+    "wire_cut_edm_no_requirement": {
+      "text": ""
+    },
+    "dynamic_after_anodizing_no_layer_on_feature": {
+      "text": "{{feature_name}}不允许有铬酸阳极化层"
+    },
+    "dynamic_material_standard": {
+      "text": "材料技术标准:{{material_standard}}"
+    }
+  }
+}

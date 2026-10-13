@@ -1,0 +1,111 @@
+/* assets/css/xml_editor.css —— XML 编辑器与流式输出光标
+   包含：XML 编辑器卡片（textarea + 保存/取消按钮 + 状态），
+         以及流式聊天的 cursor 闪烁光标 + blink 动画。
+   所有色值/渐变/阴影/圆角/动效一律走 base.css 的 token,禁止 hardcode。
+*/
+
+    .xml-editor-msg {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin: 8px 0;
+      max-width: 94%;
+      box-shadow: var(--shadow-xs);
+    }
+    .xml-editor-header {
+      font-size: var(--fs-base);
+      color: var(--color-text);
+      margin-bottom: 8px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .xml-editor-filename {
+      font-family: var(--font-family-mono);
+      font-size: var(--fs-xs);
+      color: var(--color-text-soft);
+      background: var(--color-surface-muted);
+      padding: 2px 6px;
+      border-radius: var(--radius-xs);
+    }
+    .xml-editor-textarea {
+      width: 100%;
+      min-height: 320px;
+      max-height: 480px;
+      padding: 10px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family-mono);
+      font-size: var(--fs-xs);
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+      box-sizing: border-box;
+      background: var(--color-bg-soft);
+      transition: all var(--dur-fast) var(--ease);
+    }
+    .xml-editor-textarea:focus {
+      border-color: var(--color-primary);
+      box-shadow: var(--focus-ring);
+      background: var(--color-surface);
+    }
+    .xml-editor-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .xml-editor-actions button {
+      padding: 8px 16px;
+      border: 0;
+      border-radius: var(--radius-sm);
+      font-size: var(--fs-sm);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all var(--dur-fast) var(--ease);
+    }
+    .xml-editor-save {
+      background: var(--gradient-success);
+      color: white;
+      box-shadow: var(--shadow-button-primary);
+    }
+    .xml-editor-save:hover {
+      background: linear-gradient(135deg, var(--color-success-strong), var(--color-success-deep));
+      transform: translateY(-1px);
+    }
+    .xml-editor-save:disabled {
+      background: var(--color-text-subtle);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .xml-editor-cancel {
+      background: var(--color-bg-soft);
+      color: var(--color-text-soft);
+    }
+    .xml-editor-cancel:hover { background: var(--color-border-strong); }
+
+    .xml-editor-status {
+      font-size: var(--fs-xs);
+      color: var(--color-text-muted);
+      margin-left: 8px;
+    }
+    .xml-editor-status.loading { color: var(--color-primary); }
+    .xml-editor-status.success { color: var(--color-success); }
+    .xml-editor-status.error { color: var(--color-danger); }
+
+    /* 流式聊天的闪烁光标 */
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 14px;
+      background: var(--color-primary);
+      animation: blink 1s var(--ease) infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }

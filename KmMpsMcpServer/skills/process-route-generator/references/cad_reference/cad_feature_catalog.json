@@ -1,0 +1,1121 @@
+{
+  "source_dir": "C:\\Users\\Administrator\\Desktop\\特征分类信息1",
+  "source_files": {
+    "featureProcess_json": "featureProcess.json",
+    "feature_summary_json": "feature_summary.json",
+    "feature_mapping_json": "feature_mapping.json",
+    "method_workbook_dir": "加工方法表"
+  },
+  "counts": {
+    "feature_process_records": 136,
+    "canonical_feature_count": 27,
+    "sub_feature_count": 136,
+    "method_workbook_count": 24,
+    "xml_method_mirror_count": 6
+  },
+  "canonical_features": [
+    {
+      "canonical_feature": "3D弧面",
+      "sub_feature_count": 1,
+      "sub_features": [
+        "3D弧面"
+      ],
+      "method_workbooks": [
+        "3D弧面加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "U形端面环槽",
+      "sub_feature_count": 3,
+      "sub_features": [
+        "L形端面环槽",
+        "U形端面环槽",
+        "工艺端面环槽"
+      ],
+      "method_workbooks": [
+        "U形端面环槽加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "U形外环槽",
+      "sub_feature_count": 3,
+      "sub_features": [
+        "L形内环槽",
+        "L形外环槽",
+        "U形外环槽"
+      ],
+      "method_workbooks": [
+        "U形外环槽加工方法.xlsx"
+      ],
+      "method_xml_mirrors": [
+        "U形外环槽加工方法.xml"
+      ]
+    },
+    {
+      "canonical_feature": "U形直槽",
+      "sub_feature_count": 17,
+      "sub_features": [
+        "A型键槽",
+        "C型键槽",
+        "L形局部直槽",
+        "L形直槽",
+        "T型槽",
+        "U形直槽",
+        "半月型键槽",
+        "工艺L形直槽",
+        "工艺U形直槽",
+        "沟槽",
+        "批量同底面台阶",
+        "切口",
+        "双立面槽",
+        "台阶",
+        "斜底台阶",
+        "斜立面台阶",
+        "轴上沟槽"
+      ],
+      "method_workbooks": [
+        "U形直槽加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "V形环槽",
+      "sub_feature_count": 4,
+      "sub_features": [
+        "V形端面环槽",
+        "V形环槽",
+        "V形内环槽",
+        "V形外环槽"
+      ],
+      "method_workbooks": [
+        "V形环槽加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "V形直槽",
+      "sub_feature_count": 10,
+      "sub_features": [
+        "V形直槽",
+        "变深度圆弧底沟槽",
+        "端面齿槽",
+        "渐开线圆柱齿槽",
+        "均布齿槽",
+        "均布螺旋齿槽",
+        "均布斜向直齿齿槽",
+        "均布锥齿轮圆弧齿槽",
+        "圆弧底沟槽",
+        "轴上三面异形螺旋沟槽"
+      ],
+      "method_workbooks": [
+        "V形直槽加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "凹槽",
+      "sub_feature_count": 35,
+      "sub_features": [
+        "L形局部内环槽",
+        "L形局部外环槽",
+        "U形局部内环槽",
+        "U形局部外环槽",
+        "凹槽",
+        "单层槽",
+        "单纯底凹槽",
+        "单纯回转底凹槽",
+        "多层槽",
+        "工艺方孔",
+        "工艺角块",
+        "工艺矩形槽",
+        "固定截面方向台阶立面",
+        "规则型腔",
+        "环底槽",
+        "回转底直立台阶面",
+        "矩形底凹槽",
+        "矩形截面特种加工槽",
+        "平底通槽",
+        "清角",
+        "球面凹槽",
+        "曲面底凹槽",
+        "扇形槽",
+        "通槽",
+        "同端面下陷平底槽",
+        "同端面下陷通槽",
+        "同回转面下陷通槽",
+        "斜底单层槽",
+        "斜底单纯底凹槽",
+        "斜立面平底通槽",
+        "斜通槽",
+        "圆柱面",
+        "直槽",
+        "柱底槽",
+        "锥底槽"
+      ],
+      "method_workbooks": [
+        "凹槽加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "单方向曲面",
+      "sub_feature_count": 2,
+      "sub_features": [
+        "复杂曲面",
+        "凸包"
+      ],
+      "method_workbooks": [
+        "单方向曲面加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "倒角",
+      "sub_feature_count": 2,
+      "sub_features": [
+        "边倒角",
+        "倒角"
+      ],
+      "method_workbooks": [
+        "倒角加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "倒圆",
+      "sub_feature_count": 4,
+      "sub_features": [
+        "边倒圆",
+        "倒圆",
+        "根部倒圆",
+        "孔上倒圆"
+      ],
+      "method_workbooks": [
+        "倒圆加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "环槽",
+      "sub_feature_count": 7,
+      "sub_features": [
+        "U形内环槽",
+        "端面环槽",
+        "工艺内环槽",
+        "工艺外环槽",
+        "环槽",
+        "内环槽",
+        "外环槽"
+      ],
+      "method_workbooks": [
+        "环槽加工方法.xlsx"
+      ],
+      "method_xml_mirrors": [
+        "环槽加工方法.xml"
+      ]
+    },
+    {
+      "canonical_feature": "阶梯孔",
+      "sub_feature_count": 2,
+      "sub_features": [
+        "沉头孔",
+        "阶梯孔"
+      ],
+      "method_workbooks": [
+        "阶梯孔加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "孔",
+      "sub_feature_count": 7,
+      "sub_features": [
+        "工艺孔",
+        "简单孔",
+        "孔",
+        "孔系",
+        "内球面",
+        "内圆柱面",
+        "内圆锥面"
+      ],
+      "method_workbooks": [
+        "孔加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "孔台阶",
+      "sub_feature_count": 1,
+      "sub_features": [
+        "孔台阶"
+      ],
+      "method_workbooks": [
+        "孔台阶加工方法.xlsx"
+      ],
+      "method_xml_mirrors": [
+        "孔台阶加工方法.xml"
+      ]
+    },
+    {
+      "canonical_feature": "埋头孔",
+      "sub_feature_count": 1,
+      "sub_features": [
+        "埋头孔"
+      ],
+      "method_workbooks": [
+        "埋头孔加工方法.xlsx"
+      ],
+      "method_xml_mirrors": [
+        "埋头孔加工方法.xml"
+      ]
+    },
+    {
+      "canonical_feature": "内倒角",
+      "sub_feature_count": 2,
+      "sub_features": [
+        "根部倒角",
+        "内倒角"
+      ],
+      "method_workbooks": [
+        "倒角加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "内倒角系",
+      "sub_feature_count": 1,
+      "sub_features": [
+        "内倒角系"
+      ],
+      "method_workbooks": [
+        "倒角加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "内螺纹",
+      "sub_feature_count": 1,
+      "sub_features": [
+        "内螺纹"
+      ],
+      "method_workbooks": [
+        "内螺纹加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "平面",
+      "sub_feature_count": 14,
+      "sub_features": [
+        "不定向侧壁",
+        "不定向台阶",
+        "侧壁",
+        "成形铣加工面",
+        "带状直纹面",
+        "法兰盘缺口",
+        "工艺平面",
+        "平面",
+        "清根",
+        "斜侧壁",
+        "斜筋面",
+        "圆周缺口",
+        "圆锥带状面",
+        "柱坐标侧壁"
+      ],
+      "method_workbooks": [
+        "平面加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "外倒角",
+      "sub_feature_count": 1,
+      "sub_features": [
+        "外倒角"
+      ],
+      "method_workbooks": [
+        "倒角加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "外倒圆",
+      "sub_feature_count": 1,
+      "sub_features": [
+        "回转面倒圆"
+      ],
+      "method_workbooks": [
+        "倒圆加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "外螺纹",
+      "sub_feature_count": 1,
+      "sub_features": [
+        "外螺纹"
+      ],
+      "method_workbooks": [
+        "外螺纹加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "外圆柱面",
+      "sub_feature_count": 6,
+      "sub_features": [
+        "外球面",
+        "外圆柱面",
+        "外圆锥面",
+        "圆环面",
+        "轴段",
+        "轴台阶"
+      ],
+      "method_workbooks": [
+        "外圆柱面加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "越程槽",
+      "sub_feature_count": 2,
+      "sub_features": [
+        "外圆弧退刀槽",
+        "越程槽"
+      ],
+      "method_workbooks": [
+        "越程槽加工方法.xlsx"
+      ],
+      "method_xml_mirrors": [
+        "越程槽加工方法.xml"
+      ]
+    },
+    {
+      "canonical_feature": "中心孔",
+      "sub_feature_count": 1,
+      "sub_features": [
+        "中心孔"
+      ],
+      "method_workbooks": [
+        "中心孔加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "轴端面",
+      "sub_feature_count": 3,
+      "sub_features": [
+        "端面",
+        "肩部平面",
+        "轴端面"
+      ],
+      "method_workbooks": [
+        "轴端面加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    },
+    {
+      "canonical_feature": "自定义",
+      "sub_feature_count": 4,
+      "sub_features": [
+        "复杂型面",
+        "矩形截面特种加工槽",
+        "开合平面",
+        "叶片"
+      ],
+      "method_workbooks": [
+        "自定义加工方法.xlsx"
+      ],
+      "method_xml_mirrors": []
+    }
+  ],
+  "sub_feature_map": [
+    {
+      "sub_feature": "3D弧面",
+      "canonical_feature": "3D弧面",
+      "method_workbook": "3D弧面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "L形内环槽",
+      "canonical_feature": "U形外环槽",
+      "method_workbook": "U形外环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "L形外环槽",
+      "canonical_feature": "U形外环槽",
+      "method_workbook": "U形外环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "U形外环槽",
+      "canonical_feature": "U形外环槽",
+      "method_workbook": "U形外环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "A型键槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "C型键槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "L形局部直槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "L形直槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "T型槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "U形直槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "切口",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "半月型键槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "双立面槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "台阶",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "工艺L形直槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "工艺U形直槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "批量同底面台阶",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "斜底台阶",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "斜立面台阶",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "沟槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "轴上沟槽",
+      "canonical_feature": "U形直槽",
+      "method_workbook": "U形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "L形端面环槽",
+      "canonical_feature": "U形端面环槽",
+      "method_workbook": "U形端面环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "U形端面环槽",
+      "canonical_feature": "U形端面环槽",
+      "method_workbook": "U形端面环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "工艺端面环槽",
+      "canonical_feature": "U形端面环槽",
+      "method_workbook": "U形端面环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "V形内环槽",
+      "canonical_feature": "V形环槽",
+      "method_workbook": "V形环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "V形外环槽",
+      "canonical_feature": "V形环槽",
+      "method_workbook": "V形环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "V形环槽",
+      "canonical_feature": "V形环槽",
+      "method_workbook": "V形环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "V形端面环槽",
+      "canonical_feature": "V形环槽",
+      "method_workbook": "V形环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "V形直槽",
+      "canonical_feature": "V形直槽",
+      "method_workbook": "V形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "变深度圆弧底沟槽",
+      "canonical_feature": "V形直槽",
+      "method_workbook": "V形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "圆弧底沟槽",
+      "canonical_feature": "V形直槽",
+      "method_workbook": "V形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "均布斜向直齿齿槽",
+      "canonical_feature": "V形直槽",
+      "method_workbook": "V形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "均布螺旋齿槽",
+      "canonical_feature": "V形直槽",
+      "method_workbook": "V形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "均布锥齿轮圆弧齿槽",
+      "canonical_feature": "V形直槽",
+      "method_workbook": "V形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "均布齿槽",
+      "canonical_feature": "V形直槽",
+      "method_workbook": "V形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "渐开线圆柱齿槽",
+      "canonical_feature": "V形直槽",
+      "method_workbook": "V形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "端面齿槽",
+      "canonical_feature": "V形直槽",
+      "method_workbook": "V形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "轴上三面异形螺旋沟槽",
+      "canonical_feature": "V形直槽",
+      "method_workbook": "V形直槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "中心孔",
+      "canonical_feature": "中心孔",
+      "method_workbook": "中心孔加工方法.xlsx"
+    },
+    {
+      "sub_feature": "倒圆",
+      "canonical_feature": "倒圆",
+      "method_workbook": "倒圆加工方法.xlsx"
+    },
+    {
+      "sub_feature": "孔上倒圆",
+      "canonical_feature": "倒圆",
+      "method_workbook": "倒圆加工方法.xlsx"
+    },
+    {
+      "sub_feature": "根部倒圆",
+      "canonical_feature": "倒圆",
+      "method_workbook": "倒圆加工方法.xlsx"
+    },
+    {
+      "sub_feature": "边倒圆",
+      "canonical_feature": "倒圆",
+      "method_workbook": "倒圆加工方法.xlsx"
+    },
+    {
+      "sub_feature": "倒角",
+      "canonical_feature": "倒角",
+      "method_workbook": "倒角加工方法.xlsx"
+    },
+    {
+      "sub_feature": "边倒角",
+      "canonical_feature": "倒角",
+      "method_workbook": "倒角加工方法.xlsx"
+    },
+    {
+      "sub_feature": "内倒角",
+      "canonical_feature": "内倒角",
+      "method_workbook": "倒角加工方法.xlsx"
+    },
+    {
+      "sub_feature": "根部倒角",
+      "canonical_feature": "内倒角",
+      "method_workbook": "倒角加工方法.xlsx"
+    },
+    {
+      "sub_feature": "内倒角系",
+      "canonical_feature": "内倒角系",
+      "method_workbook": "倒角加工方法.xlsx"
+    },
+    {
+      "sub_feature": "内螺纹",
+      "canonical_feature": "内螺纹",
+      "method_workbook": "内螺纹加工方法.xlsx"
+    },
+    {
+      "sub_feature": "L形局部内环槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "L形局部外环槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "U形局部内环槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "U形局部外环槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "凹槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "单层槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "单纯回转底凹槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "单纯底凹槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "同回转面下陷通槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "同端面下陷平底槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "同端面下陷通槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "回转底直立台阶面",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "固定截面方向台阶立面",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "圆柱面",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "多层槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "工艺方孔",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "工艺矩形槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "工艺角块",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "平底通槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "扇形槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "斜底单层槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "斜底单纯底凹槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "斜立面平底通槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "斜通槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "曲面底凹槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "柱底槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "清角",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "环底槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "球面凹槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "直槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "矩形底凹槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "矩形截面特种加工槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "规则型腔",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "通槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "锥底槽",
+      "canonical_feature": "凹槽",
+      "method_workbook": "凹槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "凸包",
+      "canonical_feature": "单方向曲面",
+      "method_workbook": "单方向曲面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "复杂曲面",
+      "canonical_feature": "单方向曲面",
+      "method_workbook": "单方向曲面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "埋头孔",
+      "canonical_feature": "埋头孔",
+      "method_workbook": "埋头孔加工方法.xlsx"
+    },
+    {
+      "sub_feature": "回转面倒圆",
+      "canonical_feature": "外倒圆",
+      "method_workbook": "倒圆加工方法.xlsx"
+    },
+    {
+      "sub_feature": "外倒角",
+      "canonical_feature": "外倒角",
+      "method_workbook": "倒角加工方法.xlsx"
+    },
+    {
+      "sub_feature": "圆环面",
+      "canonical_feature": "外圆柱面",
+      "method_workbook": "外圆柱面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "外圆柱面",
+      "canonical_feature": "外圆柱面",
+      "method_workbook": "外圆柱面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "外圆锥面",
+      "canonical_feature": "外圆柱面",
+      "method_workbook": "外圆柱面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "外球面",
+      "canonical_feature": "外圆柱面",
+      "method_workbook": "外圆柱面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "轴台阶",
+      "canonical_feature": "外圆柱面",
+      "method_workbook": "外圆柱面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "轴段",
+      "canonical_feature": "外圆柱面",
+      "method_workbook": "外圆柱面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "外螺纹",
+      "canonical_feature": "外螺纹",
+      "method_workbook": "外螺纹加工方法.xlsx"
+    },
+    {
+      "sub_feature": "内圆柱面",
+      "canonical_feature": "孔",
+      "method_workbook": "孔加工方法.xlsx"
+    },
+    {
+      "sub_feature": "内圆锥面",
+      "canonical_feature": "孔",
+      "method_workbook": "孔加工方法.xlsx"
+    },
+    {
+      "sub_feature": "内球面",
+      "canonical_feature": "孔",
+      "method_workbook": "孔加工方法.xlsx"
+    },
+    {
+      "sub_feature": "孔",
+      "canonical_feature": "孔",
+      "method_workbook": "孔加工方法.xlsx"
+    },
+    {
+      "sub_feature": "孔系",
+      "canonical_feature": "孔",
+      "method_workbook": "孔加工方法.xlsx"
+    },
+    {
+      "sub_feature": "工艺孔",
+      "canonical_feature": "孔",
+      "method_workbook": "孔加工方法.xlsx"
+    },
+    {
+      "sub_feature": "简单孔",
+      "canonical_feature": "孔",
+      "method_workbook": "孔加工方法.xlsx"
+    },
+    {
+      "sub_feature": "孔台阶",
+      "canonical_feature": "孔台阶",
+      "method_workbook": "孔台阶加工方法.xlsx"
+    },
+    {
+      "sub_feature": "不定向侧壁",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "不定向台阶",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "侧壁",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "圆周缺口",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "圆锥带状面",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "工艺平面",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "带状直纹面",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "平面",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "成形铣加工面",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "斜侧壁",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "斜筋面",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "柱坐标侧壁",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "法兰盘缺口",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "清根",
+      "canonical_feature": "平面",
+      "method_workbook": "平面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "U形内环槽",
+      "canonical_feature": "环槽",
+      "method_workbook": "环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "内环槽",
+      "canonical_feature": "环槽",
+      "method_workbook": "环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "外环槽",
+      "canonical_feature": "环槽",
+      "method_workbook": "环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "工艺内环槽",
+      "canonical_feature": "环槽",
+      "method_workbook": "环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "工艺外环槽",
+      "canonical_feature": "环槽",
+      "method_workbook": "环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "环槽",
+      "canonical_feature": "环槽",
+      "method_workbook": "环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "端面环槽",
+      "canonical_feature": "环槽",
+      "method_workbook": "环槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "叶片",
+      "canonical_feature": "自定义",
+      "method_workbook": "自定义加工方法.xlsx"
+    },
+    {
+      "sub_feature": "复杂型面",
+      "canonical_feature": "自定义",
+      "method_workbook": "自定义加工方法.xlsx"
+    },
+    {
+      "sub_feature": "开合平面",
+      "canonical_feature": "自定义",
+      "method_workbook": "自定义加工方法.xlsx"
+    },
+    {
+      "sub_feature": "矩形截面特种加工槽",
+      "canonical_feature": "自定义",
+      "method_workbook": "自定义加工方法.xlsx"
+    },
+    {
+      "sub_feature": "外圆弧退刀槽",
+      "canonical_feature": "越程槽",
+      "method_workbook": "越程槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "越程槽",
+      "canonical_feature": "越程槽",
+      "method_workbook": "越程槽加工方法.xlsx"
+    },
+    {
+      "sub_feature": "端面",
+      "canonical_feature": "轴端面",
+      "method_workbook": "轴端面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "肩部平面",
+      "canonical_feature": "轴端面",
+      "method_workbook": "轴端面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "轴端面",
+      "canonical_feature": "轴端面",
+      "method_workbook": "轴端面加工方法.xlsx"
+    },
+    {
+      "sub_feature": "沉头孔",
+      "canonical_feature": "阶梯孔",
+      "method_workbook": "阶梯孔加工方法.xlsx"
+    },
+    {
+      "sub_feature": "阶梯孔",
+      "canonical_feature": "阶梯孔",
+      "method_workbook": "阶梯孔加工方法.xlsx"
+    }
+  ],
+  "feature_mapping_keys": [
+    "source_file",
+    "feature_to_sub_features",
+    "sub_feature_to_features"
+  ]
+}

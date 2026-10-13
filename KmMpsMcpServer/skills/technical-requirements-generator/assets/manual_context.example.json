@@ -1,0 +1,9 @@
+{
+  "material_grade": "9Cr18",
+  "part_class": "bushing",
+  "heat_treatment": "quench",
+  "surface_treatment": null,
+  "has_marking": false,
+  "need_crack_check": true,
+  "need_burn_check": true
+}
