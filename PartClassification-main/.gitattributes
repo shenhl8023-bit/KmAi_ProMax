@@ -1,4 +1,0 @@
-# .bat 必须始终以 CRLF 检出：实测 LF-only 的 .bat 会让 cmd 解析失败
-# （报 '"' is not recognized as an internal or external command）。
-# 显式声明后，无论 clone 者是否设置 core.autocrlf，检出都是 CRLF。
-*.bat text eol=crlf

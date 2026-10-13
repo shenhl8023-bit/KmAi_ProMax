@@ -1,1 +1,0 @@
-"""Local STEP comparison viewer."""

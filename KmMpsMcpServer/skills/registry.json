@@ -1,9 +1,0 @@
-{
-  "_comment": "Skill 注册表。注册项按 skill 拆分到独立 JSON 文件，本文件仅用于引用与元信息。新增 Skill：在 skills/<name>.json 添加一个文件即可。",
-  "skills": [
-    "kmsoft-group-template",
-    "process-route-generator",
-    "technical-requirements-generator",
-    "kmrag-search"
-  ]
-}
