@@ -22,6 +22,18 @@ def _resolve_config_path(value):
     return os.path.normpath(os.path.abspath(value))
 
 
+def _resolve_runtime_index_path(value):
+    value = os.path.expandvars(os.path.expanduser(str(value or "").strip()))
+    if not value:
+        return ""
+    if os.path.isabs(value):
+        return os.path.normpath(os.path.abspath(value))
+    runtime_dir = os.path.expandvars(os.path.expanduser(os.environ.get("KMAI_RUNTIME_DIR", "").strip()))
+    if runtime_dir and os.path.isabs(runtime_dir) and "%" not in runtime_dir:
+        return os.path.normpath(os.path.abspath(os.path.join(runtime_dir, value)))
+    return os.path.normpath(os.path.abspath(os.path.join(CONFIG_BASE_DIR, value)))
+
+
 def _load_config():
     """Load config.ini, return dict with LLM settings and paths."""
     config = {
@@ -45,6 +57,9 @@ def _load_config():
         "similar_parts_feature_api_timeout_seconds": 120,
         "similar_parts_feature_model_version": "",
         "similar_parts_feature_index_file": os.path.join("cache", "similar_parts_features.sqlite3"),
+        "similar_parts_feature_index_seed_file": os.path.join(
+            "Resources", "SimilarParts", "similar_parts_features.sqlite3"
+        ),
         "similar_parts_step_viewer_root": os.path.join("step-compare-main", "step-compare-main"),
         "similar_parts_xml_library_dir": os.path.join("PartClassification-main", "PartClassification-main", "source", "XML样本"),
         "similar_parts_step_library_dir": os.path.join("PartClassification-main", "PartClassification-main", "source", "STEP样本"),
@@ -103,6 +118,7 @@ def _load_config():
                 "prebuilt_model_dir",
                 "template_map_file",
                 "feature_index_file",
+                "feature_index_seed_file",
             ):
                 config["similar_parts_" + key] = cp.get(
                     "SimilarParts", key, fallback=config["similar_parts_" + key]
@@ -143,7 +159,6 @@ def _load_config():
     except Exception as exc:
         sys.stderr.write("[config] load error: %s\n" % exc)
     for key in (
-        "similar_parts_feature_index_file",
         "similar_parts_step_viewer_root",
         "similar_parts_xml_library_dir",
         "similar_parts_step_library_dir",
@@ -154,6 +169,12 @@ def _load_config():
         "similar_parts_template_map_file",
     ):
         config[key] = _resolve_config_path(config.get(key))
+    config["similar_parts_feature_index_file"] = _resolve_runtime_index_path(
+        config.get("similar_parts_feature_index_file")
+    )
+    config["similar_parts_feature_index_seed_file"] = _resolve_config_path(
+        config.get("similar_parts_feature_index_seed_file")
+    )
     return config
 
 

@@ -583,6 +583,17 @@ class AgentRequestHandler(BaseHTTPRequestHandler):
         if self.path.startswith("/api/similar-parts/models/"):
             self._handle_get_similar_model()
             return
+        if self.path == "/api/similar-parts/index/status":
+            try:
+                result = SIMILAR_PARTS.feature_index_status()
+                self._send_json(200, {"status": "success", "result": result})
+            except SimilarPartsError as exc:
+                self._send_similar_parts_error(exc)
+            except Exception:
+                self._send_similar_parts_error(SimilarPartsError(
+                    "FEATURE_INDEX_BUILD_FAILED", "特征索引检查失败，请重试", 503
+                ))
+            return
         if self.path == "/api/health":
             health = {
                 "status": "ok",
@@ -622,11 +633,14 @@ class AgentRequestHandler(BaseHTTPRequestHandler):
         self._send_json(404, {"status": "error", "message": "not found"})
 
     def _send_similar_parts_error(self, exc):
-        self._send_json(exc.http_status, {
+        payload = {
             "status": "error",
             "error_code": exc.code,
             "message": exc.message,
-        })
+        }
+        if getattr(exc, "details", None):
+            payload["result"] = dict(exc.details)
+        self._send_json(exc.http_status, payload)
 
     def _handle_get_similar_model(self):
         prefix = "/api/similar-parts/models/"
@@ -856,6 +870,19 @@ class AgentRequestHandler(BaseHTTPRequestHandler):
                     self._send_json(200, {"status": "success", "result": result})
                 except SimilarPartsError as exc:
                     self._send_similar_parts_error(exc)
+                return
+
+            if self.path == "/api/similar-parts/index/ensure":
+                try:
+                    result = SIMILAR_PARTS.ensure_feature_index()
+                    status = 202 if result.get("state") == "building" else 200
+                    self._send_json(status, {"status": "success", "result": result})
+                except SimilarPartsError as exc:
+                    self._send_similar_parts_error(exc)
+                except Exception:
+                    self._send_similar_parts_error(SimilarPartsError(
+                        "FEATURE_INDEX_BUILD_FAILED", "特征索引准备失败，请重试", 503
+                    ))
                 return
 
             if self.path == "/api/similar-parts/query":

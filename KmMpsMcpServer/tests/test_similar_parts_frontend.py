@@ -11,6 +11,13 @@ ASSETS = ROOT / "frontend" / "assets"
 
 
 class SimilarPartsFrontendTests(unittest.TestCase):
+    def test_interrupted_index_query_resumes_when_panel_is_reopened(self):
+        source = (ASSETS / "modules" / "similar_parts.js").read_text(encoding="utf-8")
+        self.assertIn("panel.__resumeQuery = runQuery", source)
+        self.assertIn("activePanel.__queryPending", source)
+        self.assertIn("activePanel.__resumeQuery()", source)
+        self.assertIn("panel.__queryRunning", source)
+
     def test_camera_fit_keeps_bounding_sphere_inside_narrow_half_viewport(self):
         node_executable = shutil.which("node")
         if not node_executable:
@@ -145,6 +152,16 @@ console.log(JSON.stringify(colors));
         self.assertNotIn("topK:", js)
         self.assertNotIn("Top 3 候选", js)
         self.assertNotIn("Top 5 候选", js)
+
+    def test_query_prepares_feature_index_and_polls_public_progress(self):
+        js = (ASSETS / "modules" / "similar_parts.js").read_text(encoding="utf-8")
+        self.assertIn("/api/similar-parts/index/ensure", js)
+        self.assertIn("/api/similar-parts/index/status", js)
+        self.assertIn("FEATURE_INDEX_BUILDING", js)
+        self.assertIn("completed", js)
+        self.assertIn("total", js)
+        self.assertIn("setTimeout", js)
+        self.assertNotIn("setInterval", js)
 
     def test_recommended_template_row_places_edit_action_next_to_mapped_template(self):
         helper = ASSETS / "modules" / "similar_parts_template_ui.js"

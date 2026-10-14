@@ -374,6 +374,57 @@ function setPanelStatus(panel, text, kind) {
   status.className = 'similar-parts-status ' + (kind || '');
 }
 
+const FEATURE_INDEX_POLL_DELAY_MS = 1000;
+const FEATURE_INDEX_POLL_TIMEOUT_MS = 10 * 60 * 1000;
+
+function featureIndexState(response) {
+  return response && response.result ? response.result : response;
+}
+
+function featureIndexProgress(state) {
+  const completed = Number(state && state.completed || 0);
+  const total = Number(state && state.total || 0);
+  return total > 0 ? (' ' + completed + '/' + total) : '';
+}
+
+function requireOpenPanel(panel) {
+  if (!panel.__closing) return;
+  const error = new Error('相似件索引准备已取消');
+  error.name = 'AbortError';
+  throw error;
+}
+
+async function waitForFeatureIndex(panel, initialState) {
+  const startedAt = Date.now();
+  let state = initialState || {};
+  while (state.state === 'building' || state.state === 'incomplete') {
+    requireOpenPanel(panel);
+    if (Date.now() - startedAt >= FEATURE_INDEX_POLL_TIMEOUT_MS) {
+      throw new Error('相似件索引准备超时，请点击重试');
+    }
+    setPanelStatus(panel, '正在准备相似件索引' + featureIndexProgress(state) + '…', 'is-busy');
+    await new Promise(function(resolve) {
+      window.setTimeout(resolve, FEATURE_INDEX_POLL_DELAY_MS);
+    });
+    requireOpenPanel(panel);
+    state = featureIndexState(await requestJsonPromise(
+      'GET', '/api/similar-parts/index/status', null, 30000
+    ));
+  }
+  requireOpenPanel(panel);
+  if (state.state !== 'ready') {
+    throw new Error((state && state.message) || '相似件索引准备失败，请点击重试');
+  }
+  return state;
+}
+
+async function ensureFeatureIndexReady(panel) {
+  const state = featureIndexState(await requestJsonPromise(
+    'POST', '/api/similar-parts/index/ensure', '{}', 30000
+  ));
+  return waitForFeatureIndex(panel, state);
+}
+
 function showPanel(panel) {
   if (!dom.similarPartsPanel) return;
   panel.__closing = false;
@@ -420,12 +471,16 @@ function closePanel(panel) {
 
 export function openSimilarPartsPanel(options) {
   if (activePanel && document.body.contains(activePanel)) {
+    const shouldResume = activePanel.__closing && activePanel.__queryPending;
     // Bug修复#6：重新打开时，若面板处于错误状态则清除，避免用户看到陈旧错误信息
     const statusEl = activePanel.querySelector('[data-role="status"]');
     if (statusEl && statusEl.classList.contains('is-error')) {
       setPanelStatus(activePanel, '当前零件将从固定目录自动加载，点击查询相似零件', '');
     }
     showPanel(activePanel);
+    if (shouldResume && !activePanel.__queryRunning && activePanel.__resumeQuery) {
+      activePanel.__resumeQuery();
+    }
     return activePanel;
   }
   const host = dom.similarPartsPanel && dom.similarPartsPanel.querySelector('.similar-parts-panel-host');
@@ -538,15 +593,30 @@ export function openSimilarPartsPanel(options) {
 
   // 自动查询函数（开面即触发，错误时可通过重试按钮再次调用）
   async function runQuery() {
+    if (panel.__queryRunning) return;
+    panel.__queryRunning = true;
+    panel.__queryPending = true;
     const retryBtn = panel.querySelector('[data-role="retry"]');
     if (retryBtn) retryBtn.style.display = 'none';
     applyButton.disabled = true;
     setPanelStatus(panel, '正在提取模型特征并检索相似零件…', 'is-busy');
     try {
       await loadCurrentPart();
-      const response = await requestJsonPromise('POST', '/api/similar-parts/query', JSON.stringify({
-        uploadId: panel.__uploadId,
-      }), 120000);
+      requireOpenPanel(panel);
+      await ensureFeatureIndexReady(panel);
+      let response;
+      try {
+        response = await requestJsonPromise('POST', '/api/similar-parts/query', JSON.stringify({
+          uploadId: panel.__uploadId,
+        }), 120000);
+      } catch (error) {
+        if (!error || error.errorCode !== 'FEATURE_INDEX_BUILDING') throw error;
+        await waitForFeatureIndex(panel, featureIndexState(error.payload));
+        response = await requestJsonPromise('POST', '/api/similar-parts/query', JSON.stringify({
+          uploadId: panel.__uploadId,
+        }), 120000);
+      }
+      requireOpenPanel(panel);
       const result = response && response.result ? response.result : response;
       panel.__result = result;
       panel.__candidateIndex = 0;
@@ -584,15 +654,21 @@ export function openSimilarPartsPanel(options) {
       if (sequence !== requestSequence) { disposeObject(currentRoot); return; }
       panel.__viewer.setRoot('current', currentRoot);
       await selectCandidate(0);
+      panel.__queryPending = false;
     } catch (error) {
       if (panel.__closing || (error && error.name === 'AbortError')) return;
+      panel.__queryPending = false;
       let errMsg = error.message || '相似零件查询失败';
       setPanelStatus(panel, errMsg, 'is-error');
       addErrorMsg(errMsg);
       // 出错后显示重试按钮
       if (retryBtn) retryBtn.style.display = '';
+    } finally {
+      panel.__queryRunning = false;
+      if (panel.__queryPending && !panel.__closing) panel.__resumeQuery();
     }
   }
+  panel.__resumeQuery = runQuery;
 
   // 重试按钮事件
   const retryBtn = panel.querySelector('[data-role="retry"]');

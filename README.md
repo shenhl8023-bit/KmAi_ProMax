@@ -230,6 +230,8 @@ feature_api_base_url =
 feature_api_timeout_seconds = 120
 feature_model_version =
 feature_index_file = cache/similar_parts_features.sqlite3
+# 可选的预置索引；运行时会复制到用户缓存目录，不覆盖已有索引。
+feature_index_seed_file = Resources/SimilarParts/similar_parts_features.sqlite3
 top_k = 5
 step_viewer_root = step-compare-main/step-compare-main
 xml_library_dir = data/xml
@@ -249,7 +251,8 @@ model_cache_bytes = 268435456
 - `step_library_dir` 是候选 STEP 库；每个 `.stp/.step` 必须与样本 XML 去掉扩展名后的名称相同。用户提供的数据包中 20/20 均已配对。
 - `current_xml_file` 与 `current_step_file` 指向当前固定导出的零件文件。未指定 XML 文件时可设置 `current_part_dir`，其目录必须只有一个 XML。
 - `template_map_file` 所在目录同时是模板目录，候选模板通过映射读取，不要求模板与零件同名。
-- `feature_api_base_url` 填当前部署允许访问的服务地址；`feature_model_version` 是人工部署标签，模型权重或预处理更新时必须更换标签并重新建库。
+- `feature_api_base_url` 填当前部署允许访问的服务地址；`feature_model_version` 是人工部署标签，模型权重或预处理更新时必须更换标签并重启 KMAI。重启后首次使用相似零件功能会自动增量建库。
+- `feature_index_file` 是运行时索引位置。启动脚本提供 `KMAI_RUNTIME_DIR` 时，相对路径会放到用户可写的运行目录；`feature_index_seed_file` 始终相对配置文件解析。
 - `top_k` 允许 1 到 1000；库中有效零件不足时返回实际数量。
 - 配置和接口不会向浏览器返回本机绝对路径。缺少排名内任一 STEP 或模板时会明确报数据库错误，不会用后续候选顶替。
 
@@ -261,7 +264,7 @@ STEP 三维转换复用 `step-compare`。Windows x64 运行环境按其锁定依
 py -3.12 -m pip install --require-hashes -r step-compare-main/step-compare-main/requirements.txt
 ```
 
-填好配置后，先运行 `python KmMpsMcpServer/build_feature_index.py` 建立零件库索引，再启动系统。操作顺序：打开五步工作流 → 点击“匹配分组模板” → 在候选列表或“上一件/下一件”间切换 → 编辑或应用当前分组模板。库内 XML 新增或变更后重新运行建库脚本，成功向量可增量复用。应用失败不会完成第一步，可直接重试。详见 [特征向量匹配说明](docs/feature-vector-matching.md)。
+启动系统后直接打开五步工作流并点击“匹配分组模板”即可。系统会优先复用预置索引；缺少索引或库内 XML 新增、变更时，后台自动增量建库，界面显示 `已完成/总数` 进度，完成后自动继续查询。应用失败不会完成第一步，可直接重试。管理员需要提前预热或排查问题时，仍可手动运行 `python KmMpsMcpServer/build_feature_index.py --config config.ini`。详见 [特征向量匹配说明](docs/feature-vector-matching.md)。
 
 ---
 
@@ -277,6 +280,7 @@ py -3.12 -m pip install --require-hashes -r step-compare-main/step-compare-main/
 | `/assets/*` | 前端静态资源（仅允许 `_ASSETS_DIR` 内部，防 `..` 穿越） |
 | `/similar-assets/three/*` | 本地 Three.js 模块（仅允许配置的离线 vendor 目录） |
 | `/api/similar-parts/models/{modelId}.glb` | 获取一次查询登记的当前/候选 GLB 模型 |
+| `/api/similar-parts/index/status` | 查看特征索引准备状态与进度 |
 | `/api/health` | 健康检查（含命名管道、LLM 状态） |
 | `/api/config/llm` | 当前 LLM 配置（API key 仅返回脱敏后版本） |
 | `/api/agents` | 列出已加载的 agent 概要 |
@@ -300,6 +304,7 @@ py -3.12 -m pip install --require-hashes -r step-compare-main/step-compare-main/
 | `/api/config/llm` | 热更新 LLM 配置 |
 | `/api/similar-parts/upload` | 上传并校验当前零件 XML |
 | `/api/similar-parts/current` | 从固定目录读取当前零件 XML |
+| `/api/similar-parts/index/ensure` | 复用预置索引或启动后台增量建库 |
 | `/api/similar-parts/query` | 按特征向量查询 Top N 相似零件并登记模型 |
 | `/api/similar-parts/template` | 读取候选映射的模板供前端编辑 |
 | `/api/similar-parts/apply-template` | 应用当前候选绑定的分组模板 |

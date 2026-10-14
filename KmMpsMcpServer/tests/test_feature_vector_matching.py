@@ -24,6 +24,8 @@ class FeatureVectorMatchingTests(unittest.TestCase):
         cls.requests = []
         cls.responses = {}
         cls.wire_response = None
+        cls.request_gate = None
+        cls.request_started = threading.Event()
 
         class Handler(BaseHTTPRequestHandler):
             def log_message(self, *args):
@@ -42,6 +44,9 @@ class FeatureVectorMatchingTests(unittest.TestCase):
                 content = fields["xml_file"].get_payload(decode=True)
                 file_id = fields["file_id"].get_payload(decode=True).decode()
                 cls.requests.append((self.path, fields, file_id, content))
+                cls.request_started.set()
+                if cls.request_gate is not None:
+                    cls.request_gate.wait(5)
                 status, feature = cls.responses.get(content, (200, vector(1)))
                 if isinstance(feature, dict):
                     payload = feature
@@ -74,6 +79,8 @@ class FeatureVectorMatchingTests(unittest.TestCase):
         self.requests.clear()
         self.responses.clear()
         self.__class__.wire_response = None
+        self.__class__.request_gate = None
+        self.request_started.clear()
         self.config = {
             "similar_parts_feature_api_base_url": "http://127.0.0.1:%d" % self.server.server_port,
             "similar_parts_feature_api_timeout_seconds": 3,
@@ -107,6 +114,44 @@ class FeatureVectorMatchingTests(unittest.TestCase):
         report = self.matcher().build()
         self.assertEqual((report["extracted"], report["cached"]), (0, 1))
         self.matcher().query(xml("甲"), "renamed.xml", 5)
+        self.assertEqual(len(self.requests), 1)
+
+    def test_background_index_lifecycle_retries_only_failed_entries_over_http(self):
+        from KmMpsMcpServer.backend.feature_index_manager import FeatureIndexManager
+
+        (self.library / "a.xml").write_bytes(xml("a"))
+        (self.library / "b.xml").write_bytes(xml("b"))
+        self.responses[xml("b")] = (500, vector(1))
+        self.__class__.request_gate = threading.Event()
+        manager = FeatureIndexManager(self.config)
+        first = manager.ensure()
+        worker = manager._thread
+        try:
+            self.assertTrue(self.request_started.wait(3))
+            self.assertEqual(first["state"], "building")
+            self.assertEqual(manager.ensure()["jobId"], first["jobId"])
+            self.assertEqual(manager.status()["state"], "building")
+        finally:
+            self.request_gate.set()
+            worker.join(5)
+        self.assertFalse(worker.is_alive())
+        failed = manager.status()
+        self.assertEqual((failed["state"], failed["completed"], failed["failed"]), ("failed", 2, 1))
+        self.assertEqual(failed["errorCode"], "FEATURE_API_ERROR")
+
+        self.responses[xml("b")] = (200, vector(0.8, 0.6))
+        self.requests.clear()
+        retry = manager.ensure()
+        worker = manager._thread
+        if worker is not None:
+            worker.join(5)
+            self.assertFalse(worker.is_alive())
+        ready = manager.status()
+        self.assertNotEqual(retry["jobId"], first["jobId"])
+        self.assertEqual((ready["state"], ready["cached"], ready["extracted"]), ("ready", 1, 1))
+        self.assertEqual([entry[3] for entry in self.requests], [xml("b")])
+        rows = manager.matcher.query(xml("a"), "current.xml", 2)
+        self.assertEqual([row["name"] for row in rows], ["a.xml", "b.xml"])
         self.assertEqual(len(self.requests), 1)
 
     def test_cosine_ranking_and_content_self_match_not_filename(self):
@@ -184,6 +229,35 @@ class FeatureVectorMatchingTests(unittest.TestCase):
         self.assert_code("FEATURE_INDEX_INVALID", self.matcher().query, xml("a"), "a.xml", 3)
         self.config["similar_parts_feature_api_base_url"] = ""
         self.assert_code("FEATURE_API_NOT_CONFIGURED", self.matcher().build)
+
+    def test_index_status_reports_missing_complete_and_changed_entries_without_uploading(self):
+        (self.library / "a.xml").write_bytes(xml("a"))
+        matcher = self.matcher()
+
+        missing = matcher.index_status()
+        self.assertEqual(missing["state"], "missing")
+        self.assertEqual((missing["total"], missing["indexed"], missing["missing"]), (1, 0, 1))
+        self.assertEqual(self.requests, [])
+
+        matcher.build()
+        ready = matcher.index_status()
+        self.assertEqual(ready["state"], "ready")
+        self.assertEqual((ready["total"], ready["indexed"], ready["missing"]), (1, 1, 0))
+        self.assertEqual(len(self.requests), 1)
+
+        (self.library / "a.xml").write_bytes(xml("changed"))
+        incomplete = matcher.index_status()
+        self.assertEqual(incomplete["state"], "incomplete")
+        self.assertEqual((incomplete["total"], incomplete["indexed"], incomplete["missing"]), (1, 0, 1))
+        self.assertEqual(len(self.requests), 1)
+
+    def test_index_status_reports_corrupt_index_without_uploading(self):
+        (self.library / "a.xml").write_bytes(xml("a"))
+        Path(self.config["similar_parts_feature_index_file"]).write_bytes(b"corrupt sqlite")
+        status = self.matcher().index_status()
+        self.assertEqual(status["state"], "invalid")
+        self.assertEqual(status["total"], 1)
+        self.assertEqual(self.requests, [])
 
     def test_utf8_and_chinese_legacy_xml_are_validated_without_old_classifier(self):
         from KmMpsMcpServer.backend.feature_vector_matching import validate_xml

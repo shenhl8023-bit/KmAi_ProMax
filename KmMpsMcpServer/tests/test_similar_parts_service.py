@@ -32,6 +32,20 @@ class FailingTessellation:
         raise AssertionError("Win7 Lite mode must not invoke STEP tessellation")
 
 
+class FeatureIndexManagerStub:
+    def __init__(self, matcher, state):
+        self.matcher = matcher
+        self.state = dict(state)
+        self.ensure_calls = 0
+
+    def ensure(self):
+        self.ensure_calls += 1
+        return dict(self.state)
+
+    def status(self):
+        return dict(self.state)
+
+
 class FixtureFeatureClient:
     namespace = "service-fixture"
 
@@ -43,6 +57,29 @@ class FixtureFeatureClient:
 
 
 class SimilarPartsServiceTests(unittest.TestCase):
+    def test_index_manager_unexpected_errors_are_safe_for_query_and_status(self):
+        from KmMpsMcpServer.backend.similar_parts_service import SimilarPartsService, SimilarPartsError
+
+        class BrokenManager:
+            def ensure(self):
+                raise OSError("private-index-path")
+
+            def status(self):
+                raise OSError("private-index-path")
+
+        service = SimilarPartsService(self.config, index_manager=BrokenManager())
+        upload = service.upload_xml("current.xml", kmsoft_xml_bytes())
+        for operation in (
+            service.ensure_feature_index,
+            service.feature_index_status,
+            lambda: service.query(upload["uploadId"]),
+        ):
+            with self.subTest(operation=operation):
+                with self.assertRaises(SimilarPartsError) as caught:
+                    operation()
+                self.assertEqual(caught.exception.code, "FEATURE_INDEX_BUILD_FAILED")
+                self.assertNotIn("private-index-path", caught.exception.message)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         base = Path(self.temp.name)
@@ -369,6 +406,26 @@ class SimilarPartsServiceTests(unittest.TestCase):
         with self.assertRaises(SimilarPartsError) as caught:
             service.query(upload["uploadId"])
         self.assertEqual(caught.exception.code, "FEATURE_API_NOT_CONFIGURED")
+
+    def test_query_waits_for_feature_index_and_exposes_public_build_status(self):
+        from KmMpsMcpServer.backend.similar_parts_service import SimilarPartsError, SimilarPartsService
+
+        matcher = self.service()._matcher
+        manager = FeatureIndexManagerStub(matcher, {
+            "state": "building", "jobId": "job-1", "total": 3, "completed": 1,
+            "cached": 1, "extracted": 0, "failed": 0, "currentFile": "一.xml",
+            "errorCode": "", "message": "",
+        })
+        service = SimilarPartsService(self.config, matcher=matcher, index_manager=manager)
+        upload = service.upload_xml("当前零件.XML", kmsoft_xml_bytes())
+
+        self.assertEqual(service.feature_index_status()["jobId"], "job-1")
+        with self.assertRaises(SimilarPartsError) as caught:
+            service.query(upload["uploadId"], top_k=3)
+        self.assertEqual(caught.exception.code, "FEATURE_INDEX_BUILDING")
+        self.assertEqual(caught.exception.http_status, 409)
+        self.assertEqual(caught.exception.details["completed"], 1)
+        self.assertEqual(manager.ensure_calls, 1)
 
     def test_upload_rejects_bad_extension_invalid_xml_and_oversize(self):
         from KmMpsMcpServer.backend.similar_parts_service import SimilarPartsError

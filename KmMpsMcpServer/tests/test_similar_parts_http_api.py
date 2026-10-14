@@ -34,6 +34,12 @@ from backend.similar_parts_service import SimilarPartsError
 class _StubService(object):
     def __init__(self):
         self.calls = []
+        self.index_state = {
+            "state": "ready", "jobId": "", "total": 2, "completed": 2,
+            "cached": 2, "extracted": 0, "failed": 0, "currentFile": "",
+            "errorCode": "", "message": "",
+        }
+        self.index_building = False
 
     def upload_xml(self, filename, content):
         self.calls.append(("upload", filename, content))
@@ -43,7 +49,19 @@ class _StubService(object):
 
     def query(self, upload_id, top_k=3):
         self.calls.append(("query", upload_id, top_k))
+        if self.index_building:
+            raise SimilarPartsError(
+                "FEATURE_INDEX_BUILDING", "正在准备相似件索引", 409, details=self.index_state
+            )
         return {"uploadId": upload_id, "current": {"modelUrl": "/api/similar-parts/models/current.glb"}, "candidates": []}
+
+    def ensure_feature_index(self):
+        self.calls.append(("index-ensure",))
+        return dict(self.index_state)
+
+    def feature_index_status(self):
+        self.calls.append(("index-status",))
+        return dict(self.index_state)
 
     def load_current_part(self):
         self.calls.append(("current",))
@@ -179,6 +197,48 @@ class SimilarPartsHttpApiTests(unittest.TestCase):
         json.loads(self.post("/api/similar-parts/query", {"uploadId": "upload-1"}).read().decode("utf-8"))
 
         self.assertEqual(self.service.calls, [("query", "upload-1", None)])
+
+    def test_feature_index_ensure_and_status_routes_keep_public_state(self):
+        self.service.index_state.update({"state": "building", "jobId": "job-1", "completed": 1})
+        ensured = self.post("/api/similar-parts/index/ensure", {}).read().decode("utf-8")
+        self.assertEqual(json.loads(ensured)["result"]["jobId"], "job-1")
+        status = json.loads(self.get("/api/similar-parts/index/status").read().decode("utf-8"))
+        self.assertEqual(status["result"]["completed"], 1)
+        self.assertIn(("index-ensure",), self.service.calls)
+        self.assertIn(("index-status",), self.service.calls)
+
+    def test_feature_index_building_query_returns_409_with_status(self):
+        self.service.index_building = True
+        self.service.index_state.update({"state": "building", "jobId": "job-1"})
+        with self.assertRaises(HTTPError) as caught:
+            self.post("/api/similar-parts/query", {"uploadId": "upload-1"})
+        self.assertEqual(caught.exception.code, 409)
+        payload = json.loads(caught.exception.read().decode("utf-8"))
+        self.assertEqual(payload["error_code"], "FEATURE_INDEX_BUILDING")
+        self.assertEqual(payload["result"]["jobId"], "job-1")
+
+    def test_feature_index_status_route_requires_api_token(self):
+        with self.assertRaises(HTTPError) as caught:
+            self.get("/api/similar-parts/index/status", token=False)
+        self.assertEqual(caught.exception.code, 403)
+
+    def test_feature_index_routes_hide_unexpected_exception_details(self):
+        def fail():
+            raise OSError("private-index-location-and-upstream-body")
+
+        self.service.ensure_feature_index = fail
+        self.service.feature_index_status = fail
+        for call in (
+            lambda: self.post("/api/similar-parts/index/ensure", {}),
+            lambda: self.get("/api/similar-parts/index/status"),
+        ):
+            with self.subTest(call=call):
+                with self.assertRaises(HTTPError) as caught:
+                    call()
+                with caught.exception as response:
+                    payload = json.loads(response.read().decode("utf-8"))
+                self.assertEqual(payload["error_code"], "FEATURE_INDEX_BUILD_FAILED")
+                self.assertNotIn("private-index-location", json.dumps(payload))
 
     def test_invalid_base64_and_service_errors_are_stable(self):
         with self.assertRaises(HTTPError) as invalid:

@@ -238,6 +238,33 @@ class FeatureVectorMatcher:
                     progress(index, len(paths), path.name, status)
         return report
 
+    def index_status(self):
+        """Return current-library coverage without extracting any features."""
+        self.client
+        paths = self._library()
+        total = len(paths)
+        base = {"total": total, "indexed": 0, "missing": total}
+        try:
+            with self._database() as connection:
+                indexed = 0
+                for path in paths:
+                    _content, digest = self._read_xml(path)
+                    if self._cached(connection, digest) is not None:
+                        indexed += 1
+        except FeatureVectorError as exc:
+            if exc.code == "FEATURE_INDEX_MISSING":
+                return dict(base, state="missing")
+            if exc.code == "FEATURE_INDEX_INVALID":
+                return dict(base, state="invalid")
+            raise
+        missing = total - indexed
+        return {
+            "state": "ready" if missing == 0 else "incomplete",
+            "total": total,
+            "indexed": indexed,
+            "missing": missing,
+        }
+
     def query(self, content, filename, top_k):
         if isinstance(top_k, bool) or not isinstance(top_k, int) or not 1 <= top_k <= MAX_TOP_K:
             raise FeatureVectorError("INVALID_TOP_K", "topK 必须是 1 到 1000 之间的整数", 400)

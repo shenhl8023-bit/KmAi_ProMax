@@ -3,10 +3,45 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+import os
 from pathlib import Path
 
 
 class SimilarPartsConfigTests(unittest.TestCase):
+    def test_relative_index_path_uses_runtime_dir_when_configured(self):
+        from KmMpsMcpServer.backend import agent_config
+
+        original_path = agent_config.CONFIG_PATH
+        original_base = agent_config.CONFIG_BASE_DIR
+        original_runtime = os.environ.get("KMAI_RUNTIME_DIR")
+        try:
+            with tempfile.TemporaryDirectory() as temp_dir, tempfile.TemporaryDirectory() as runtime_dir:
+                config_path = Path(temp_dir) / "config.ini"
+                agent_config.CONFIG_PATH = str(config_path)
+                agent_config.CONFIG_BASE_DIR = temp_dir
+                os.environ["KMAI_RUNTIME_DIR"] = runtime_dir
+                config_path.write_text(
+                    "[SimilarParts]\nfeature_index_file = cache/features.sqlite3\n"
+                    "feature_index_seed_file = Resources/seed.sqlite3\n",
+                    encoding="utf-8",
+                )
+                loaded = agent_config._load_config()
+                self.assertEqual(
+                    loaded["similar_parts_feature_index_file"],
+                    str(Path(runtime_dir) / "cache" / "features.sqlite3"),
+                )
+                self.assertEqual(
+                    loaded["similar_parts_feature_index_seed_file"],
+                    str(Path(temp_dir) / "Resources" / "seed.sqlite3"),
+                )
+        finally:
+            agent_config.CONFIG_PATH = original_path
+            agent_config.CONFIG_BASE_DIR = original_base
+            if original_runtime is None:
+                os.environ.pop("KMAI_RUNTIME_DIR", None)
+            else:
+                os.environ["KMAI_RUNTIME_DIR"] = original_runtime
+
     def test_top_k_loads_valid_value_and_falls_back_to_five(self):
         from KmMpsMcpServer.backend import agent_config
 
@@ -53,6 +88,10 @@ class SimilarPartsConfigTests(unittest.TestCase):
                 self.assertEqual(config["similar_parts_feature_api_timeout_seconds"], 25)
                 self.assertEqual(config["similar_parts_feature_model_version"], "deployment-2")
                 self.assertEqual(config["similar_parts_feature_index_file"], str(Path(temp_dir) / "cache/features.sqlite3"))
+                self.assertEqual(
+                    config["similar_parts_feature_index_seed_file"],
+                    str(Path(temp_dir) / "Resources" / "SimilarParts" / "similar_parts_features.sqlite3"),
+                )
         finally:
             agent_config.CONFIG_PATH, agent_config.CONFIG_BASE_DIR = original_path, original_base
 

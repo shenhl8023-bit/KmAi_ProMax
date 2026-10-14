@@ -12,23 +12,26 @@ import xml.etree.ElementTree as ET
 from collections import OrderedDict
 from pathlib import Path
 
+from .feature_index_manager import FeatureIndexManager
 from .feature_vector_matching import FeatureVectorError, FeatureVectorMatcher, MAX_TOP_K, validate_xml
 
 
 class SimilarPartsError(Exception):
-    def __init__(self, code, message, http_status=400):
+    def __init__(self, code, message, http_status=400, details=None):
         super().__init__(message)
         self.code = code
         self.message = message
         self.http_status = int(http_status)
+        self.details = dict(details or {})
 
 
 class SimilarPartsService(object):
     """Feature vector similarity, controlled model access, and template handoff."""
 
-    def __init__(self, config, matcher=None, tessellator=None, clock=None):
+    def __init__(self, config, matcher=None, tessellator=None, clock=None, index_manager=None):
         self.config = dict(config or {})
         self._matcher = matcher
+        self._index_manager = index_manager or FeatureIndexManager(self.config, matcher=matcher)
         self._tessellator = tessellator
         self._clock = clock or time.monotonic
         self._lock = threading.RLock()
@@ -355,6 +358,34 @@ class SimilarPartsService(object):
             return 5
         return top_k if 1 <= top_k <= MAX_TOP_K else 5
 
+    def ensure_feature_index(self):
+        if not self.enabled:
+            raise SimilarPartsError("FEATURE_DISABLED", "相似零件查询未启用", 503)
+        try:
+            state = self._index_manager.ensure()
+        except FeatureVectorError as exc:
+            raise SimilarPartsError(exc.code, exc.message, exc.http_status) from exc
+        except Exception as exc:
+            raise SimilarPartsError("FEATURE_INDEX_BUILD_FAILED", "特征索引准备失败，请重试", 503) from exc
+        if state.get("state") == "failed":
+            raise SimilarPartsError(
+                state.get("errorCode") or "FEATURE_INDEX_BUILD_FAILED",
+                state.get("message") or "特征索引准备失败，请重试",
+                503,
+                details=state,
+            )
+        return dict(state)
+
+    def feature_index_status(self):
+        if not self.enabled:
+            raise SimilarPartsError("FEATURE_DISABLED", "相似零件查询未启用", 503)
+        try:
+            return dict(self._index_manager.status())
+        except FeatureVectorError as exc:
+            raise SimilarPartsError(exc.code, exc.message, exc.http_status) from exc
+        except Exception as exc:
+            raise SimilarPartsError("FEATURE_INDEX_BUILD_FAILED", "特征索引检查失败，请重试", 503) from exc
+
     def query(self, upload_id, top_k=None):
         if top_k is None:
             top_k = self._configured_top_k()
@@ -363,9 +394,16 @@ class SimilarPartsService(object):
         upload = self._get_upload(upload_id)
         if self.config.get("similar_parts_matching_backend", "feature_vector") != "feature_vector":
             raise SimilarPartsError("MATCHING_BACKEND_INVALID", "请将 matching_backend 配置为 feature_vector", 503)
+        index_state = self.ensure_feature_index()
+        if index_state.get("state") != "ready":
+            raise SimilarPartsError(
+                "FEATURE_INDEX_BUILDING",
+                "正在准备相似件索引，请稍候",
+                409,
+                details=index_state,
+            )
         try:
-            if self._matcher is None:
-                self._matcher = FeatureVectorMatcher(self.config)
+            self._matcher = self._index_manager.matcher
             candidates = self._matcher.query(upload["content"], upload["filename"], top_k)
         except FeatureVectorError as exc:
             raise SimilarPartsError(exc.code, exc.message, exc.http_status) from exc
