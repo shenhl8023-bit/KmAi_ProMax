@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const path = require('node:path');
+const path = require('path');
 const {
   listXmlFiles,
   parseFeatureCatalogFile,

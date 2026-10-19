@@ -110,7 +110,13 @@ class SimilarPartsService(object):
             and path.suffix.lower() == ".glb"
             and path.stem.casefold() in [item.casefold() for item in stems]
         ]
-        matches.sort(key=lambda path: path.name.casefold())
+        stem_order = {stem.casefold(): index for index, stem in enumerate(stems)}
+        matches.sort(
+            key=lambda path: (
+                stem_order.get(path.stem.casefold(), len(stems)),
+                path.name.casefold(),
+            )
+        )
         if not matches:
             raise SimilarPartsError(
                 "PREBUILT_MODEL_MISSING",

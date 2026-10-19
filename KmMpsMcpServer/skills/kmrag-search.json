@@ -10,6 +10,7 @@
       "command": "python-auto",
       "args": ["scripts/kmai_kmrag_search.py"],
       "python_min_version": "3.10",
+      "python_min_version_win7": "3.8",
       "timeout": 35,
       "description": "检索企业知识库并返回有限、可追溯的记录。",
       "parameters": {

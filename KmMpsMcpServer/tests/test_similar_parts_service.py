@@ -211,6 +211,62 @@ class SimilarPartsServiceTests(unittest.TestCase):
             service.get_model(result["candidates"][0]["modelId"])
         self.assertEqual(ctx.exception.code, "PREBUILT_MODEL_MISSING")
 
+    def test_win7_lite_mode_rejects_corrupt_prebuilt_glb(self):
+        prebuilt_dir = Path(self.temp.name) / "models"
+        prebuilt_dir.mkdir()
+        (prebuilt_dir / "候选1.glb").write_bytes(b"not-glb")
+        self.config.update({
+            "similar_parts_win7_lite_mode": True,
+            "similar_parts_prebuilt_model_dir": str(prebuilt_dir),
+        })
+        from KmMpsMcpServer.backend.similar_parts_service import SimilarPartsError
+
+        service = self.service()
+        upload = service.upload_xml("当前零件.XML", kmsoft_xml_bytes())
+        result = service.query(upload["uploadId"], top_k=3)
+        with self.assertRaises(SimilarPartsError) as ctx:
+            service.get_model(result["candidates"][0]["modelId"])
+        self.assertEqual(ctx.exception.code, "PREBUILT_MODEL_INVALID")
+
+    def test_win7_lite_mode_prefers_xml_stem_then_falls_back_to_step_stem(self):
+        prebuilt_dir = Path(self.temp.name) / "models"
+        prebuilt_dir.mkdir()
+        (prebuilt_dir / "候选1.glb").write_bytes(b"glTF-xml")
+        (prebuilt_dir / "other-step.glb").write_bytes(b"glTF-step")
+        self.config.update({
+            "similar_parts_win7_lite_mode": True,
+            "similar_parts_prebuilt_model_dir": str(prebuilt_dir),
+        })
+        service = self.service()
+        self.assertEqual(
+            prebuilt_dir / "候选1.glb",
+            service._find_prebuilt_model("候选1", str(self.step_dir / "other-step.stp")),
+        )
+        (prebuilt_dir / "候选1.glb").unlink()
+        self.assertEqual(
+            prebuilt_dir / "other-step.glb",
+            service._find_prebuilt_model("候选1", str(self.step_dir / "other-step.stp")),
+        )
+
+    def test_win7_lite_mode_rejects_prebuilt_symlink_outside_root(self):
+        prebuilt_dir = Path(self.temp.name) / "models"
+        outside = Path(self.temp.name) / "outside.glb"
+        prebuilt_dir.mkdir()
+        outside.write_bytes(b"glTF-outside")
+        try:
+            (prebuilt_dir / "候选1.glb").symlink_to(outside)
+        except (OSError, NotImplementedError):
+            self.skipTest("symlinks are unavailable on this Windows host")
+        self.config.update({
+            "similar_parts_win7_lite_mode": True,
+            "similar_parts_prebuilt_model_dir": str(prebuilt_dir),
+        })
+        service = self.service()
+        from KmMpsMcpServer.backend.similar_parts_service import SimilarPartsError
+        with self.assertRaises(SimilarPartsError) as ctx:
+            service._find_prebuilt_model("候选1", "候选1.stp")
+        self.assertEqual(ctx.exception.code, "PREBUILT_MODEL_MISSING")
+
     def test_prepare_template_writes_edited_xml_instead_of_original_mapping(self):
         destination = Path(self.temp.name) / "saved"
         service = self.service()

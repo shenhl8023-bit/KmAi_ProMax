@@ -13,6 +13,7 @@
                                      "scripts/kmai_generate_route.py"
                                  ],
                         "python_min_version":  "3.10",
+                        "python_min_version_win7":  "3.8",
                         "timeout":  120,
                         "description":  "根据 cad_input 和 manual 生成工艺路线。返回 summary、factors、standard_route、matched_route 和 route。",
                         "parameters":  {

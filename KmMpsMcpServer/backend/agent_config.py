@@ -60,7 +60,9 @@ def _load_config():
         "similar_parts_feature_index_seed_file": os.path.join(
             "Resources", "SimilarParts", "similar_parts_features.sqlite3"
         ),
-        "similar_parts_step_viewer_root": os.path.join("step-compare-main", "step-compare-main"),
+        # Win7 packages flatten the viewer into step-compare/; keep this
+        # default valid for existing config.ini files that omit the key.
+        "similar_parts_step_viewer_root": "step-compare",
         "similar_parts_xml_library_dir": os.path.join("PartClassification-main", "PartClassification-main", "source", "XML样本"),
         "similar_parts_step_library_dir": os.path.join("PartClassification-main", "PartClassification-main", "source", "STEP样本"),
         "similar_parts_current_part_dir": "",
@@ -69,7 +71,10 @@ def _load_config():
         "similar_parts_win7_lite_mode": False,
         "similar_parts_prebuilt_model_dir": "",
         "similar_parts_top_k": 5,
-        "similar_parts_template_map_file": os.path.join("PartClassification-main", "PartClassification-main", "source", "模板", "模板映射.json"),
+        # Win7 packages ship the approved mapping beside the bundled samples.
+        "similar_parts_template_map_file": os.path.join(
+            "Resources", "SimilarParts", "模板", "模板映射.json"
+        ),
         "similar_parts_upload_max_bytes": 5 * 1024 * 1024,
         "similar_parts_cache_ttl_seconds": 30 * 60,
         "similar_parts_model_cache_entries": 8,

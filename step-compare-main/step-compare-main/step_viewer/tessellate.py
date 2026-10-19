@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import io
+import os
 import re
+import tempfile
 from dataclasses import dataclass
 
 import cascadio
@@ -110,6 +112,52 @@ def _to_mesh(glb: bytes) -> trimesh.Trimesh:
         raise TessellateError("转换结果不是有效的 GLB", "INVALID_GLB") from exc
 
 
+def _convert_step_to_glb(data: bytes, filename: str) -> bytes:
+    """Convert STEP bytes with either the modern or CPython 3.8 API.
+
+    cascadio 0.1.x exposes an in-memory ``load`` function.  The last
+    Win7-capable wheel (0.0.17) exposes ``step_to_glb`` and accepts file
+    paths instead.  Keeping the compatibility branch here preserves the
+    service's real-time STEP contract without requiring a build-time GLB
+    cache.
+    """
+    load = getattr(cascadio, "load", None)
+    if callable(load):
+        return load(data, file_type="step", tol_linear=0.01, tol_angular=0.15)
+
+    step_to_glb = getattr(cascadio, "step_to_glb", None)
+    if not callable(step_to_glb):
+        raise TessellateError("STEP 转换组件缺少可用接口", "CONVERTER_UNAVAILABLE")
+
+    raw_name = str(filename or "step.stp")
+    safe_name = re.split(r"[\\/]", raw_name)[-1] or "step.stp"
+    safe_name = re.sub(r'[<>:"|?*\x00-\x1f]', "_", safe_name)
+    if not re.search(r"\.(?:stp|step)$", safe_name, flags=re.IGNORECASE):
+        safe_name += ".stp"
+    with tempfile.TemporaryDirectory(prefix="kmai-step-") as temp_dir:
+        input_path = os.path.join(temp_dir, safe_name)
+        output_name = re.sub(r"\.(?:stp|step)$", ".glb", safe_name, flags=re.IGNORECASE)
+        output_path = os.path.join(temp_dir, output_name)
+        with open(input_path, "wb") as stream:
+            stream.write(data)
+        result = step_to_glb(
+            input_path,
+            output_path,
+            tol_linear=0.01,
+            tol_angular=0.15,
+        )
+        if result not in (None, 0):
+            raise TessellateError("无法解析 STEP 文件", "INVALID_STEP")
+        try:
+            with open(output_path, "rb") as stream:
+                glb = stream.read()
+        except (OSError, IOError) as exc:
+            raise TessellateError("转换结果不是有效的 GLB", "INVALID_GLB") from exc
+    if not glb or not glb.startswith(b"glTF"):
+        raise TessellateError("转换结果不是有效的 GLB", "INVALID_GLB")
+    return glb
+
+
 def tessellate_step(data: bytes, filename: str = "") -> TessellateResult:
     if not data or not data.lstrip().upper().startswith(b"ISO-10303"):
         raise TessellateError("无法解析 STEP 文件", "INVALID_STEP")
@@ -120,7 +168,7 @@ def tessellate_step(data: bytes, filename: str = "") -> TessellateResult:
         # A 0.12 mm tolerance makes some otherwise small NX exports spend many
         # minutes in OpenCascade.  10 mm in SI metres still preserves
         # the visible part shape while keeping browser previews responsive.
-        glb = cascadio.load(data, file_type="step", tol_linear=0.01, tol_angular=0.15)
+        glb = _convert_step_to_glb(data, filename)
     except Exception as exc:
         raise TessellateError("无法解析 STEP 文件", "INVALID_STEP") from exc
 

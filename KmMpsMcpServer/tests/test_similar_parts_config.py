@@ -8,6 +8,40 @@ from pathlib import Path
 
 
 class SimilarPartsConfigTests(unittest.TestCase):
+    def test_step_viewer_default_matches_win7_package_layout(self):
+        from KmMpsMcpServer.backend import agent_config
+
+        original_path, original_base = agent_config.CONFIG_PATH, agent_config.CONFIG_BASE_DIR
+        try:
+            with tempfile.TemporaryDirectory() as temp_dir:
+                config_path = Path(temp_dir) / "config.ini"
+                agent_config.CONFIG_PATH, agent_config.CONFIG_BASE_DIR = str(config_path), temp_dir
+                config_path.write_text("[SimilarParts]\nenabled = true\n", encoding="utf-8")
+                loaded = agent_config._load_config()
+                self.assertEqual(
+                    loaded["similar_parts_step_viewer_root"],
+                    str(Path(temp_dir) / "step-compare"),
+                )
+        finally:
+            agent_config.CONFIG_PATH, agent_config.CONFIG_BASE_DIR = original_path, original_base
+
+    def test_template_map_default_matches_win7_package_layout(self):
+        from KmMpsMcpServer.backend import agent_config
+
+        original_path, original_base = agent_config.CONFIG_PATH, agent_config.CONFIG_BASE_DIR
+        try:
+            with tempfile.TemporaryDirectory() as temp_dir:
+                config_path = Path(temp_dir) / "config.ini"
+                agent_config.CONFIG_PATH, agent_config.CONFIG_BASE_DIR = str(config_path), temp_dir
+                config_path.write_text("[SimilarParts]\nenabled = true\n", encoding="utf-8")
+                loaded = agent_config._load_config()
+                self.assertEqual(
+                    loaded["similar_parts_template_map_file"],
+                    str(Path(temp_dir) / "Resources" / "SimilarParts" / "模板" / "模板映射.json"),
+                )
+        finally:
+            agent_config.CONFIG_PATH, agent_config.CONFIG_BASE_DIR = original_path, original_base
+
     def test_relative_index_path_uses_runtime_dir_when_configured(self):
         from KmMpsMcpServer.backend import agent_config
 

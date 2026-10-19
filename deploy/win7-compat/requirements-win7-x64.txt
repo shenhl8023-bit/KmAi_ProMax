@@ -1,0 +1,15 @@
+# Offline STEP conversion dependencies for the bundled CPython 3.8 x64 runtime.
+# 这些 wheel 会在执行 build_win7_package.py 前安装到指定运行时。
+# is run; the target machine never downloads packages.
+cascadio==0.0.17 \
+    --hash=sha256:4132950b7c3680d9828fb8645672c6c1dbd308ba00b97af82cdc7c0685432164
+numpy==1.24.4 \
+    --hash=sha256:692f2e0f55794943c5bfff12b3f56f99af76f902fc47487bdfe97856de51a706
+trimesh==3.23.5 \
+    --hash=sha256:9cfc592c7ad6475ebfe51c90b0a1e686d627735cea6e6e18e40745be3ecfaab9
+
+# The builder also requires these explicit, offline inputs:
+# - CPython 3.8.x x64 portable distribution (complete directory)
+# - Node.js 12.22.12 x64
+# - Win7-capable CEF/Qt client files
+# - SimilarParts data containing XML and STEP samples

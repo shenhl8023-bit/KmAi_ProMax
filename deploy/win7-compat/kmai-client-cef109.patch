@@ -1,0 +1,456 @@
+diff --git a/KmAiChatCef.pro b/KmAiChatCef.pro
+index dd2ecda..b24b26a 100644
+--- a/KmAiChatCef.pro
++++ b/KmAiChatCef.pro
+@@ -5,8 +5,12 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+ CONFIG += c++17
+ 
+ # --- 路径配置 ---
+-INCLUDEPATH += $$PWD/../QCefView/include
+-LIBS += -L$$PWD/../QCefView/lib -lQCefView
++KMAI_QCEF_ROOT = $$(KMAI_QCEF_ROOT)
++isEmpty(KMAI_QCEF_ROOT): error("KMAI_QCEF_ROOT must point to the CEF 109 SDK")
++INCLUDEPATH += $$quote($$KMAI_QCEF_ROOT/include)
++LIBS += -L$$quote($$KMAI_QCEF_ROOT/lib) -lQCefView
++DEFINES += WINVER=0x0601 _WIN32_WINNT=0x0601
++QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,6.01
+ 
+ # --- 关键修改：Release 模式下开启调试 ---
+ # 1. force_debug_info: 告诉 qmake 即使在 Release 模式也要生成调试符号
+diff --git a/KmAiChatCefWidget.cpp b/KmAiChatCefWidget.cpp
+index a250a03..db47618 100644
+--- a/KmAiChatCefWidget.cpp
++++ b/KmAiChatCefWidget.cpp
+@@ -20,7 +20,7 @@ KmAiChatCefWidget::KmAiChatCefWidget(const QString url, const QCefSetting* setti
+ 
+ KmAiChatCefWidget::~KmAiChatCefWidget() {}
+ 
+-QCefView* KmAiChatCefWidget::onNewBrowser(const QCefFrameId& sourceFrameId,
++QCefView* KmAiChatCefWidget::onNewBrowser(qint64 sourceFrameId,
+                                            const QString& url,
+                                            const QString& name,
+                                            CefWindowOpenDisposition targetDisposition,
+@@ -51,13 +51,13 @@ void KmAiChatCefWidget::onNewDownloadItem(const QSharedPointer<QCefDownloadItem>
+     // keep the item into list or map, and call item->start() to allow the download
+ }
+ 
+-void KmAiChatCefWidget::onLoadEnd(const QCefBrowserId& browserId, const QCefFrameId& frameId,
++void KmAiChatCefWidget::onLoadEnd(int browserId, qint64 frameId,
+                                    bool isMainFrame, int httpStatusCode)
+ {
+     qInfo() << "Load end, code = " << httpStatusCode;
+ }
+ 
+-void KmAiChatCefWidget::onLoadError(const QCefBrowserId& browserId, const QCefFrameId& frameId, bool isMainFrame,
++void KmAiChatCefWidget::onLoadError(int browserId, qint64 frameId, bool isMainFrame,
+                                      int errorCode, const QString & errorMsg, const QString & failedUrl)
+ {
+     qCritical() << "Load error:----------------------------------\n"
+diff --git a/KmAiChatCefWidget.h b/KmAiChatCefWidget.h
+index 10b89cb..3edd467 100644
+--- a/KmAiChatCefWidget.h
++++ b/KmAiChatCefWidget.h
+@@ -12,20 +12,20 @@ public:
+     ~KmAiChatCefWidget();
+ 
+ protected:
+-    QCefView* onNewBrowser(const QCefFrameId& sourceFrameId,
++    QCefView* onNewBrowser(qint64 sourceFrameId,
+                            const QString& url,
+                            const QString& name,
+                            CefWindowOpenDisposition targetDisposition,
+                            QRect& rect,
+                            QCefSetting& settings) override;
+-    void onNewDownloadItem(QSharedPointer<QCefDownloadItem>& item,
++    void onNewDownloadItem(const QSharedPointer<QCefDownloadItem>& item,
+                            const QString& suggestedName) override;
+ 
+ private slots:
+-    void onLoadEnd(const QCefBrowserId& browserId, const QCefFrameId& frameId,
++    void onLoadEnd(int browserId, qint64 frameId,
+                    bool isMainFrame, int httpStatusCode);
+ 
+-    void onLoadError(const QCefBrowserId& browserId, const QCefFrameId& frameId, bool isMainFrame,
++    void onLoadError(int browserId, qint64 frameId, bool isMainFrame,
+                      int errorCode, const QString & errorMsg, const QString & failedUrl);
+ 
+ private:
+diff --git a/KmAiChatManager.cpp b/KmAiChatManager.cpp
+index 8fcad07..6cdd561 100644
+--- a/KmAiChatManager.cpp
++++ b/KmAiChatManager.cpp
+@@ -8,6 +8,7 @@
+ #include <QNetworkInterface>
+ #include "KmConfig.h"
+ #include "KmLogger.h"
++#include "KmRuntime.h"
+ 
+ KmAiChatManager::KmAiChatManager(QObject *parent)
+     : QObject(parent)
+@@ -48,7 +49,7 @@ void KmAiChatManager::startAiChat(int argc, char *argv[])
+         qInfo() << "Get local ip : " << localIp;
+         webUrlRequest += "$/?webserver=" + localIp + ":" + QString::number(m_dSocketServerPort);
+     }
+-    webUrlRequest = m_sWebUrl;
++    webUrlRequest = m_sWebUrl.isEmpty() ? KmRuntime::webUrl() : m_sWebUrl;
+     QCefSetting setting;
+     setting.setBackgroundColor(QColor::fromRgb(255, 255, 255));
+     m_pAiChatWidget = new KmAiChatCefWidget(webUrlRequest, &setting, NULL);
+diff --git a/KmLogger.h b/KmLogger.h
+index 4284774..ec8a1c3 100644
+--- a/KmLogger.h
++++ b/KmLogger.h
+@@ -8,6 +8,8 @@
+ #include <QDateTime>
+ #include <QCoreApplication>
+ #include "KmConfig.h"
++#include "KmRuntime.h"
++#include <QTextStream>
+ 
+ #define KM_LOG_LEVEL_DEBUG      5
+ #define KM_LOG_LEVEL_INFO       4
+@@ -81,7 +83,7 @@ void loadLoggerSetting()
+     logLevel     = getStringFormSettings("log/level",        QString::number(KM_LOG_LEVEL_INFO)).toInt();
+     logToFile    = getStringFormSettings("log/logToFile",    QString::number(1)).toInt();
+     logFileLine  = getStringFormSettings("log/showFileLine", QString::number(1)).toInt();
+-    QString logPathPrefix = getStringFormSettings("log/logPath", rootDir.absolutePath() + QDir::separator() + "log");
++    QString logPathPrefix = QDir(KmRuntime::stateRoot()).filePath("logs");
+     logPath = QDir::cleanPath(logPathPrefix + QDir::separator() + KM_LOG_FILENAME);
+     QString logDir = QFileInfo(logPath).dir().path();
+     rootDir.mkpath(logDir);
+diff --git a/KmRuntime.h b/KmRuntime.h
+new file mode 100644
+index 0000000..054bda6
+--- /dev/null
++++ b/KmRuntime.h
+@@ -0,0 +1,71 @@
++#ifndef KM_RUNTIME_H
++#define KM_RUNTIME_H
++
++#include <QCoreApplication>
++#include <QDir>
++#include <QFileInfo>
++#include <QSettings>
++#include <QStringList>
++#include <QUrl>
++
++namespace KmRuntime {
++inline bool hasPackageFiles(const QString& root)
++{
++    const QDir package(root);
++    return QFileInfo(package.filePath("runtime/python.exe")).isFile()
++        && QFileInfo(package.filePath("launcher.py")).isFile();
++}
++
++inline QString packageRoot()
++{
++    const QString configured = qEnvironmentVariable("KMAI_PACKAGE_ROOT").trimmed();
++    if (!configured.isEmpty() && hasPackageFiles(configured))
++        return QDir::cleanPath(QDir(configured).absolutePath());
++
++    const QString applicationDir = QDir::cleanPath(QCoreApplication::applicationDirPath());
++    const QStringList candidates = {
++        applicationDir,
++        QDir(applicationDir).filePath("KmAI"),
++        QDir::cleanPath(QDir(applicationDir).filePath("..")),
++        QDir::cleanPath(QDir(applicationDir).filePath("../KmAI")),
++    };
++    for (const QString& candidate : candidates) {
++        if (hasPackageFiles(candidate))
++            return QDir::cleanPath(QDir(candidate).absolutePath());
++    }
++    // 找不到完整包时保留历史 CefView/KmAiChatCef.exe 布局，便于输出明确的缺失文件日志。
++    return QDir::cleanPath(QDir(applicationDir).filePath(".."));
++}
++
++inline QString stateRoot()
++{
++    const QString configured = qEnvironmentVariable("KMAI_RUNTIME_DIR").trimmed();
++    if (!configured.isEmpty())
++        return QDir(configured).absolutePath();
++    const QString local = qEnvironmentVariable("LOCALAPPDATA").trimmed();
++    if (!local.isEmpty())
++        return QDir(local).filePath("KmAI");
++    const QString temp = qEnvironmentVariable("TEMP").trimmed();
++    if (!temp.isEmpty())
++        return QDir(temp).filePath("KmAI");
++    const QString tmp = qEnvironmentVariable("TMP").trimmed();
++    if (!tmp.isEmpty())
++        return QDir(tmp).filePath("KmAI");
++    const QString profile = qEnvironmentVariable("USERPROFILE").trimmed();
++    return profile.isEmpty() ? QString()
++        : QDir(profile).filePath("AppData/Local/KmAI");
++}
++
++inline QString webUrl()
++{
++    QSettings settings(QDir(packageRoot()).filePath("config.ini"), QSettings::IniFormat);
++    settings.setIniCodec("UTF-8");
++    const QUrl url(settings.value("WebView/url", "http://127.0.0.1:9095/").toString());
++    // 包内启动器只负责本机回环地址的 HTTP Agent。
++    if (!url.isValid() || url.scheme() != "http" || url.host() != "127.0.0.1"
++        || !url.userInfo().isEmpty() || url.port(80) < 1 || url.port(80) > 65535)
++        return QString();
++    return url.toString();
++}
++}
++#endif
+diff --git a/kmdockingmainwindow.cpp b/kmdockingmainwindow.cpp
+index 2334f68..3b32257 100644
+--- a/kmdockingmainwindow.cpp
++++ b/kmdockingmainwindow.cpp
+@@ -12,6 +12,8 @@
+ #include <QNetworkInterface>
+ #include "kmprocessmanager.h"
+ #include "qthread.h"
++#include "KmRuntime.h"
++#include <QMessageBox>
+ 
+ // 定义唯一的窗口类名，MFC 将使用此名称查找窗口
+ const wchar_t* const kDockingWindowClassName = L"KmmpsAiChatCef";
+@@ -70,57 +72,21 @@ QString KmDockingMainWindow::getLocalIp() {
+ }
+ 
+ void KmDockingMainWindow::initCefAndLoadUrl() {
+-    // 1. 【第一步】启动 MCP 服务程序    // 假设你的 exe 名字是 "KmMcpService.exe"，放在主程序同级目录下
+-    QString mcpExeName = "KmMcpService.exe";
+-    // 调用单例启动
+-    if (!KmProcessManager::instance()->startMcpService(mcpExeName)) {
+-        // 如果启动失败，你可以选择弹窗警告
+-        qWarning() << "MCP Service failed to start, URL may not work.";
++    if (!KmProcessManager::instance()->startMcpService()) {
++        QMessageBox::critical(this, "KmAI 启动失败",
++            "本地 Agent 未能就绪，请检查配置、端口及运行目录中的 logs。");
++        QTimer::singleShot(0, qApp, []() { QCoreApplication::exit(1); });
++        return;
+     }
+ 
+     // 稍微延时一下，等待 exe 完全启动并监听端口
+-    QThread::msleep(500); // 不推荐阻塞主线程，更好的方式是在 exe 端做好端口复用或重试机制
+ 
+     // 读取配置并获取 URL
+     // 我们在这里先获取 URL，以便传递给 Widget 的构造函数
+     QString urlToLoad = getUrlFromConfig();
+     qDebug() << "[Config] Loading URL:" << urlToLoad;
+ 
+-    // 2. 获取本机 IP
+-    QString localIp = getLocalIp();
+-
+-    // 3. 构造动态的 mcpUrl
+-    // 端口 8090 这里写死，如果需要也可以放进 config.ini 读取
+-    QString mcpUrl = QString("http://%1:8090/mcp").arg(localIp);
+-    QString markId = QUuid::createUuid()
+-                     .toString(QUuid::WithoutBraces)
+-                     .remove('-');
+-
+-    // 2. 准备 JSON 数据
+-    QJsonObject json;
+-    json["appId"] = "3dmps";
+-    json["markId"] = markId;
+-    json["token"] = "123";
+-    json["mcpUrl"] = mcpUrl;
+-
+-    // 转换为紧凑的 JSON 字符串
+-    QString fileInfoJson = QJsonDocument(json).toJson(QJsonDocument::Compact);
+-
+-    // 3. URL 编码（非常关键）
+-    // 因为 JSON 包含 {}" 等特殊字符，如果不编码，浏览器解析会出错
+-    QString encodedJson = QUrl::toPercentEncoding(fileInfoJson);
+-
+-    // 4. 手动拼接最终 URL
+-    // Legacy remote UI example omitted.
+-    QString finalUrl;
+-
+-    if (urlToLoad.endsWith("/")) {
+-        // 防止双斜杠，去掉末尾斜杠
+-        urlToLoad.chop(1);
+-    }
+-
+-    finalUrl = QString("%1?fileInfo=%2").arg(urlToLoad).arg(encodedJson);
+-    //finalUrl = urlToLoad;
++    QString finalUrl = urlToLoad;
+ 
+     qInfo() << "[MainWindow] Constructed Final URL:" << finalUrl;
+ 
+@@ -136,12 +102,7 @@ void KmDockingMainWindow::initCefAndLoadUrl() {
+ 
+ // [新增辅助函数] 从配置文件读取 URL
+ QString KmDockingMainWindow::getUrlFromConfig() {
+-    QString configPath = QDir::toNativeSeparators(
+-        QCoreApplication::applicationDirPath() + QDir::separator() + "config.ini");
+-    qDebug() << "[Config] Loading configPath:" << configPath;
+-    QSettings settings(configPath, QSettings::IniFormat);
+-    // 默认值设为百度或谷歌，防止配置文件缺失
+-    return settings.value("WebView/url", "https://www.baidu.com").toString();
++    return KmRuntime::webUrl();
+ }
+ 
+ bool KmDockingMainWindow::registerWindowClass() {
+diff --git a/kmprocessmanager.cpp b/kmprocessmanager.cpp
+index c5727c1..a8076b9 100644
+--- a/kmprocessmanager.cpp
++++ b/kmprocessmanager.cpp
+@@ -3,6 +3,8 @@
+ #include <QDir>
+ #include <QDebug>
+ #include <QMetaObject>
++#include "KmRuntime.h"
++#include <qt_windows.h>
+ 
+ // 静态成员初始化
+ KmProcessManager* KmProcessManager::instance() {
+@@ -15,16 +17,15 @@ KmProcessManager::KmProcessManager(QObject *parent) : QObject(parent) {
+ 
+     // 1. 关键：将子进程的标准输出重定向，这样 qDebug 才能看到 exe 的打印
+     m_process->setProcessChannelMode(QProcess::MergedChannels);
++    m_process->setCreateProcessArgumentsModifier([](QProcess::CreateProcessArguments *args) {
++        args->flags |= CREATE_NO_WINDOW;
++    });
+ }
+ 
+-KmProcessManager::~KmProcessManager() {
+-    if (m_process && m_process->state() == QProcess::Running) {
+-        m_process->kill();
+-        m_process->waitForFinished(1000);
+-    }
+-}
++// The launcher exits after readiness; the shared Agent is stopped explicitly.
++KmProcessManager::~KmProcessManager() = default;
+ 
+-bool KmProcessManager::startMcpService(const QString& exeName) {
++bool KmProcessManager::runLauncher(const QString& action) {
+     // 1. 防止重复启动
+     if (m_process->state() == QProcess::Running) {
+         qInfo() << "[ProcessManager] MCP service is already running.";
+@@ -32,11 +33,13 @@ bool KmProcessManager::startMcpService(const QString& exeName) {
+     }
+ 
+     // 2. 拼接绝对路径：当前程序目录下 + exeName
+-    QString appPath = QCoreApplication::applicationDirPath();
+-    QString fullPath = QDir::toNativeSeparators(appPath + "/KmMpsMcpServer" + exeName);
++    QString appPath = KmRuntime::packageRoot();
++    QString fullPath = QDir(appPath).filePath("runtime/python.exe");
++    QString launcher = QDir(appPath).filePath("launcher.py");
++    QUrl url(KmRuntime::webUrl());
+ 
+     // 3. 检查文件是否存在
+-    if (!QFile::exists(fullPath)) {
++    if (url.isEmpty() || !QFile::exists(fullPath) || !QFile::exists(launcher)) {
+         qCritical() << "[ProcessManager] MCP executable not found:" << fullPath;
+         return false;
+     }
+@@ -62,7 +65,8 @@ bool KmProcessManager::startMcpService(const QString& exeName) {
+     // 5. 启动程序（无需传参则传空列表）
+     // 设置工作目录为程序目录，防止 exe 读取相对路径配置文件失败
+     m_process->setWorkingDirectory(appPath);
+-    m_process->start(fullPath, QStringList());
++    m_process->start(fullPath, {launcher, action, "--package-root", appPath,
++        "--state-dir", KmRuntime::stateRoot(), "--port", QString::number(url.port(80))});
+ 
+     // 等待一小会儿检查是否启动成功
+     if (!m_process->waitForStarted(3000)) {
+@@ -70,16 +74,19 @@ bool KmProcessManager::startMcpService(const QString& exeName) {
+         return false;
+     }
+ 
+-    return true;
++    if (!m_process->waitForFinished(30000)) {
++        m_process->kill();
++        m_process->waitForFinished(3000);
++        qCritical() << "[ProcessManager] Agent launcher timed out.";
++        return false;
++    }
++    return m_process->exitStatus() == QProcess::NormalExit && m_process->exitCode() == 0;
++}
++
++bool KmProcessManager::startMcpService() {
++    return runLauncher("start");
+ }
+ 
+ void KmProcessManager::stopMcpService() {
+-    if (m_process && m_process->state() == QProcess::Running) {
+-        qInfo() << "[ProcessManager] Stopping MCP service...";
+-        m_process->terminate();
+-        m_process->waitForFinished(3000); // 等待 3 秒让程序优雅退出
+-        if (m_process->state() == QProcess::Running) {
+-            m_process->kill(); // 强制杀死
+-        }
+-    }
++    runLauncher("stop");
+ }
+diff --git a/kmprocessmanager.h b/kmprocessmanager.h
+index 48d81de..d9af3b6 100644
+--- a/kmprocessmanager.h
++++ b/kmprocessmanager.h
+@@ -25,7 +25,7 @@ public:
+      * @param exeName 可执行文件名（例如 "MyMcpServer.exe"）
+      * @return true 如果启动成功或进程已在运行
+      */
+-    bool startMcpService(const QString& exeName);
++    bool startMcpService();
+ 
+     /**
+      * @brief 停止并清理 MCP 服务
+@@ -33,6 +33,7 @@ public:
+     void stopMcpService();
+ 
+ private:
++    bool runLauncher(const QString& action);
+     explicit KmProcessManager(QObject *parent = nullptr);
+     ~KmProcessManager();
+ 
+diff --git a/main.cpp b/main.cpp
+index 6b61623..7e32eea 100644
+--- a/main.cpp
++++ b/main.cpp
+@@ -1,20 +1,46 @@
+ #include <QApplication>
++#include <QMessageBox>
+ #include <QCefContext.h>
+ #include <QCefSetting.h>
+ #include <QCefView.h>
+-#include "KmAiChatManager.h"
+ #include "KmDockingMainWindow.h"
++#include "KmRuntime.h"
+ 
+ int main(int argc, char *argv[])
+ {
+     QApplication a(argc, argv);
+ 
++    QCoreApplication::setApplicationName("KmAI");
++    const QString state = KmRuntime::stateRoot();
++    const QString root = KmRuntime::packageRoot();
++    if (state.isEmpty() || state.compare(root, Qt::CaseInsensitive) == 0
++        || state.startsWith(root + "/", Qt::CaseInsensitive)
++        || !QDir().mkpath(state) || !QDir::setCurrent(state)) {
++        QMessageBox::critical(nullptr, "KmAI", "请将 KMAI_RUNTIME_DIR 设置为安装目录之外的可写目录。");
++        return 1;
++    }
++    qputenv("KMAI_RUNTIME_DIR", state.toUtf8());
++    qputenv("KMAI_PACKAGE_ROOT", root.toUtf8());
++
+     // 1. 配置 CEF
+     QCefConfig config;
+-    config.setUserAgent("QCefViewTest");
+-    config.setLogLevel(QCefConfig::LOGSEVERITY_DEFAULT);
++    config.setUserAgent("KmAI-Win7/1.0 Chrome/109.0.5414.120");
++    config.setLogLevel(QCefConfig::LOGSEVERITY_WARNING);
+     config.setBridgeObjectName("CallBridge");
+-    config.setRemoteDebuggingPort(9000);
++    config.setBrowserSubProcessPath(QDir(root).filePath("CefViewWing.exe"));
++    config.setResourceDirectoryPath(QDir(root).filePath("resources"));
++    config.setLocalesDirectoryPath(QDir(root).filePath("resources/locales"));
++    config.setCachePath(QDir(state).filePath("cef/cache"));
++    config.setUserDataPath(QDir(state).filePath("cef/user-data"));
++    bool debugPortValid = false;
++    const int debugPort = qEnvironmentVariableIntValue("KMAI_CEF_DEBUG_PORT", &debugPortValid);
++    if (debugPortValid && debugPort >= 1024 && debugPort <= 32767) {
++        config.setRemoteDebuggingPort(static_cast<short>(debugPort));
++        config.addCommandLineSwitchWithValue("remote-debugging-address", "127.0.0.1");
++    }
+     config.setBackgroundColor(Qt::lightGray);
+     config.setWindowlessRenderingEnabled(true);
++    config.addCommandLineSwitch("disable-gpu");
++    config.addCommandLineSwitch("disable-gpu-compositing");
++    config.addCommandLineSwitchWithValue("disable-features", "VizDisplayCompositor");
+     config.addCommandLineSwitch("use-mock-keychain");

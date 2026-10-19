@@ -171,9 +171,9 @@ def compare_values(actual: Any, op: str, expected: Any) -> bool:
     if op == "<=":
         return actual is not None and actual <= expected
     if op == "in":
-        return actual in expected if isinstance(expected, list | tuple | set) else False
+        return actual in expected if isinstance(expected, (list, tuple, set)) else False
     if op == "not_in":
-        return actual not in expected if isinstance(expected, list | tuple | set) else True
+        return actual not in expected if isinstance(expected, (list, tuple, set)) else True
     if op == "contains":
         if isinstance(actual, list):
             return expected in actual

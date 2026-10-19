@@ -1,7 +1,8 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const crypto = require('node:crypto');
-const { spawnSync } = require('node:child_process');
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+const os = require('os');
+const { spawnSync } = require('child_process');
 
 const REQUIRED_GROUP_FIELDS = ['依赖方向', '依赖方式', '特征选择'];
 const IMPLICIT_GROUP_FIELDS = ['名称'];
@@ -90,7 +91,8 @@ function encodeGb2312WithPowerShell(text) {
     return { ok: false, message: 'PowerShell GB2312 fallback is only available on Windows' };
   }
 
-  const tempDir = path.join(__dirname, '..', '..', '..', '.codex-runtime', 'skill-encoding');
+  const runtimeDir = process.env.KMAI_RUNTIME_DIR || os.tmpdir();
+  const tempDir = path.join(runtimeDir, 'skill-encoding');
   fs.mkdirSync(tempDir, { recursive: true });
   const tempId = `${Date.now()}_${crypto.randomBytes(6).toString('hex')}`;
   const inputPath = path.join(tempDir, `input_${tempId}.utf8.xml`);
@@ -551,7 +553,9 @@ function applyOperations(inputDraft, operations) {
           break;
         }
         ensurePartField(draft, field);
-        draft.partParams[field] = String(op.value ?? '');
+        draft.partParams[field] = String(
+          op.value === undefined || op.value === null ? '' : op.value
+        );
         logs.push(`set Part param ${field}`);
         break;
       }
@@ -609,7 +613,9 @@ function applyOperations(inputDraft, operations) {
           break;
         }
         for (const group of targets) {
-          group.params[field] = String(op.value ?? '');
+          group.params[field] = String(
+            op.value === undefined || op.value === null ? '' : op.value
+          );
           if (field === '名称') {
             group.name = group.params[field].trim();
           }
@@ -649,7 +655,7 @@ function applyOperations(inputDraft, operations) {
 }
 
 function xmlEscape(value) {
-  return String(value ?? '')
+  return String(value === undefined || value === null ? '' : value)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')

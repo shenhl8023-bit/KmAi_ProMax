@@ -233,12 +233,12 @@ feature_index_file = cache/similar_parts_features.sqlite3
 # 可选的预置索引；运行时会复制到用户缓存目录，不覆盖已有索引。
 feature_index_seed_file = Resources/SimilarParts/similar_parts_features.sqlite3
 top_k = 5
-step_viewer_root = step-compare-main/step-compare-main
+step_viewer_root = step-compare
 xml_library_dir = data/xml
 step_library_dir = data/step
-current_xml_file = data/current/AIBasicInfo.xml
-current_step_file = data/current/stepModel.stp
-template_map_file = PartClassification-main/PartClassification-main/source/模板/模板映射.json
+current_xml_file = C:/tmp/3dmps-data/AIBasicInfo.xml
+current_step_file = C:/tmp/3dmps-data/stepModel.stp
+template_map_file = Resources/SimilarParts/模板/模板映射.json
 upload_max_bytes = 5242880
 cache_ttl_seconds = 1800
 model_cache_entries = 8
@@ -249,19 +249,21 @@ model_cache_bytes = 268435456
 
 - `xml_library_dir` 是相似度样本库。项目自带的 20 个 XML 已与 `模板映射.json` 完整对应。
 - `step_library_dir` 是候选 STEP 库；每个 `.stp/.step` 必须与样本 XML 去掉扩展名后的名称相同。用户提供的数据包中 20/20 均已配对。
-- `current_xml_file` 与 `current_step_file` 指向当前固定导出的零件文件。未指定 XML 文件时可设置 `current_part_dir`，其目录必须只有一个 XML。
+- `current_xml_file` 与 `current_step_file` 固定指向 `C:/tmp/3dmps-data/AIBasicInfo.xml` 和 `C:/tmp/3dmps-data/stepModel.stp`；`current_part_dir` 保持为空。
 - `template_map_file` 所在目录同时是模板目录，候选模板通过映射读取，不要求模板与零件同名。
 - `feature_api_base_url` 填当前部署允许访问的服务地址；`feature_model_version` 是人工部署标签，模型权重或预处理更新时必须更换标签并重启 KMAI。重启后首次使用相似零件功能会自动增量建库。
 - `feature_index_file` 是运行时索引位置。启动脚本提供 `KMAI_RUNTIME_DIR` 时，相对路径会放到用户可写的运行目录；`feature_index_seed_file` 始终相对配置文件解析。
 - `top_k` 允许 1 到 1000；库中有效零件不足时返回实际数量。
 - 配置和接口不会向浏览器返回本机绝对路径。缺少排名内任一 STEP 或模板时会明确报数据库错误，不会用后续候选顶替。
 
-STEP 三维转换复用 `step-compare`。Windows x64 运行环境按其锁定依赖安装（当前依赖文件面向 CPython 3.12）：
+STEP 三维转换复用 `step-compare`。普通环境使用内存式转换；Win7 包将兼容的
+`step_viewer` 与 `cascadio 0.0.17`、`numpy 1.24.4`、`trimesh 3.23.5` 一起放入
+CPython 3.8 运行目录，目标机按请求实时读取 STEP 并生成临时 GLB：
 
 这里的“转换”只用于浏览器预览：原始 `.stp/.step` 文件保持不变，服务在内存中生成临时 GLB 网格供 Three.js 显示。浏览器不能直接解析 STEP 的 CAD/B-Rep 几何。预览采用交互显示精度，避免复杂 NX STEP 因过细网格长时间占用 CPU；相似度计算和模板应用不读取临时 GLB。
 
 ```cmd
-py -3.12 -m pip install --require-hashes -r step-compare-main/step-compare-main/requirements.txt
+py -3.8 -m pip install --no-index --find-links <离线 wheel 目录> --require-hashes -r deploy/win7-compat/requirements-win7-x64.txt
 ```
 
 启动系统后直接打开五步工作流并点击“匹配分组模板”即可。系统会优先复用预置索引；缺少索引或库内 XML 新增、变更时，后台自动增量建库，界面显示 `已完成/总数` 进度，完成后自动继续查询。应用失败不会完成第一步，可直接重试。管理员需要提前预热或排查问题时，仍可手动运行 `python KmMpsMcpServer/build_feature_index.py --config config.ini`。详见 [特征向量匹配说明](docs/feature-vector-matching.md)。
@@ -434,3 +436,22 @@ tools:
 | 日期 | 改动 |
 |---|---|
 | 2026-06-30 | 初版 README 生成（基于项目结构与源码梳理） |
+
+## Windows 7 SP1 x64 部署
+
+Windows 7 版本使用独立的 `deploy/win7-compat` 模板和仓库外输出目录，
+不改变现有 Windows 10/11 启动入口。部署包必须由显式批准的 CPython 3.8
+x64（含离线 STEP 转换依赖）、Node.js 12.22.12 x64、Win7-capable CEF/Qt 和
+SimilarParts 数据构建；预生成 GLB 只作为可选缓存。构建器会生成版本、架构和
+SHA-256 清单，并拒绝缺失或未锁定的输入。
+
+Win7 兼容 profile 的 Skill Runner 只接受包内 `runtime\\python.exe` 和
+`runtime\\node.exe`；缺少这些运行时会报告结构化错误，不回退到系统 PATH。
+启动器优先使用 `KMAI_RUNTIME_DIR`，未设置时依次尝试 `%LOCALAPPDATA%\\KmAI`、
+`%TEMP%\\KmAI`、`%TMP%\\KmAI` 和 `%USERPROFILE%\\AppData\\Local\\KmAI`，并拒绝把
+状态和日志写回安装包目录。
+
+详细的离线构建、`config.ini`、启动/停止、Node Skill、实时 STEP 转换和 Win7 VM
+验收步骤见 [`docs/deployment-win7.md`](docs/deployment-win7.md)。Node Skill
+`kmsoft-group-template` 的 `propose`/`confirm` 和中文 XML 处理仍保留。
+部署包无需公网或运行时安装依赖；SimilarParts 排序仍须配置获批的内网特征服务和模型版本。

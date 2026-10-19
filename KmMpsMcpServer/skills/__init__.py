@@ -25,11 +25,11 @@ import subprocess
 import sys
 
 try:
-    from .runner import SkillRunner
+    from .runner import RuntimeResolutionError, SkillRunner
 except ImportError:
     # 允许作为独立脚本被 import
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    from runner import SkillRunner
+    from runner import RuntimeResolutionError, SkillRunner
 
 
 # 聚合顺序：先列具体 skill，最后是 fallback（如果有）
@@ -112,9 +112,12 @@ def _version_text(version_tuple):
 
 
 def _diagnose_runner_runtime(runner):
-    min_version = runner.python_min_version
-    if runner.command in ("python-auto", "py") and min_version is None:
-        min_version = (3, 10)
+    if hasattr(runner, "_minimum_python_version"):
+        min_version = runner._minimum_python_version()
+    else:
+        min_version = runner.python_min_version
+        if runner.command in ("python-auto", "py") and min_version is None:
+            min_version = (3, 10)
 
     info = {
         "command": runner.command,
@@ -133,24 +136,45 @@ def _diagnose_runner_runtime(runner):
         except Exception as exc:
             info["ok"] = False
             info["error"] = str(exc)
+            if isinstance(exc, RuntimeResolutionError):
+                info["error_code"] = exc.error_code
         return info
 
     info["resolved_command"] = ""
     info["resolved_version"] = ""
     runtime_name = os.path.splitext(os.path.basename(runner.command))[0].lower()
-    resolved_command = shutil.which(runner.command)
+    try:
+        if hasattr(runner, "_resolve_node_command"):
+            resolved_command = runner._resolve_node_command()
+        else:
+            resolved_command = shutil.which(runner.command)
+            if resolved_command:
+                resolved_command = [resolved_command]
+    except RuntimeResolutionError as exc:
+        info["ok"] = False
+        info["error_code"] = exc.error_code
+        info["error"] = "runtime command was not found"
+        return info
+    except Exception:
+        resolved_command = None
     if not resolved_command:
         info["ok"] = False
         info["error_code"] = "NODE_NOT_FOUND" if runtime_name == "node" else "RUNTIME_NOT_FOUND"
-        info["error"] = "runtime command was not found: %s" % runner.command
+        info["error"] = "runtime command was not found"
         return info
 
-    info["resolved_command"] = os.path.abspath(resolved_command)
+    info["resolved_command"] = os.path.abspath(resolved_command[0])
     if runtime_name != "node":
         return info
 
     # Node 是当前核心 Skill 的唯一非 Python 运行时，显式探测版本便于部署诊断。
     try:
+        if hasattr(runner, "_probe_node_version"):
+            resolved_version = runner._probe_node_version(resolved_command)
+            if resolved_version:
+                info["resolved_version"] = resolved_version
+                return info
+            raise RuntimeError("node --version probe failed")
         proc = subprocess.Popen(
             [info["resolved_command"], "--version"],
             stdout=subprocess.PIPE,

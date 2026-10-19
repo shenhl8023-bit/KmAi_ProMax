@@ -1,0 +1,12 @@
+diff --git a/example/QCefViewTest/MainWindow.cpp b/example/QCefViewTest/MainWindow.cpp
+--- a/example/QCefViewTest/MainWindow.cpp
++++ b/example/QCefViewTest/MainWindow.cpp
+@@ -104,7 +104,7 @@
+   // m_pRightCefViewWidget = new CefViewWidget("https://mdn.dev/", &setting, this);
+ 
+   // this site is for test OSR performance
+-  m_pRightCefViewWidget = new CefViewWidget("https://www.testufo.com", &setting, this);
++  m_pRightCefViewWidget = new CefViewWidget(TUTORIAL_URL, &setting, this);
+ 
+   // this site is test for input devices
+   // m_pRightCefViewWidget = new CefViewWidget("https://devicetests.com", &setting);

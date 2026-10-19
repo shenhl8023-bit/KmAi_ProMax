@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "target": {
+    "os": "Windows 7 SP1",
+    "architecture": "x64"
+  },
+  "external_inputs": {
+    "cef": "supplied at build time",
+    "similar_parts_data": "supplied at build time",
+    "step_runtime": "cascadio 0.0.17 + numpy 1.24.4 + trimesh 3.23.5 in CPython 3.8 runtime"
+  },
+  "exclude": [
+    "config.ini",
+    "__pycache__",
+    "*.pyc",
+    "logs",
+    "cache",
+    "step-compare-main",
+    "PartClassification-main"
+  ],
+  "layout": {
+    "cef": "/",
+    "step_viewer": "step-compare/step_viewer/",
+    "similar_parts_data": "Resources/SimilarParts/"
+  },
+  "note": "Generated package manifests include build time, versions, x64 architecture, and SHA-256 values for explicit external inputs. The target converts configured STEP files in real time; models are an optional cache."
+}

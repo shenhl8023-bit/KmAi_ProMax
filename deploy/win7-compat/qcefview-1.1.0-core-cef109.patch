@@ -1,0 +1,42 @@
+diff --git a/CefConfig.cmake b/CefConfig.cmake
+--- a/CefConfig.cmake
++++ b/CefConfig.cmake
+@@ -1,6 +1,14 @@
+ #
+ # The link for downloading the CEF binary sdk
+ #
++if(DEFINED CEF_SDK_DIR)
++  if(NOT EXISTS "${CEF_SDK_DIR}/include/cef_version.h")
++    message(FATAL_ERROR "CEF_SDK_DIR must point to an extracted CEF SDK")
++  endif()
++  message(STATUS "Using explicit offline CEF SDK: ${CEF_SDK_DIR}")
++  return()
++endif()
++
+ set(CEF_SDK_VERSION
+ 
+   # "89.0.12+g2b76680+chromium-89.0.4389.90" # GOOD
+diff --git a/include/CefViewBrowserClient.h b/include/CefViewBrowserClient.h
+--- a/include/CefViewBrowserClient.h
++++ b/include/CefViewBrowserClient.h
+@@ -372,7 +372,7 @@
+                                 const CefString& target_url,
+                                 CefRequestHandler::WindowOpenDisposition target_disposition,
+                                 bool user_gesture) override;
+-#if CEF_VERSION_MAJOR > 91 && CEF_VERSION_MAJOR < 110
++#if CEF_VERSION_MAJOR > 91 && CEF_VERSION_MAJOR < 109
+   virtual bool OnQuotaRequest(CefRefPtr<CefBrowser> browser,
+                               const CefString& origin_url,
+                               int64 new_size,
+diff --git a/src/CefView/CefBrowserApp/CefViewBrowserClient_RequestHandler.cpp b/src/CefView/CefBrowserApp/CefViewBrowserClient_RequestHandler.cpp
+--- a/src/CefView/CefBrowserApp/CefViewBrowserClient_RequestHandler.cpp
++++ b/src/CefView/CefBrowserApp/CefViewBrowserClient_RequestHandler.cpp
+@@ -43,7 +43,7 @@
+   return false; // return true to cancel this navigation.
+ }
+ 
+-#if CEF_VERSION_MAJOR > 91 && CEF_VERSION_MAJOR < 110
++#if CEF_VERSION_MAJOR > 91 && CEF_VERSION_MAJOR < 109
+ bool
+ CefViewBrowserClient::OnQuotaRequest(CefRefPtr<CefBrowser> browser,
+                                      const CefString& origin_url,

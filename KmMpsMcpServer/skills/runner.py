@@ -21,6 +21,7 @@ from __future__ import print_function
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import threading
@@ -140,6 +141,14 @@ class SkillTimeout(RuntimeError):
         super(SkillTimeout, self).__init__(message)
 
 
+class RuntimeResolutionError(RuntimeError):
+    """运行时解析失败，供健康检查转换为稳定错误码。"""
+
+    def __init__(self, error_code, message):
+        self.error_code = error_code
+        super(RuntimeResolutionError, self).__init__(message)
+
+
 class SkillRunner(object):
     """单个 Skill 的执行器。
 
@@ -166,6 +175,74 @@ class SkillRunner(object):
         self.python_min_version = _parse_version_tuple(
             action_config.get("python_min_version") or action_config.get("min_python_version")
         )
+        self.python_min_version_win7 = _parse_version_tuple(
+            action_config.get("python_min_version_win7")
+        )
+
+    def _minimum_python_version(self):
+        """Return the minimum version for the active runtime profile."""
+        if os.environ.get("KMAI_WIN7_COMPAT", "").strip() == "1":
+            return self.python_min_version_win7 or self.python_min_version or (3, 8)
+        return self.python_min_version or (3, 10)
+
+    def _package_node_path(self):
+        # The package output keeps ``KmMpsMcpServer`` and ``runtime`` as
+        # siblings.  Deriving this from the runner location keeps the source
+        # checkout and extracted package layouts identical.
+        package_root = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
+        )
+        return os.path.join(package_root, "runtime", "node.exe")
+
+    def _package_python_path(self):
+        package_root = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
+        )
+        return os.path.join(package_root, "runtime", "python.exe")
+
+    def _resolve_node_command(self):
+        """Resolve Node without treating the writable state directory as code."""
+        win7_profile = os.environ.get("KMAI_WIN7_COMPAT", "").strip() == "1"
+        configured = os.environ.get("KMAI_NODE_EXE", "").strip()
+        if configured:
+            configured_path = os.path.abspath(os.path.expandvars(os.path.expanduser(configured)))
+            if os.path.isfile(configured_path):
+                return [configured_path]
+
+        package_node = self._package_node_path()
+        if os.path.isfile(package_node):
+            return [package_node]
+
+        if win7_profile:
+            raise RuntimeResolutionError(
+                "NODE_NOT_FOUND", "Win7 Node runtime was not found in the package"
+            )
+
+        path_node = shutil.which("node") or shutil.which("node.exe")
+        if path_node:
+            return [os.path.abspath(path_node)]
+
+        raise RuntimeResolutionError("NODE_NOT_FOUND", "Node runtime was not found")
+
+    def _probe_node_version(self, command):
+        try:
+            proc = subprocess.Popen(
+                list(command) + ["--version"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+            )
+            stdout_data, _ = proc.communicate(timeout=10.0)
+        except Exception:
+            return None
+        if proc.returncode != 0:
+            return None
+        if isinstance(stdout_data, bytes):
+            stdout_text = stdout_data.decode("utf-8", "replace")
+        else:
+            stdout_text = str(stdout_data or "")
+        version_text = stdout_text.strip().splitlines()[0] if stdout_text.strip() else ""
+        return version_text[1:] if version_text.lower().startswith("v") else version_text
 
     def _probe_python_version(self, command):
         try:
@@ -189,13 +266,26 @@ class SkillRunner(object):
         return _parse_version_tuple(stdout_text.strip())
 
     def _resolve_python_command(self):
-        min_version = self.python_min_version or (3, 10)
+        min_version = self._minimum_python_version()
+        win7_profile = os.environ.get("KMAI_WIN7_COMPAT", "").strip() == "1"
 
         env_python = os.environ.get("KMAI_SKILL_PYTHON") or os.environ.get("KMAI_PYTHON_EXE")
         if env_python:
             version_tuple = self._probe_python_version([env_python])
             if version_tuple and version_tuple >= min_version:
                 return [env_python]
+
+        if win7_profile:
+            package_python = self._package_python_path()
+            if os.path.isfile(package_python):
+                version_tuple = self._probe_python_version([package_python])
+                if version_tuple and version_tuple >= min_version:
+                    return [package_python]
+            raise RuntimeResolutionError(
+                "PYTHON_NOT_FOUND",
+                u"Win7 Skill Python 启动失败: KMAI_SKILL_PYTHON/KMAI_PYTHON_EXE 未指向有效的包内 Python %s"
+                % _version_tuple_text(min_version)
+            )
 
         best_path = None
         best_version = None
@@ -218,7 +308,8 @@ class SkillRunner(object):
             if version_tuple and version_tuple >= min_version:
                 return command
 
-        raise RuntimeError(
+        raise RuntimeResolutionError(
+            "PYTHON_NOT_FOUND",
             u"Skill Python 启动失败: 未找到 Python %s 或更高版本"
             % _version_tuple_text(min_version)
         )
@@ -234,6 +325,8 @@ class SkillRunner(object):
             if args and _parse_python_launcher_spec(args[0]) is not None:
                 args = args[1:]
             return self._resolve_python_command() + args
+        if self.command == "node":
+            return self._resolve_node_command() + list(self.args)
         return [self.command] + self.args
 
     @staticmethod

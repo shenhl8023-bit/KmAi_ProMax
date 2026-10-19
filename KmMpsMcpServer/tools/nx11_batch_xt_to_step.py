@@ -21,9 +21,9 @@ import sys
 import NXOpen
 
 
-# ======================== Change this path only ========================
-SOURCE_FOLDER = r"C:\Users\Administrator\Desktop\part_data"
-# ======================================================================
+# Set NX_SOURCE_FOLDER in the NX environment instead of committing a
+# developer-specific path into the portable source package.
+SOURCE_FOLDER = os.environ.get("NX_SOURCE_FOLDER", "")
 
 # Leave empty to let the script locate step214ug.def from the NX install.
 STEP214_SETTINGS_FILE = r""
@@ -234,6 +234,8 @@ def convert_one(session, source_path, output_folder, temp_folder, settings_file)
 
 
 def main():
+    if not SOURCE_FOLDER.strip():
+        raise RuntimeError("NX_SOURCE_FOLDER must point to the input folder")
     source_folder = os.path.abspath(SOURCE_FOLDER)
     if not os.path.isdir(source_folder):
         raise RuntimeError("SOURCE_FOLDER does not exist: " + source_folder)

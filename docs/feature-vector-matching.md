@@ -59,7 +59,9 @@ python KmMpsMcpServer/build_feature_index.py --config config.ini
 
 远程接口错误、网络中断、超时、非 256 维向量、非有限数或零向量都会明确报错，不写入索引。客户端超时不能延长远程服务内部的单件处理超时。
 
-实现仅使用 Python 标准库，保持 Python 3.8 语法兼容。Win7 Lite 仍依赖预生成 GLB；这一接入不替代 Win7 系统、TLS、CEF 和 3DMPS 的目标机验证。
+实现仅使用 Python 标准库，保持 Python 3.8 语法兼容。Win7 默认通过包内
+`step_viewer` 和 CPython 3.8 转换依赖实时读取 STEP；显式 Lite 模式才依赖预生成
+GLB。这一接入不替代 Win7 系统、TLS、CEF 和 3DMPS 的目标机验证。
 
 本次联调和全量测试结果见 [验证记录](feature-vector-verification-2026-10-13.md)。
 

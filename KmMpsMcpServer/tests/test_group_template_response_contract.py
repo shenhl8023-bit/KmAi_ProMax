@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import os
 import re
 import subprocess
 import unittest
@@ -51,9 +52,10 @@ WINDOWS_ABSOLUTE_PATH = re.compile(r"^[A-Za-z]:[\\/]")
 
 
 class GroupTemplateResponseContractTest(unittest.TestCase):
-    def run_skill(self, action, payload):
+    def run_skill(self, action, payload, node_exe=None):
+        node_exe = node_exe or os.environ.get("KMAI_NODE_EXE") or "node"
         proc = subprocess.run(
-            ["node", str(SCRIPT), action, "--stdin"],
+            [node_exe, str(SCRIPT), action, "--stdin"],
             input=json.dumps(payload, ensure_ascii=False),
             text=True,
             encoding="utf-8",

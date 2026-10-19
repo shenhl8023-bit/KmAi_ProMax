@@ -13,6 +13,7 @@
         "scripts/kmai_generate_technical_requirements.py"
       ],
       "python_min_version": "3.10",
+      "python_min_version_win7": "3.8",
       "timeout": 120,
       "description": "根据已有工艺路线、CAD 输入和人工上下文补充技术要求，返回更新后的 route、matched_route 和 part_context。",
       "parameters": {
